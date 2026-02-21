@@ -90,7 +90,7 @@ const Education = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: i * 0.15, duration: 0.6 }}
-                                    className="group p-5 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_32px_rgba(255,107,53,0.1)]"
+                                    className="group p-5 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 [@media(hover:hover)]:hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(255,107,53,0.1)]"
                                 >
                                     <div className="flex items-start gap-4">
                                         <img src={item.logo} alt={item.institution} className="w-10 h-10 rounded-lg object-cover shrink-0" />
@@ -122,7 +122,7 @@ const Education = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: i * 0.15, duration: 0.6 }}
-                                    className="group flex items-start gap-4 p-5 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_32px_rgba(255,107,53,0.1)] cursor-pointer"
+                                    className="group flex items-start gap-4 p-5 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 [@media(hover:hover)]:hover:scale-[1.02] active:scale-[0.98] hover:shadow-[0_8px_32px_rgba(255,107,53,0.1)] cursor-pointer"
                                 >
                                     <img src={cert.logo} alt={cert.issuer} className="w-10 h-10 rounded-lg object-cover shrink-0" />
                                     <div className="flex-1 min-w-0">

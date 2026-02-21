@@ -65,7 +65,7 @@ const Experience = () => {
                     <h2 className="text-3xl md:text-4xl font-bold font-heading text-[#F5F5F5] mb-4">Experiência Profissional</h2>
                 </motion.div>
 
-                <div className="relative border-l-2 border-[rgba(255,107,53,0.2)] ml-6 md:ml-14 space-y-16">
+                <div className="relative border-l-2 border-[rgba(255,107,53,0.2)] ml-8 md:ml-14 space-y-16">
                     {experiences.map((exp, index) => (
                         <motion.div
                             key={index}

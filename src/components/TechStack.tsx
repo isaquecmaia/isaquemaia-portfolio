@@ -71,7 +71,7 @@ const TechStack = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1, duration: 0.6 }}
-                            className={`group p-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:border-[rgba(255,107,53,0.4)] hover:shadow-[0_8px_32px_rgba(255,107,53,0.08)] ${category.primary
+                            className={`group p-6 rounded-2xl transition-all duration-300 [@media(hover:hover)]:hover:scale-[1.02] active:scale-[0.98] hover:border-[rgba(255,107,53,0.4)] hover:shadow-[0_8px_32px_rgba(255,107,53,0.08)] ${category.primary
                                 ? 'bg-gradient-to-b from-[rgba(255,107,53,0.12)] to-[rgba(255,107,53,0.04)] border border-[rgba(255,107,53,0.3)]'
                                 : 'bg-[#141414] border border-[rgba(255,255,255,0.08)]'
                                 }`}

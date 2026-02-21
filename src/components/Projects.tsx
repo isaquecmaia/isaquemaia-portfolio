@@ -218,7 +218,7 @@ function ImageThumbnail({ src, title, github, demo }: { src?: string; title: str
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#141414]/80" />
 
             {/* Overlay action buttons */}
-            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+            <div className="absolute top-4 right-4 flex gap-2 opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 transition-opacity duration-300 transform translate-y-0 [@media(hover:hover)]:translate-y-2 [@media(hover:hover)]:group-hover:translate-y-0">
                 <a href={github} target="_blank" rel="noopener noreferrer" className="p-2 bg-[#0A0A0A]/60 backdrop-blur-md rounded-full text-[#BDBDBD] hover:bg-[#FF6B35] hover:text-white transition-colors">
                     <Github size={20} />
                 </a>

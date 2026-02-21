@@ -40,10 +40,10 @@ function RecommendationCard({ rec, index }: { rec: Recommendation; index: number
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.2, duration: 0.7, ease: 'easeOut' }}
-            className="relative p-8 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(255,107,53,0.1)]"
+            className="relative p-5 md:p-8 rounded-2xl bg-[rgba(255,255,255,0.05)] backdrop-blur-[10px] border border-[rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(255,107,53,0.1)]"
         >
             {/* Decorative quote mark */}
-            <span className="absolute top-4 right-6 text-[72px] leading-none font-heading font-bold text-[#FF6B35] opacity-15 select-none pointer-events-none" aria-hidden>
+            <span className="absolute top-4 right-6 text-[48px] md:text-[72px] leading-none font-heading font-bold text-[#FF6B35] opacity-15 select-none pointer-events-none" aria-hidden>
                 "
             </span>
 

@@ -342,11 +342,11 @@ export default function NeuralNetworkHero() {
     );
 
     return (
-        <section ref={sectionRef} className="relative h-screen w-screen overflow-hidden bg-[#0A0A0A]">
+        <section ref={sectionRef} className="relative h-screen w-full overflow-hidden bg-[#0A0A0A]">
             <ShaderBackground />
 
             <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-4 px-6 text-center">
-                <h1 ref={headerRef} className="max-w-4xl text-[40px] md:text-[64px] font-bold font-heading leading-[1.1] tracking-tight text-[#F5F5F5] overflow-visible">
+                <h1 ref={headerRef} className="max-w-4xl text-[32px] sm:text-[40px] md:text-[64px] font-bold font-heading leading-[1.1] tracking-tight text-[#F5F5F5] overflow-visible">
                     Isaque Maia
                 </h1>
 
@@ -386,9 +386,9 @@ export default function NeuralNetworkHero() {
                 {/* Metrics Row */}
                 <div ref={metricsRef} className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 mt-12">
                     <CountUpMetric value={3.5} suffix="M+" label="volume monitorado" />
-                    <div className="hidden md:block w-px h-10 bg-[rgba(255,107,53,0.2)]" />
+                    <div className="w-16 h-px md:w-px md:h-10 bg-[rgba(255,107,53,0.2)]" />
                     <CountUpMetric value={11} suffix="K+" label="transações gerenciadas" />
-                    <div className="hidden md:block w-px h-10 bg-[rgba(255,107,53,0.2)]" />
+                    <div className="w-16 h-px md:w-px md:h-10 bg-[rgba(255,107,53,0.2)]" />
                     <CountUpMetric value={64} suffix="" label="métricas de scorecard" />
                 </div>
             </div>

@@ -16,6 +16,15 @@ export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
+        if (mobileOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [mobileOpen]);
+
+    useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 80);
         };
@@ -100,7 +109,7 @@ export default function Navbar() {
                     {/* Mobile Hamburger */}
                     <button
                         onClick={() => setMobileOpen(!mobileOpen)}
-                        className="md:hidden flex flex-col gap-1.5 p-2"
+                        className="md:hidden flex flex-col gap-1.5 p-3"
                         aria-label="Menu"
                     >
                         <span className={`block w-6 h-0.5 bg-[#FF6B35] transition-transform duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
@@ -117,9 +126,16 @@ export default function Navbar() {
             >
                 <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
                 <div
-                    className={`absolute top-0 right-0 h-full w-64 bg-[#0A0A0A] border-l border-[rgba(255,107,53,0.12)] p-8 pt-24 transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : 'translate-x-full'
+                    className={`absolute top-0 right-0 h-full w-64 bg-[#0A0A0A] border-l border-[rgba(255,107,53,0.12)] p-8 pt-24 overflow-y-auto transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : 'translate-x-full'
                         }`}
                 >
+                    <button
+                        onClick={() => setMobileOpen(false)}
+                        className="absolute top-6 right-6 text-[#BDBDBD] hover:text-[#FF6B35] transition-colors"
+                        aria-label="Fechar menu"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                    </button>
                     <div className="flex flex-col gap-6">
                         {navLinks.map((link) => (
                             <a
