@@ -1,54 +1,134 @@
-import { motion } from 'framer-motion';
-import {
-    BarChart, Database, Terminal, Globe,
-    Workflow, Layout
-} from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { Database, BarChart3, Settings } from 'lucide-react';
 
-const categories = [
+type SkillLevel = 'Avançado' | 'Intermediário' | 'Em evolução';
+
+interface Skill {
+    name: string;
+    level: SkillLevel;
+}
+
+interface SkillBlock {
+    title: string;
+    icon: React.ReactNode;
+    skills: Skill[];
+    primary?: boolean;
+}
+
+const levelWidth: Record<SkillLevel, string> = {
+    'Avançado': '92%',
+    'Intermediário': '70%',
+    'Em evolução': '50%',
+};
+
+const blocks: SkillBlock[] = [
     {
-        title: "Business Intelligence",
-        icon: <BarChart size={24} className="text-[#FF6B35]" />,
-        skills: ["Looker Studio", "Google Sheets (Avançado)", "KPIs & Métricas", "Visualização de Dados", "Scorecards"],
-        primary: true
+        title: 'Dados & Analytics',
+        icon: <Database size={22} />,
+        primary: true,
+        skills: [
+            { name: 'Looker Studio', level: 'Avançado' },
+            { name: 'KPIs & Métricas', level: 'Avançado' },
+            { name: 'Visualização de Dados', level: 'Avançado' },
+            { name: 'Python', level: 'Intermediário' },
+            { name: 'SQL', level: 'Intermediário' },
+            { name: 'Modelagem de Dados', level: 'Em evolução' },
+            { name: 'ETL / Tratamento de Dados', level: 'Em evolução' },
+        ],
     },
     {
-        title: "Dados & Programação",
-        icon: <Database size={24} className="text-[#FF6B35]" />,
-        skills: ["Python", "Pandas", "SQL", "ETL Pipelines", "Data Warehouse", "Limpeza de Dados"],
-        primary: true
+        title: 'Business Intelligence & Performance',
+        icon: <BarChart3 size={22} />,
+        skills: [
+            { name: 'Construção de Dashboards', level: 'Avançado' },
+            { name: 'Scorecards', level: 'Avançado' },
+            { name: 'Excel / Google Sheets', level: 'Avançado' },
+            { name: 'Definição de Indicadores', level: 'Avançado' },
+            { name: 'Análise de Performance Operacional', level: 'Intermediário' },
+            { name: 'Data-driven decision making', level: 'Intermediário' },
+        ],
     },
     {
-        title: "Automação",
-        icon: <Workflow size={24} className="text-[rgba(255,107,53,0.7)]" />,
-        skills: ["Make.com", "n8n", "Integrações de API", "Automação de Processos"],
-        primary: false
+        title: 'Automação & Processos',
+        icon: <Settings size={22} />,
+        skills: [
+            { name: 'Google Apps Script', level: 'Intermediário' },
+            { name: 'Automação com Notion', level: 'Intermediário' },
+        ],
     },
-    {
-        title: "Desenvolvimento Web",
-        icon: <Globe size={24} className="text-[rgba(255,107,53,0.7)]" />,
-        skills: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Vercel"],
-        primary: false
-    },
-    {
-        title: "Banco de Dados",
-        icon: <Terminal size={24} className="text-[rgba(255,107,53,0.7)]" />,
-        skills: ["Supabase", "PostgreSQL", "Modelagem de Dados"],
-        primary: false
-    },
-    {
-        title: "Ferramentas de Gestão",
-        icon: <Layout size={24} className="text-[rgba(255,107,53,0.7)]" />,
-        skills: ["Notion", "Trello", "Monday.com", "Metodologias Ágeis"],
-        primary: false
-    }
 ];
+
+function SkillBar({ skill, index }: { skill: Skill; index: number }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const isInView = useInView(ref, { once: true, margin: '-40px' });
+
+    const levelColor: Record<SkillLevel, string> = {
+        'Avançado': 'text-[#FF6B35]',
+        'Intermediário': 'text-[#FF8F66]',
+        'Em evolução': 'text-[#BDBDBD]',
+    };
+
+    return (
+        <div ref={ref} className="space-y-2">
+            <div className="flex items-center justify-between">
+                <span className="text-sm text-[#E0E0E0] font-body">{skill.name}</span>
+                <span className={`text-xs font-semibold uppercase tracking-wider ${levelColor[skill.level]}`}>
+                    {skill.level}
+                </span>
+            </div>
+            <div className="w-full h-[6px] bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+                <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-[#FF6B35] to-[#FF8F66]"
+                    initial={{ width: 0 }}
+                    animate={isInView ? { width: levelWidth[skill.level] } : { width: 0 }}
+                    transition={{
+                        duration: 1,
+                        delay: index * 0.08,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
+                />
+            </div>
+        </div>
+    );
+}
+
+function SkillBlockCard({ block, blockIndex }: { block: SkillBlock; blockIndex: number }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: blockIndex * 0.15, duration: 0.6, ease: 'easeOut' }}
+            className={`p-6 md:p-8 rounded-2xl border transition-all duration-300 ${block.primary
+                ? 'bg-gradient-to-b from-[rgba(255,107,53,0.10)] to-[rgba(255,107,53,0.03)] border-[rgba(255,107,53,0.25)] lg:col-span-2'
+                : 'bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.08)]'
+                }`}
+        >
+            {/* Block Header */}
+            <div className="flex items-center gap-3 mb-8">
+                <div className={`p-2.5 rounded-lg ${block.primary ? 'bg-[rgba(255,107,53,0.15)] text-[#FF6B35]' : 'bg-[rgba(255,255,255,0.06)] text-[#FF8F66]'}`}>
+                    {block.icon}
+                </div>
+                <h3 className="text-lg font-semibold font-heading text-[#F5F5F5]">{block.title}</h3>
+            </div>
+
+            {/* Skills */}
+            <div className="space-y-5">
+                {block.skills.map((skill, i) => (
+                    <SkillBar key={skill.name} skill={skill} index={i} />
+                ))}
+            </div>
+        </motion.div>
+    );
+}
 
 const TechStack = () => {
     return (
         <section className="py-16 bg-[#0A0A0A] relative" id="skills">
             <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:30px_30px]" />
 
-            <div className="container mx-auto px-4 relative z-10">
+            <div className="container mx-auto px-4 max-w-5xl relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -56,46 +136,16 @@ const TechStack = () => {
                     transition={{ duration: 0.6 }}
                     className="mb-16 text-center"
                 >
-                    <span className="text-[13px] font-semibold text-[#FF6B35] uppercase tracking-[3px] mb-2 block font-body">Arsenal Técnico</span>
-                    <h2 className="text-3xl md:text-5xl font-bold font-heading text-[#F5F5F5] mb-6">Tecnologias & Habilidades</h2>
+                    <span className="text-[13px] font-semibold text-[#FF6B35] uppercase tracking-[3px] mb-2 block font-body">Competências</span>
+                    <h2 className="text-3xl md:text-5xl font-bold font-heading text-[#F5F5F5] mb-6">Skills & Expertise</h2>
                     <p className="text-[#757575] max-w-2xl mx-auto">
-                        Um conjunto completo de ferramentas que conecta dados brutos a insights acionáveis de negócio.
+                        De dados brutos a decisões estratégicas — ferramentas e competências que transformam informação em resultado.
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {categories.map((category, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
-                            className={`group p-6 rounded-2xl transition-all duration-300 [@media(hover:hover)]:hover:scale-[1.02] active:scale-[0.98] hover:border-[rgba(255,107,53,0.4)] hover:shadow-[0_8px_32px_rgba(255,107,53,0.08)] ${category.primary
-                                ? 'bg-gradient-to-b from-[rgba(255,107,53,0.12)] to-[rgba(255,107,53,0.04)] border border-[rgba(255,107,53,0.3)]'
-                                : 'bg-[#141414] border border-[rgba(255,255,255,0.08)]'
-                                }`}
-                        >
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className={`p-3 rounded-lg transition-colors ${category.primary ? 'bg-[rgba(255,107,53,0.1)]' : 'bg-[rgba(255,255,255,0.05)]'
-                                    }`}>
-                                    {category.icon}
-                                </div>
-                                <h3 className={`text-xl font-semibold font-heading ${category.primary ? 'text-[#F5F5F5]' : 'text-[#D0D0D0]'
-                                    }`}>{category.title}</h3>
-                            </div>
-
-                            <ul className="space-y-3">
-                                {category.skills.map((skill, i) => (
-                                    <li key={i} className={`flex items-center gap-2 text-sm transition-colors ${category.primary ? 'text-[#BDBDBD]' : 'text-[#9E9E9E] group-hover:text-[#BDBDBD]'
-                                        }`}>
-                                        <span className={`w-1.5 h-1.5 rounded-full ${category.primary ? 'bg-[#FF6B35]' : 'bg-[rgba(255,107,53,0.6)]'
-                                            }`} />
-                                        {skill}
-                                    </li>
-                                ))}
-                            </ul>
-                        </motion.div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {blocks.map((block, i) => (
+                        <SkillBlockCard key={block.title} block={block} blockIndex={i} />
                     ))}
                 </div>
             </div>
