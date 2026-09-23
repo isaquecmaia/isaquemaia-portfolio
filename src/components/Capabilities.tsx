@@ -5,8 +5,6 @@ export default function Capabilities() {
     return (
         <Section
             id="ferramentas"
-            number="03"
-            title="Como trabalho"
             aside={
                 <p className="t-small m-0 max-w-[30ch] text-ink-soft">
                     Não dou nota para as minhas ferramentas. Cada uma aponta onde foi usada.

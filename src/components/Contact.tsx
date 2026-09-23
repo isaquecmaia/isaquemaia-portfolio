@@ -1,9 +1,45 @@
+import { useEffect, useState } from 'react';
 import { profile } from '../content/profile';
+
+const horaBH = () =>
+    new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(new Date());
+
+// Horário local ao vivo: quem escreve sabe se é horário comercial aqui.
+function LocalTime() {
+    const [hora, setHora] = useState(horaBH);
+    useEffect(() => {
+        const t = setInterval(() => setHora(horaBH()), 30_000);
+        return () => clearInterval(t);
+    }, []);
+    return <span className="num">{hora}</span>;
+}
+
+function CopyEmail() {
+    const [copiado, setCopiado] = useState(false);
+    useEffect(() => {
+        if (!copiado) return;
+        const t = setTimeout(() => setCopiado(false), 2200);
+        return () => clearTimeout(t);
+    }, [copiado]);
+    const copiar = async () => {
+        try {
+            await navigator.clipboard.writeText(profile.email);
+            setCopiado(true);
+        } catch {
+            window.location.href = `mailto:${profile.email}`;
+        }
+    };
+    return (
+        <button type="button" onClick={copiar} className="label cursor-pointer text-paper/70 transition-colors hover:text-paper">
+            <span aria-live="polite">{copiado ? 'E-mail copiado ✓' : 'Copiar e-mail'}</span>
+        </button>
+    );
+}
 
 export default function Contact() {
     const year = new Date().getFullYear();
     return (
-        <footer id="contato" className="mt-(--section) bg-ink text-paper">
+        <footer id="contato" data-section="§ Contato" className="mt-(--section) bg-ink text-paper">
             <div className="wrap pt-(--section) pb-10">
                 <div className="grid-ed">
                     <p className="num col-aside m-0 text-[13px] text-signal md:pt-[0.55em]">§ Contato</p>
@@ -15,6 +51,12 @@ export default function Contact() {
                         >
                             {profile.email}
                         </a>
+                        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+                            <CopyEmail />
+                            <p className="label m-0 text-paper/50">
+                                Agora em Belo Horizonte: <LocalTime />
+                            </p>
+                        </div>
                     </div>
                 </div>
 

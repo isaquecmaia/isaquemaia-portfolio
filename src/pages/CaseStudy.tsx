@@ -1,12 +1,13 @@
 import { useEffect, type ReactNode } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { cases, getCase } from '../content/cases';
+import { readingMinutes } from '../content/sections';
 import { figures } from '../charts/figures';
 import { Figure, KpiStrip, MetaList, Reveal } from '../components/primitives';
 
-function Block({ label, children }: { label: string; children: ReactNode }) {
+function Block({ label, where, children }: { label: string; where: string; children: ReactNode }) {
     return (
-        <Reveal className="grid-ed gap-y-4 border-t border-rule py-9 md:py-12">
+        <Reveal className="grid-ed gap-y-4 border-t border-rule py-9 md:py-12" section={`${where} · ${label}`}>
             <h2 className="label col-aside m-0 pt-1.5 text-ink">{label}</h2>
             <div className="col-main">{children}</div>
         </Reveal>
@@ -42,7 +43,7 @@ export default function CaseStudy() {
                 <span>Case {c.number}</span>
             </nav>
 
-            <header className="grid-ed gap-y-10">
+            <header className="grid-ed gap-y-10" data-section={`Case ${c.number}`}>
                 <Reveal now className="md:col-span-8">
                     <p className="num m-0 text-[13px] text-signal">Case {c.number}</p>
                     <h1 className="t-display mt-4 mb-0 text-[clamp(40px,5.6vw,80px)] text-balance">
@@ -57,6 +58,7 @@ export default function CaseStudy() {
                             { label: 'Período', value: c.period },
                             { label: 'Papel', value: c.role },
                             { label: 'Stack', value: c.stack.join(', ') },
+                            { label: 'Leitura', value: `${readingMinutes(c)} min` },
                         ]}
                     />
                     {c.links && (
@@ -77,13 +79,13 @@ export default function CaseStudy() {
             </Reveal>
 
             <div className="mt-(--head)">
-                <Block label="Contexto">
+                <Block where={`Case ${c.number}`} label="Contexto">
                     <p className={prose}>{c.context}</p>
                 </Block>
-                <Block label="Problema">
+                <Block where={`Case ${c.number}`} label="Problema">
                     <p className="t-lead m-0 max-w-[44ch]">{c.problem}</p>
                 </Block>
-                <Block label="O que fiz">
+                <Block where={`Case ${c.number}`} label="O que fiz">
                     <ol className="t-body m-0 max-w-[62ch] list-none space-y-3 p-0">
                         {c.actions.map((a, n) => (
                             <li key={a} className="grid grid-cols-[32px_1fr]">
@@ -95,14 +97,14 @@ export default function CaseStudy() {
                 </Block>
 
                 {c.figures.map((f, n) => (
-                    <Block key={f.id} label={f.label ?? (n === 0 ? 'Como funciona' : 'Na prática')}>
+                    <Block key={f.id} where={`Case ${c.number}`} label={f.label ?? (n === 0 ? 'Como funciona' : 'Na prática')}>
                         <Figure n={`${c.number}.${n + 1}`} caption={f.caption}>
                             {figures[f.id]}
                         </Figure>
                     </Block>
                 ))}
 
-                <Block label="Decisões">
+                <Block where={`Case ${c.number}`} label="Decisões">
                     <div className="grid gap-x-(--gutter) gap-y-10 lg:grid-cols-2">
                         {c.decisions.map((d) => (
                             <div key={d.title}>
@@ -112,7 +114,7 @@ export default function CaseStudy() {
                         ))}
                     </div>
                 </Block>
-                <Block label="O que eu faria diferente">
+                <Block where={`Case ${c.number}`} label="O que eu faria diferente">
                     <p className={prose}>{c.retro}</p>
                 </Block>
             </div>

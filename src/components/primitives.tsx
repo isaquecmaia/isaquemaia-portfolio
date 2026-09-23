@@ -1,11 +1,25 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { sectionMeta, type SectionId } from '../content/sections';
 
 // Container único do site (ver .wrap em index.css).
 export const container = 'wrap';
 
 // Entrada discreta: 8px e opacidade, em CSS (ver .reveal em index.css).
 // `now` anima ao montar (primeira dobra); o resto anima ao entrar na tela.
-export function Reveal({ children, className = '', delay = 0, now = false }: { children: ReactNode; className?: string; delay?: number; now?: boolean }) {
+export function Reveal({
+    children,
+    className = '',
+    delay = 0,
+    now = false,
+    section,
+}: {
+    children: ReactNode;
+    className?: string;
+    delay?: number;
+    now?: boolean;
+    /** Rótulo mostrado no header enquanto este bloco estiver no meio da tela. */
+    section?: string;
+}) {
     const ref = useRef<HTMLDivElement>(null);
     const [seen, setSeen] = useState(now);
     useEffect(() => {
@@ -23,7 +37,7 @@ export function Reveal({ children, className = '', delay = 0, now = false }: { c
         return () => io.disconnect();
     }, [seen]);
     return (
-        <div ref={ref} className={`reveal ${className}`} data-seen={seen} style={{ animationDelay: `${delay}s` }}>
+        <div ref={ref} className={`reveal ${className}`} data-seen={seen} data-section={section} style={{ animationDelay: `${delay}s` }}>
             {children}
         </div>
     );
@@ -33,24 +47,21 @@ export function Reveal({ children, className = '', delay = 0, now = false }: { c
 // `full` libera o conteúdo para usar o grid inteiro (linhas que têm a sua própria coluna auxiliar).
 export function Section({
     id,
-    number,
-    title,
     aside,
     full = false,
     lead = false,
     children,
 }: {
-    id?: string;
-    number: string;
-    title: string;
+    id: SectionId;
     aside?: ReactNode;
     full?: boolean;
     /** Primeira seção depois da faixa de números: começa mais perto, a mudança de cor já separa. */
     lead?: boolean;
     children: ReactNode;
 }) {
+    const { number, title } = sectionMeta(id);
     return (
-        <section id={id} className={`wrap ${lead ? 'pt-[calc(var(--section)*0.62)]' : 'section'}`}>
+        <section id={id} data-section={`§ ${number} · ${title}`} className={`wrap ${lead ? 'pt-[calc(var(--section)*0.62)]' : 'section'}`}>
             <Reveal className="grid-ed border-t-2 border-ink pt-5 md:pt-7">
                 <p className="num col-aside m-0 text-[13px] text-signal md:pt-[0.55em]">§ {number}</p>
                 <h2 className="t-display col-main m-0 mt-3 md:mt-0">{title}</h2>

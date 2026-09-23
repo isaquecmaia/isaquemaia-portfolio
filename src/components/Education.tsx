@@ -3,7 +3,7 @@ import { Reveal, Section } from './primitives';
 
 export default function Education() {
     return (
-        <Section id="formacao" number="06" title="Formação">
+        <Section id="formacao">
             <div className="grid gap-x-(--gutter) gap-y-12 sm:grid-cols-2">
                 <Reveal>
                     <h3 className="label m-0 border-b border-ink pb-3 text-ink">Acadêmica</h3>

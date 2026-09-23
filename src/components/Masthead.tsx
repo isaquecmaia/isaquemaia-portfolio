@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { profile } from '../content/profile';
-import { container } from './primitives';
+import IndexOverlay from './IndexOverlay';
 
 const nav = [
     { label: 'Trabalho', id: 'trabalho' },
@@ -11,81 +11,117 @@ const nav = [
 ];
 
 export default function Masthead() {
-    const { pathname } = useLocation();
+    const { pathname, hash } = useLocation();
     const [active, setActive] = useState('');
+    const [where, setWhere] = useState('');
     const [open, setOpen] = useState(false);
+    const bar = useRef<HTMLDivElement>(null);
 
-    useEffect(() => setOpen(false), [pathname]);
+    // O índice também abre por link direto (/#indice).
+    useEffect(() => setOpen(hash === '#indice'), [pathname, hash]);
 
+    // Seção atual: qualquer bloco com data-section que cruze o meio da tela.
     useEffect(() => {
+        setWhere('');
+        setActive('');
         const observer = new IntersectionObserver(
-            (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-            { rootMargin: '-40% 0px -55% 0px' },
+            (entries) =>
+                entries.forEach((e) => {
+                    if (!e.isIntersecting) return;
+                    const el = e.target as HTMLElement;
+                    setWhere(el.dataset.section ?? '');
+                    if (el.id) setActive(el.id);
+                }),
+            { rootMargin: '-45% 0px -50% 0px' },
         );
-        nav.forEach((n) => {
-            const el = document.getElementById(n.id);
-            if (el) observer.observe(el);
-        });
+        document.querySelectorAll('[data-section]').forEach((el) => observer.observe(el));
         return () => observer.disconnect();
     }, [pathname]);
 
-    const go = (id: string) => (e: React.MouseEvent) => {
-        setOpen(false);
-        const el = document.getElementById(id);
-        if (pathname === '/' && el) {
-            e.preventDefault();
-            el.scrollIntoView({ behavior: 'smooth' });
-            history.replaceState(null, '', `#${id}`);
-        }
-    };
+    // Progresso de leitura: um fio que cresce da esquerda, só com transform.
+    useEffect(() => {
+        let frame = 0;
+        const update = () => {
+            frame = 0;
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+            if (bar.current) bar.current.style.transform = `scaleX(${p})`;
+        };
+        const onScroll = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            cancelAnimationFrame(frame);
+        };
+    }, [pathname]);
 
-    const links = nav.map((n) => (
-        <Link
-            key={n.id}
-            to={`/#${n.id}`}
-            onClick={go(n.id)}
-            className={`transition-colors hover:text-ink ${active === n.id ? 'text-ink' : 'text-muted'}`}
-        >
-            {n.label}
-        </Link>
-    ));
+    const go = useCallback(
+        (id: string) => (e: React.MouseEvent) => {
+            setOpen(false);
+            const el = document.getElementById(id);
+            if (pathname === '/' && el) {
+                e.preventDefault();
+                el.scrollIntoView({ behavior: 'smooth' });
+                history.replaceState(null, '', `#${id}`);
+            }
+        },
+        [pathname],
+    );
+    const close = useCallback(() => {
+        setOpen(false);
+        if (window.location.hash === '#indice') history.replaceState(null, '', window.location.pathname);
+    }, []);
 
     return (
-        <header className="fixed inset-x-0 top-0 z-50 border-b border-rule bg-paper">
-            <div className={`${container} flex h-14 items-center justify-between`}>
-                <Link to="/" className="flex items-baseline gap-3 no-underline">
-                    <span className="font-serif text-[19px] tracking-[-0.01em]">{profile.name}</span>
-                    <span className="label hidden lg:inline">{profile.role}</span>
-                </Link>
-
-                <nav className="hidden items-center gap-7 text-[14px] md:flex">
-                    {links}
-                    <a href={profile.cv} download className="border border-ink px-3 py-1 text-ink transition-colors hover:bg-ink hover:text-paper">
-                        CV ↓
-                    </a>
-                </nav>
-
-                <button
-                    type="button"
-                    className="label !text-ink md:hidden"
-                    aria-expanded={open}
-                    aria-controls="menu-mobile"
-                    onClick={() => setOpen((v) => !v)}
-                >
-                    {open ? 'Fechar' : 'Menu'}
-                </button>
-            </div>
-
-            {open && (
-                <nav id="menu-mobile" className="border-t border-rule bg-paper md:hidden">
-                    <div className={`${container} flex flex-col py-2 text-[17px] [&>*]:border-b [&>*]:border-rule [&>*]:py-3 [&>*:last-child]:border-0`}>
-                        {links}
-                        <a href={profile.cv} download className="text-ink">
-                            Baixar CV ↓
-                        </a>
+        <>
+            <header className="fixed inset-x-0 top-0 z-50 border-b border-rule bg-paper">
+                <div className="wrap flex h-(--header-h) items-center justify-between gap-6">
+                    <div className="flex min-w-0 items-baseline gap-3">
+                        <Link to="/" className="shrink-0 font-serif text-[19px] tracking-[-0.01em] no-underline">
+                            {profile.name}
+                        </Link>
+                        {/* No topo mostra o cargo; durante a leitura, onde o leitor está. */}
+                        <span key={where || 'role'} className="label masthead-where hidden truncate lg:inline">
+                            {where ? <span className="text-ink">{where}</span> : profile.role}
+                        </span>
                     </div>
-                </nav>
-            )}
-        </header>
+
+                    <nav className="flex items-center gap-7 text-[14px]">
+                        <div className="hidden items-center gap-7 md:flex">
+                            {nav.map((n) => (
+                                <Link
+                                    key={n.id}
+                                    to={`/#${n.id}`}
+                                    onClick={go(n.id)}
+                                    className={`transition-colors hover:text-ink ${active === n.id ? 'text-ink' : 'text-muted'}`}
+                                >
+                                    {n.label}
+                                </Link>
+                            ))}
+                        </div>
+                        <button
+                            type="button"
+                            aria-expanded={open}
+                            onClick={() => setOpen((v) => !v)}
+                            className="label cursor-pointer text-ink transition-colors hover:text-signal"
+                        >
+                            {open ? 'Fechar' : 'Índice'}
+                        </button>
+                        <a href={profile.cv} download className="hidden border border-ink px-3 py-1 text-ink transition-colors hover:bg-ink hover:text-paper sm:inline-block">
+                            CV ↓
+                        </a>
+                    </nav>
+                </div>
+                <div aria-hidden className="absolute inset-x-0 -bottom-px h-[2px] overflow-hidden">
+                    <div ref={bar} className="h-full origin-left scale-x-0 bg-signal" />
+                </div>
+            </header>
+            {open && <IndexOverlay onClose={close} onGo={go} />}
+        </>
     );
 }

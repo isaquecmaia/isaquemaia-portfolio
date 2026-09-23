@@ -5,7 +5,7 @@ import { Reveal, Section } from './primitives';
 
 export default function ExperienceTable() {
     return (
-        <Section id="experiencia" number="02" title="Experiência" full>
+        <Section id="experiencia" full>
             {/* Cada cargo usa o grid da página: período na coluna auxiliar, conteúdo na principal. */}
             {experience.map((e, i) => (
                 <Reveal key={e.company} className={`grid-ed gap-y-3 ${i < experience.length - 1 ? 'pb-9 md:pb-11' : ''} ${i > 0 ? 'border-t border-rule pt-9 md:pt-11' : ''}`}>

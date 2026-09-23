@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { cases } from '../content/cases';
 import { Spark } from '../charts/charts';
 import { Reveal, Section } from './primitives';
+import { readingMinutes } from '../content/sections';
 
 const thumbs = { 'infraestrutura-bi': 'bars', 'reconciliacao-financeira': 'gap', 'plataforma-interna': 'grid' } as const;
 
@@ -9,8 +10,6 @@ export default function WorkIndex() {
     return (
         <Section
             id="trabalho"
-            number="01"
-            title="Trabalho selecionado"
             lead
             aside={
                 <p className="t-small m-0 max-w-[30ch] text-ink-soft">
@@ -30,7 +29,7 @@ export default function WorkIndex() {
                                             <span className="text-signal">{c.number}</span>
                                             <span aria-hidden className="case-mark block h-px w-8" />
                                             <span className="case-meta">
-                                                {c.company} · {c.period}
+                                                {c.company} · {c.period} · {readingMinutes(c)} min de leitura
                                             </span>
                                         </p>
                                         <h3 className="case-title t-headline mt-4 mb-0">{c.title}</h3>

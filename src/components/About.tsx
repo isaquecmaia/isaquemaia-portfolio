@@ -5,11 +5,9 @@ export default function About() {
     return (
         <Section
             id="sobre"
-            number="04"
-            title="Sobre"
             aside={
                 <p className="label m-0">
-                    De Expertise a Pagaa
+                    De Expertise a Virtù
                     <br />
                     2021 até hoje
                 </p>

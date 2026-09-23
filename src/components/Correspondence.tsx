@@ -17,8 +17,6 @@ export default function Correspondence() {
     return (
         <Section
             id="correspondencias"
-            number="05"
-            title="Correspondências"
             aside={<p className="label m-0">O que dizem sobre o trabalho</p>}
         >
             <Reveal>
