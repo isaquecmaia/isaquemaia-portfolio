@@ -42,9 +42,9 @@ export default function Contact() {
         <footer id="contato" data-section="§ Contato" className="mt-(--section) bg-ink text-paper">
             <div className="wrap pt-(--section) pb-10">
                 <div className="grid-ed">
-                    <p className="num col-aside m-0 text-[13px] text-signal md:pt-[0.55em]">§ Contato</p>
+                    <p className="num col-aside m-0 flex items-center gap-3 self-start text-[13px] md:pt-[0.45em]"><span className="inline-grid h-9 w-9 place-items-center bg-signal text-paper">§</span> Contato</p>
                     <div className="col-main">
-                        <p className="t-display m-0 mt-3 max-w-[16ch] md:mt-0">Se o seu time precisa confiar nos próprios números, vale uma conversa.</p>
+                        <p className="t-display m-0 mt-3 max-w-[16ch] md:mt-0">Se o seu time precisa <span className="text-mustard">confiar nos próprios números</span>, vale uma conversa.</p>
                         <a
                             href={`mailto:${profile.email}`}
                             className="t-title mt-10 inline-block break-all underline decoration-paper/30 decoration-1 underline-offset-[8px] transition-colors duration-300 hover:decoration-paper md:mt-14"

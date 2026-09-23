@@ -8,6 +8,11 @@
     --color-muted: #6B6A66;
     --color-rule: #D9D4C7;
     --color-signal: #C8402A;
+    /* Paleta de capítulos: cada seção da revista tem a sua cor. */
+    --color-cobalt: #2B47C8;
+    --color-mustard: #E3A82B;
+    --color-bottle: #1E5A45;
+    --color-blush: #F2D6CC;
 
     --font-serif: 'Newsreader', Georgia, serif;
     --font-sans: 'Inter Tight', system-ui, sans-serif;
@@ -225,7 +230,7 @@
         position: absolute;
         inset: 0 calc(var(--gutter) * -0.75);
         z-index: -1;
-        background: var(--color-ink);
+        background: var(--case, var(--color-ink));
         transform: scaleY(0);
         transform-origin: bottom;
         transition: transform 450ms var(--ease-editorial);
@@ -258,11 +263,16 @@
         transition: background-color 450ms var(--ease-editorial);
     }
 
+    .case-row .case-number {
+        color: var(--case, var(--color-signal));
+        transition: color 450ms var(--ease-editorial);
+    }
+
     .case-row .case-mark::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: var(--color-signal);
+        background: var(--case, var(--color-signal));
         transform: scaleX(0);
         transform-origin: left;
         transition: transform 450ms var(--ease-editorial) 60ms;
@@ -312,6 +322,12 @@
         .case-row:hover .case-mark::after,
         .case-row:focus-visible .case-mark::after {
             transform: scaleX(1);
+            background: var(--color-mustard);
+        }
+
+        .case-row:hover .case-number,
+        .case-row:focus-visible .case-number {
+            color: var(--color-mustard);
         }
     }
 
@@ -359,10 +375,11 @@
 
         .case-row:hover .spark-accent {
             opacity: 1;
+            fill: var(--color-mustard);
         }
 
         .case-row:hover .spark-line {
-            stroke: var(--color-signal);
+            stroke: var(--color-mustard);
         }
 
         .case-row:hover .spark-line-draw {
@@ -404,6 +421,92 @@
     .index-overlay nav > ol > li:nth-child(6) { animation-delay: 200ms; }
     .index-overlay nav > ol > li:nth-child(7) { animation-delay: 240ms; }
 
+    /* ── Abertura: o nome sobe letra por letra de dentro de uma máscara. ── */
+    .mask-line {
+        display: block;
+        overflow: hidden;
+        padding-bottom: 0.14em;
+        margin-bottom: -0.14em;
+    }
+
+    .letter {
+        display: inline-block;
+        animation: letter-up 1000ms var(--ease-editorial) both;
+    }
+
+    /* Títulos de seção: a linha sobe quando entra na tela. */
+    .reveal[data-seen='false'] .title-mask > *,
+    .reveal[data-seen='true'] .title-mask > * {
+        display: inline-block;
+    }
+
+    .reveal[data-seen='false'] .title-mask > * {
+        transform: translateY(105%);
+    }
+
+    .reveal[data-seen='true'] .title-mask > * {
+        animation: letter-up 900ms var(--ease-editorial) both;
+    }
+
+    /* ── Capa: blocos de cor atrás da foto. ── */
+    .cover {
+        position: relative;
+        isolation: isolate;
+    }
+
+    .cover-block {
+        position: absolute;
+        z-index: -1;
+        animation: cover-in 1100ms var(--ease-editorial) both;
+    }
+
+    /* ── Ticker: faixa rolante de jornal financeiro. ── */
+    .ticker {
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+
+    .ticker-track {
+        display: inline-flex;
+        animation: ticker 48s linear infinite;
+    }
+
+    .ticker:hover .ticker-track {
+        animation-play-state: paused;
+    }
+
+    /* ── Prévia do case que segue o cursor (só com mouse). ── */
+    .case-preview {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 30;
+        width: 360px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 250ms var(--ease-editorial);
+    }
+
+    .case-preview[data-on='true'] {
+        opacity: 1;
+    }
+
+    .case-preview-inner {
+        transform: rotate(-3deg) scale(0.92);
+        transition: transform 450ms var(--ease-editorial);
+    }
+
+    .case-preview[data-on='true'] .case-preview-inner {
+        transform: rotate(-2deg) scale(1);
+    }
+
+    @media (hover: none) {
+        .case-preview {
+            display: none;
+        }
+    }
+
     /* Correspondências: todas as cartas ocupam a mesma célula, então trocar não altera a altura. */
     .stack {
         display: grid;
@@ -425,6 +528,25 @@
     from {
         opacity: 0;
         transform: translateY(8px);
+    }
+}
+
+@keyframes letter-up {
+    from {
+        transform: translateY(105%);
+    }
+}
+
+@keyframes cover-in {
+    from {
+        opacity: 0;
+        transform: translate(-14px, 14px) scale(0.9);
+    }
+}
+
+@keyframes ticker {
+    to {
+        transform: translateX(-50%);
     }
 }
 

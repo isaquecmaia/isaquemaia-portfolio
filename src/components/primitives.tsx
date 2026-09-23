@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { sectionMeta, type SectionId } from '../content/sections';
 
 // Container único do site (ver .wrap em index.css).
@@ -12,6 +12,7 @@ export function Reveal({
     delay = 0,
     now = false,
     section,
+    style,
 }: {
     children: ReactNode;
     className?: string;
@@ -19,6 +20,7 @@ export function Reveal({
     now?: boolean;
     /** Rótulo mostrado no header enquanto este bloco estiver no meio da tela. */
     section?: string;
+    style?: CSSProperties;
 }) {
     const ref = useRef<HTMLDivElement>(null);
     const [seen, setSeen] = useState(now);
@@ -37,19 +39,20 @@ export function Reveal({
         return () => io.disconnect();
     }, [seen]);
     return (
-        <div ref={ref} className={`reveal ${className}`} data-seen={seen} data-section={section} style={{ animationDelay: `${delay}s` }}>
+        <div ref={ref} className={`reveal ${className}`} data-seen={seen} data-section={section} style={{ animationDelay: `${delay}s`, ...style }}>
             {children}
         </div>
     );
 }
 
-// Seção: fio no topo, número na coluna auxiliar, título alinhado à coluna principal.
-// `full` libera o conteúdo para usar o grid inteiro (linhas que têm a sua própria coluna auxiliar).
+// Seção: fio na cor do capítulo, número em destaque na coluna auxiliar, título alinhado à coluna principal.
+// `full` libera o conteúdo para usar o grid inteiro. `tone` transforma a seção num bloco de cor de ponta a ponta.
 export function Section({
     id,
     aside,
     full = false,
     lead = false,
+    tone,
     children,
 }: {
     id: SectionId;
@@ -57,14 +60,26 @@ export function Section({
     full?: boolean;
     /** Primeira seção depois da faixa de números: começa mais perto, a mudança de cor já separa. */
     lead?: boolean;
+    /** Fundo de ponta a ponta na cor do capítulo, com texto claro. */
+    tone?: boolean;
     children: ReactNode;
 }) {
-    const { number, title } = sectionMeta(id);
-    return (
-        <section id={id} data-section={`§ ${number} · ${title}`} className={`wrap ${lead ? 'pt-[calc(var(--section)*0.62)]' : 'section'}`}>
-            <Reveal className="grid-ed border-t-2 border-ink pt-5 md:pt-7">
-                <p className="num col-aside m-0 text-[13px] text-signal md:pt-[0.55em]">§ {number}</p>
-                <h2 className="t-display col-main m-0 mt-3 md:mt-0">{title}</h2>
+    const { number, title, color } = sectionMeta(id);
+    const body = (
+        <>
+            <Reveal className="grid-ed pt-5 md:pt-7" style={{ borderTop: `3px solid ${tone ? 'currentColor' : color}` }}>
+                <div className="col-aside flex items-center gap-3 md:pt-[0.45em]">
+                    <span
+                        className="num inline-grid h-9 w-9 place-items-center text-[13px]"
+                        style={tone ? { background: 'var(--color-paper)', color } : { background: color, color: color.includes('mustard') ? 'var(--color-ink)' : 'var(--color-paper)' }}
+                    >
+                        {number}
+                    </span>
+                    <span aria-hidden className="h-px w-10" style={{ background: tone ? 'currentColor' : color }} />
+                </div>
+                <h2 className="title-mask t-display col-main m-0 mt-4 md:mt-0">
+                    <span>{title}</span>
+                </h2>
             </Reveal>
             <div className="grid-ed mt-(--head)">
                 {full ? (
@@ -76,6 +91,19 @@ export function Section({
                     </>
                 )}
             </div>
+        </>
+    );
+    const label = `§ ${number} · ${title}`;
+    if (tone) {
+        return (
+            <section id={id} data-section={label} className="mt-(--section) py-(--section) text-paper" style={{ background: color }}>
+                <div className="wrap">{body}</div>
+            </section>
+        );
+    }
+    return (
+        <section id={id} data-section={label} className={`wrap ${lead ? 'pt-[calc(var(--section)*0.62)]' : 'section'}`}>
+            {body}
         </section>
     );
 }

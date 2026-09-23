@@ -1,13 +1,14 @@
 import type { CaseStudy } from './cases';
 
 // Seções da home, na ordem da página. O header, o índice e cada <Section> leem daqui.
+// `color` é a cor do capítulo: número, fio e detalhes da seção.
 export const sections = [
-    { id: 'trabalho', number: '01', title: 'Trabalho selecionado' },
-    { id: 'experiencia', number: '02', title: 'Experiência' },
-    { id: 'ferramentas', number: '03', title: 'Como trabalho' },
-    { id: 'sobre', number: '04', title: 'Sobre' },
-    { id: 'correspondencias', number: '05', title: 'Correspondências' },
-    { id: 'formacao', number: '06', title: 'Formação' },
+    { id: 'trabalho', number: '01', title: 'Trabalho selecionado', color: 'var(--color-signal)' },
+    { id: 'experiencia', number: '02', title: 'Experiência', color: 'var(--color-cobalt)' },
+    { id: 'ferramentas', number: '03', title: 'Como trabalho', color: 'var(--color-bottle)' },
+    { id: 'sobre', number: '04', title: 'Sobre', color: 'var(--color-mustard)' },
+    { id: 'correspondencias', number: '05', title: 'Correspondências', color: 'var(--color-cobalt)' },
+    { id: 'formacao', number: '06', title: 'Formação', color: 'var(--color-bottle)' },
 ] as const;
 
 export type SectionId = (typeof sections)[number]['id'];
