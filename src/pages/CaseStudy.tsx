@@ -95,7 +95,7 @@ export default function CaseStudy() {
                 </Block>
 
                 {c.figures.map((f, n) => (
-                    <Block key={f.id} label={n === 0 ? 'Como funciona' : 'Na prática'}>
+                    <Block key={f.id} label={f.label ?? (n === 0 ? 'Como funciona' : 'Na prática')}>
                         <Figure n={`${c.number}.${n + 1}`} caption={f.caption}>
                             {figures[f.id]}
                         </Figure>
@@ -118,7 +118,7 @@ export default function CaseStudy() {
             </div>
 
             <p className="t-caption m-0 border-t border-rule pt-4 text-muted">
-                Gráficos e diagramas com dados ilustrativos. Números reais aparecem apenas nos indicadores citados.
+                Telas, gráficos e diagramas usam dados fictícios ou ilustrativos. Números reais aparecem apenas nos indicadores citados.
             </p>
 
             <nav className="mt-(--head) grid gap-px border-y border-ink bg-rule sm:grid-cols-2">

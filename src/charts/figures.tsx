@@ -113,6 +113,11 @@ function CsRadar() {
     );
 }
 
+// Tela real da plataforma, capturada com dados fictícios.
+function Screenshot({ src, alt }: { src: string; alt: string }) {
+    return <img src={src} alt={alt} width={1440} height={900} loading="lazy" decoding="async" className="block h-auto w-full border border-ink/80" />;
+}
+
 export const figures: Record<FigureId, ReactNode> = {
     'bi-architecture': (
         <Flow
@@ -151,4 +156,8 @@ export const figures: Record<FigureId, ReactNode> = {
         />
     ),
     'cs-radar': <CsRadar />,
+    'shot-cs': <Screenshot src="/assets/work/plataforma-radar-cs.webp" alt="Tela de Customer Success com o radar de risco e a tabela da carteira" />,
+    'shot-acoes': <Screenshot src="/assets/work/plataforma-acoes-hoje.webp" alt="Tela de Ações de hoje do CRM com a fila de tarefas por cliente" />,
+    'shot-weekly': <Screenshot src="/assets/work/plataforma-weekly.webp" alt="Dashboard semanal de receita e margem com a meta da semana" />,
+    'shot-performance': <Screenshot src="/assets/work/plataforma-performance.webp" alt="Tela de Performance consolidada com TPV, receita, margem e taxa de aprovação" />,
 };

@@ -1,4 +1,14 @@
-export type FigureId = 'bi-architecture' | 'bi-tpv' | 'recon-flow' | 'recon-gap' | 'platform-map' | 'cs-radar';
+export type FigureId =
+    | 'bi-architecture'
+    | 'bi-tpv'
+    | 'recon-flow'
+    | 'recon-gap'
+    | 'platform-map'
+    | 'cs-radar'
+    | 'shot-cs'
+    | 'shot-acoes'
+    | 'shot-weekly'
+    | 'shot-performance';
 
 export type CaseStudy = {
     slug: string;
@@ -18,7 +28,8 @@ export type CaseStudy = {
     problem: string;
     actions: string[];
     decisions: { title: string; body: string }[];
-    figures: { id: FigureId; caption: string }[];
+    /** `label` nomeia o bloco na coluna auxiliar; sem ele, o primeiro é 'Como funciona' e os demais 'Na prática'. */
+    figures: { id: FigureId; caption: string; label?: string }[];
     results: { value: string; label: string }[];
     retro: string;
 };
@@ -65,7 +76,7 @@ export const cases: CaseStudy[] = [
         ],
         figures: [
             { id: 'bi-architecture', caption: 'Fluxo diário: da API do adquirente às bases consumidas pela plataforma interna.' },
-            { id: 'bi-tpv', caption: 'Leitura diária de TPV com média móvel de 7 dias. Dados ilustrativos.' },
+            { id: 'shot-performance', label: 'Na tela', caption: 'Performance consolidada, alimentada pelas bases do pipeline. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
         ],
         results: [
             { value: 'D-1', label: 'atualização diária, sem upload manual' },
@@ -131,7 +142,7 @@ export const cases: CaseStudy[] = [
         period: 'Abr a set de 2026',
         role: 'Produto, design e desenvolvimento',
         stack: ['React', 'TypeScript', 'Tailwind', 'Recharts', 'Express', 'Supabase', 'Python', 'Vercel'],
-        access: 'Sistema interno com acesso restrito. Código privado; telas mostradas de forma esquemática.',
+        access: 'Sistema interno com acesso restrito e código privado. As telas abaixo rodam com dados fictícios, sem nenhuma informação de clientes.',
         context:
             'A empresa acompanhava performance em painéis do Looker Studio alimentados por planilhas, e o CRM vivia no Notion, sem ligação com o que cada cliente de fato transacionava. Toda pergunta nova da diretoria ou do comercial virava mais uma planilha.',
         problem:
@@ -164,7 +175,10 @@ export const cases: CaseStudy[] = [
         ],
         figures: [
             { id: 'platform-map', caption: 'Mapa da plataforma: as áreas do sistema e o que cada uma resolve.' },
-            { id: 'cs-radar', caption: 'Radar de Customer Success: cada conta posicionada pelo atingimento das metas de TPV e de margem. Representação esquemática, sem dados reais.' },
+            { id: 'shot-cs', label: 'Customer Success', caption: 'Radar de risco: Alerta, Atenção, Silêncio, Pré-churn e OK, com a carteira detalhada logo abaixo. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
+            { id: 'cs-radar', label: 'A regra do radar', caption: 'Os quadrantes cruzam o atingimento da meta de TPV com o da meta de margem. Pontos ilustrativos.' },
+            { id: 'shot-acoes', label: 'CRM', caption: 'Ações de hoje: a fila montada pela régua do CRM, ordenada por prazo, escalonamento e receita em risco. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
+            { id: 'shot-weekly', label: 'Rituais', caption: 'Leitura semanal de receita e margem contra a semana anterior comparável e a meta. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
         ],
         results: [
             { value: '148', label: 'commits em cinco meses' },
