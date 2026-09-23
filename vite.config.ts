@@ -8,4 +8,8 @@ export default defineConfig({
         react(),
         tailwindcss(),
     ],
+    // Respeita a porta atribuída pelo ambiente (preview), com 5173 como padrão.
+    server: {
+        port: Number(process.env.PORT) || 5173,
+    },
 })
