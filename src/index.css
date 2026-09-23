@@ -1,68 +1,91 @@
 @import "tailwindcss";
 
-:root {
-    --color-primary: #FF6B35;
-    --color-primary-dark: #E55A2B;
-    --color-primary-light: #FF8F66;
-    --color-neutral-dark: #0A0A0A;
-    --color-neutral-mid: #111111;
-    --color-neutral-card: #141414;
-    --color-text-main: #F5F5F5;
-    --color-text-body: #BDBDBD;
-    --color-text-secondary: #757575;
+@theme {
+    --color-paper: #F3F0E8;
+    --color-paper-deep: #EAE6DA;
+    --color-ink: #16161A;
+    --color-ink-soft: #3A3936;
+    --color-muted: #6B6A66;
+    --color-rule: #D9D4C7;
+    --color-signal: #C8402A;
+
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-sans: 'Inter Tight', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 html {
     scroll-behavior: smooth;
+    background: var(--color-paper);
 }
 
 section[id] {
-    scroll-margin-top: 80px;
+    scroll-margin-top: 72px;
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    background-color: var(--color-neutral-dark);
-    color: var(--color-text-body);
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 ::selection {
-    background-color: rgba(255, 107, 53, 0.3);
-    color: #F5F5F5;
+    background: var(--color-ink);
+    color: var(--color-paper);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: 'Roboto Slab', serif;
+a {
+    color: inherit;
 }
 
-/* Custom Scrollbar — refined */
-::-webkit-scrollbar {
-    width: 5px;
+:focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
 }
 
-::-webkit-scrollbar-track {
-    background: #0A0A0A;
+/* Números de relatório: largura fixa, alinham em coluna. */
+.num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
 }
 
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 107, 53, 0.4);
-    border-radius: 4px;
+.label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-muted);
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 107, 53, 0.7);
+/* Sublinhado de texto que cresce no hover — o único efeito de link. */
+.link {
+    text-decoration: underline;
+    text-decoration-color: var(--color-rule);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-color 150ms ease;
 }
 
-/* Firefox scrollbar */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 107, 53, 0.4) #0A0A0A;
+.link:hover {
+    text-decoration-color: currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
 }
