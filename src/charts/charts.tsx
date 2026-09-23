@@ -113,34 +113,50 @@ export function GapChart() {
     );
 }
 
-// Miniatura para o índice de trabalhos.
+// Teaser do índice de trabalhos. As classes spark-* reagem ao hover da linha (ver index.css).
 export function Spark({ variant }: { variant: 'bars' | 'gap' | 'grid' }) {
     if (variant === 'grid') {
         return (
-            <svg viewBox="0 0 120 64" className="block h-auto w-full" aria-hidden>
+            <svg viewBox="0 0 120 64" className="block h-auto w-full overflow-visible" aria-hidden>
                 <rect x="0.5" y="0.5" width="119" height="63" fill="none" stroke="var(--color-rule)" />
                 <rect x="6" y="6" width="22" height="52" fill="var(--color-rule)" />
-                {[0, 1, 2].map((i) => (
-                    <rect key={i} x={34 + i * 28} y="6" width="24" height="12" fill="none" stroke="var(--color-muted)" strokeWidth="0.8" />
-                ))}
-                <path d="M34,52 L50,42 L66,46 L82,32 L98,36 L114,24" fill="none" stroke="var(--color-signal)" strokeWidth="1.6" />
+                <g className="spark-shift">
+                    {[0, 1, 2].map((i) => (
+                        <rect key={i} x={34 + i * 28} y="6" width="24" height="12" fill="none" stroke="var(--color-muted)" strokeWidth="0.8" />
+                    ))}
+                </g>
+                <path className="spark-line spark-line-draw" d="M34,52 L50,42 L66,46 L82,32 L98,36 L114,24" fill="none" stroke="var(--color-muted)" strokeWidth="1.6" pathLength={1} strokeDasharray="1" />
+                <circle className="spark-accent" cx="114" cy="24" r="2.6" fill="var(--color-signal)" />
+            </svg>
+        );
+    }
+    if (variant === 'bars') {
+        const d = movingAverage(dailyTpv(30, 3), 3);
+        const max = Math.max(...d);
+        const h = (v: number) => (v / max) * 56;
+        const last = d.length - 1;
+        return (
+            <svg viewBox="0 0 120 64" className="block h-auto w-full overflow-visible" aria-hidden>
+                <line x1="0" x2="120" y1="63.5" y2="63.5" stroke="var(--color-rule)" />
+                <g>
+                    {d.map((v, i) => (
+                        <rect key={i} className="spark-bar" x={i * 4} y={64 - h(v)} width="3" height={h(v)} fill="#CFC8B8" />
+                    ))}
+                </g>
+                <rect className="spark-accent" x={last * 4} y={64 - h(d[last])} width="3" height={h(d[last])} fill="var(--color-signal)" />
             </svg>
         );
     }
     const gap = reportedVsAdjusted(24, 5);
-    const d = variant === 'bars' ? movingAverage(dailyTpv(30, 3), 3) : gap.adjusted;
-    const max = Math.max(...(variant === 'bars' ? d : gap.reported));
+    const max = Math.max(...gap.reported);
+    const pts = (xs: number[]) => xs.map((v, i) => [i * 5.2, 64 - (v / max) * 52] as [number, number]);
+    const end = pts(gap.adjusted)[gap.adjusted.length - 1];
     return (
-        <svg viewBox="0 0 120 64" className="block h-auto w-full" aria-hidden>
+        <svg viewBox="0 0 120 64" className="block h-auto w-full overflow-visible" aria-hidden>
             <line x1="0" x2="120" y1="63.5" y2="63.5" stroke="var(--color-rule)" />
-            {variant === 'bars'
-                ? d.map((v, i) => <rect key={i} x={i * 4} y={64 - (v / max) * 56} width="3" height={(v / max) * 56} fill={i === d.length - 1 ? 'var(--color-signal)' : '#CFC8B8'} />)
-                : (
-                    <>
-                        <path d={path(gap.reported.map((v, i) => [i * 5.2, 64 - (v / max) * 52]))} fill="none" stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="2 2" />
-                        <path d={path(d.map((v, i) => [i * 5.2, 64 - (v / max) * 52]))} fill="none" stroke="var(--color-signal)" strokeWidth="1.6" />
-                    </>
-                )}
+            <path d={path(pts(gap.reported))} fill="none" stroke="var(--color-muted)" strokeWidth="1" strokeDasharray="2 2" />
+            <path className="spark-line spark-line-draw" d={path(pts(gap.adjusted))} fill="none" stroke="#9A958A" strokeWidth="1.6" pathLength={1} strokeDasharray="1" />
+            <circle className="spark-accent" cx={end[0]} cy={end[1]} r="2.6" fill="var(--color-signal)" />
         </svg>
     );
 }

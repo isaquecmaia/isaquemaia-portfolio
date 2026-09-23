@@ -10,7 +10,7 @@ export type Experience = {
 
 export const experience: Experience[] = [
     {
-        period: '2025 — hoje',
+        period: 'Desde 2025',
         company: 'Pagaa',
         sector: 'Fintech de pagamentos',
         role: 'Analista de Dados e Operações',
@@ -24,10 +24,10 @@ export const experience: Experience[] = [
         cases: ['bi-pagaa', 'reconciliacao-financeira'],
     },
     {
-        period: '2024 — 2025',
+        period: '2024 a 2025',
         company: 'Grupo QuintoAndar',
         sector: 'PropTech',
-        role: 'Efficiency Ops — Qualidade e Treinamento',
+        role: 'Efficiency Ops, Qualidade e Treinamento',
         summary: 'Qualidade de atendimento e análise de dados, com entregas acima do escopo do cargo.',
         outcomes: [
             'Indicado formalmente para promoção a Analista de Inteligência Conversacional.',
@@ -36,7 +36,7 @@ export const experience: Experience[] = [
         ],
     },
     {
-        period: '2021 — 2023',
+        period: '2021 a 2023',
         company: 'Expertise Pesquisas',
         sector: 'Pesquisa de mercado',
         role: 'Auxiliar Administrativo',

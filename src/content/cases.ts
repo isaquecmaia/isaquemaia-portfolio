@@ -31,7 +31,7 @@ export const cases: CaseStudy[] = [
         title: 'A operação de BI de uma fintech de pagamentos',
         dek: 'Do extrato de três adquirentes ao painel que a diretoria abre toda manhã.',
         company: 'Pagaa',
-        period: '2025 — hoje',
+        period: 'Desde 2025',
         role: 'Analista responsável, de ponta a ponta',
         stack: ['SQL', 'Python', 'Google Sheets', 'Looker Studio', 'Make', 'Notion'],
         context:

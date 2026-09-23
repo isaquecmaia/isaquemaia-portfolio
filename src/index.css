@@ -12,89 +12,409 @@
     --font-serif: 'Newsreader', Georgia, serif;
     --font-sans: 'Inter Tight', system-ui, sans-serif;
     --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    --ease-editorial: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/*
+ * Sistema de espaçamento.
+ * --gutter: distância entre colunas e margem lateral mínima.
+ * --section: respiro antes de cada seção (o fio superior marca o início).
+ * --head: distância entre o título da seção e o seu conteúdo.
+ * Tudo cresce em degraus com a largura da tela, nunca de forma livre.
+ */
+:root {
+    --gutter: 20px;
+    --section: 88px;
+    --head: 48px;
+    --header-h: 56px;
+}
+
+@media (min-width: 768px) {
+    :root {
+        --gutter: 32px;
+        --section: 120px;
+        --head: 64px;
+    }
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --gutter: 40px;
+        --section: 144px;
+        --head: 72px;
+    }
 }
 
 @layer base {
-html {
-    scroll-behavior: smooth;
-    background: var(--color-paper);
-}
+    html {
+        scroll-behavior: smooth;
+        background: var(--color-paper);
+        /* Âncoras param logo abaixo do header fixo. */
+        scroll-padding-top: var(--header-h);
+    }
 
-section[id] {
-    scroll-margin-top: 72px;
-}
+    body {
+        margin: 0;
+        background: var(--color-paper);
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        font-size: 17px;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        font-feature-settings: 'kern', 'liga';
+    }
 
-body {
-    margin: 0;
-    background: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    font-size: 17px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-}
+    ::selection {
+        background: var(--color-ink);
+        color: var(--color-paper);
+    }
 
-::selection {
-    background: var(--color-ink);
-    color: var(--color-paper);
-}
+    a {
+        color: inherit;
+    }
 
-a {
-    color: inherit;
-}
-
-:focus-visible {
-    outline: 2px solid var(--color-signal);
-    outline-offset: 3px;
-}
-
+    :focus-visible {
+        outline: 2px solid var(--color-signal);
+        outline-offset: 3px;
+    }
 }
 
 @layer components {
-/* Números de relatório: largura fixa, alinham em coluna. */
-.num {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.02em;
-}
+    /* Container e grid: todas as seções usam a mesma estrutura de 12 colunas. */
+    .wrap {
+        width: 100%;
+        max-width: 1280px;
+        margin-inline: auto;
+        padding-inline: var(--gutter);
+    }
 
-.label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-}
+    .grid-ed {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        column-gap: var(--gutter);
+    }
 
-/* Sublinhado de texto que cresce no hover — o único efeito de link. */
-.link {
-    text-decoration: underline;
-    text-decoration-color: var(--color-rule);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    transition: text-decoration-color 150ms ease;
-}
+    @media (min-width: 768px) {
+        .grid-ed {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+        }
 
-.link:hover {
-    text-decoration-color: currentColor;
-}
+        /* Coluna auxiliar (1 a 3) e coluna principal (4 a 12). */
+        .col-aside {
+            grid-column: 1 / span 3;
+        }
 
-/* Só esconde quando o JS marcou o elemento como ainda não visto. */
-.reveal[data-seen='false'] {
-    opacity: 0;
-}
+        .col-main {
+            grid-column: 4 / span 9;
+        }
 
-.reveal[data-seen='true'] {
-    animation: rise 500ms cubic-bezier(0.2, 0, 0, 1) both;
-}
+        .col-full {
+            grid-column: 1 / -1;
+        }
+    }
+
+    .section {
+        padding-top: var(--section);
+    }
+
+    /* Tipografia: poucos degraus, sempre os mesmos. */
+    .t-display {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(44px, 6.6vw, 96px);
+        line-height: 0.96;
+        letter-spacing: -0.035em;
+    }
+
+    .t-headline {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(28px, 3.4vw, 46px);
+        line-height: 1.04;
+        letter-spacing: -0.022em;
+        text-wrap: balance;
+    }
+
+    .t-title {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(24px, 2.4vw, 32px);
+        line-height: 1.12;
+        letter-spacing: -0.015em;
+    }
+
+    .t-lead {
+        font-family: var(--font-serif);
+        font-weight: 400;
+        font-size: clamp(21px, 1.9vw, 26px);
+        line-height: 1.38;
+        letter-spacing: -0.008em;
+        text-wrap: pretty;
+    }
+
+    .t-body {
+        font-size: 17px;
+        line-height: 1.65;
+        text-wrap: pretty;
+    }
+
+    .t-small {
+        font-size: 15px;
+        line-height: 1.55;
+    }
+
+    .t-caption {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+    }
+
+    .label {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.4;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+    }
+
+    .link {
+        text-decoration: underline;
+        text-decoration-color: var(--color-rule);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+        transition: text-decoration-color 200ms ease;
+    }
+
+    .link:hover {
+        text-decoration-color: currentColor;
+    }
+
+    /* Entrada: só esconde quando o JS marcou o elemento como ainda não visto. */
+    .reveal[data-seen='false'] {
+        opacity: 0;
+    }
+
+    .reveal[data-seen='true'] {
+        animation: rise 600ms var(--ease-editorial) both;
+    }
+
+    /*
+     * Linha de case. O fundo escuro é um pseudo-elemento que sobe de baixo,
+     * então nada muda de tamanho nem de posição no fluxo (sem layout shift).
+     */
+    .case-row {
+        position: relative;
+        isolation: isolate;
+        display: block;
+        text-decoration: none;
+        color: var(--color-ink);
+        transition: color 450ms var(--ease-editorial);
+    }
+
+    .case-row::before {
+        content: '';
+        position: absolute;
+        inset: 0 calc(var(--gutter) * -0.75);
+        z-index: -1;
+        background: var(--color-ink);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 450ms var(--ease-editorial);
+    }
+
+    .case-row .case-dek {
+        color: var(--color-ink-soft);
+        transition: color 450ms var(--ease-editorial);
+    }
+
+    .case-row .case-meta {
+        color: var(--color-muted);
+        transition: color 450ms var(--ease-editorial);
+    }
+
+    .case-row .case-cta {
+        color: inherit;
+    }
+
+    .case-row .case-title,
+    .case-row .case-cta-arrow,
+    .case-row .case-spark {
+        transition: transform 450ms var(--ease-editorial);
+    }
+
+    /* Fio curto entre número e rubrica; o vermelho corre por cima dele no hover. */
+    .case-row .case-mark {
+        position: relative;
+        background: var(--color-rule);
+        transition: background-color 450ms var(--ease-editorial);
+    }
+
+    .case-row .case-mark::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--color-signal);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 450ms var(--ease-editorial) 60ms;
+    }
+
+    @media (hover: hover) {
+        .case-row:hover,
+        .case-row:focus-visible {
+            color: var(--color-paper);
+        }
+
+        .case-row:hover::before,
+        .case-row:focus-visible::before {
+            transform: scaleY(1);
+        }
+
+        .case-row:hover .case-dek,
+        .case-row:focus-visible .case-dek {
+            color: rgb(243 240 232 / 0.72);
+        }
+
+        .case-row:hover .case-meta,
+        .case-row:focus-visible .case-meta {
+            color: rgb(243 240 232 / 0.55);
+        }
+
+        .case-row:hover .case-title,
+        .case-row:focus-visible .case-title {
+            transform: translateX(6px);
+        }
+
+        .case-row:hover .case-cta-arrow,
+        .case-row:focus-visible .case-cta-arrow {
+            transform: translateX(6px);
+        }
+
+        .case-row:hover .case-spark,
+        .case-row:focus-visible .case-spark {
+            transform: translateY(-3px);
+        }
+
+        .case-row:hover .case-mark,
+        .case-row:focus-visible .case-mark {
+            background: rgb(243 240 232 / 0.25);
+        }
+
+        .case-row:hover .case-mark::after,
+        .case-row:focus-visible .case-mark::after {
+            transform: scaleX(1);
+        }
+    }
+
+    /* Toque: sem hover. O detalhe vermelho fica visível e o toque dá um retorno breve. */
+    @media (hover: none) {
+        .case-row .case-mark::after {
+            transform: scaleX(1);
+        }
+
+        .case-row:active::before {
+            transform: scaleY(1);
+            background: var(--color-paper-deep);
+            transition-duration: 120ms;
+        }
+    }
+
+    /* Teasers dos cases: respondem de leve ao hover da linha. */
+    .spark-bar {
+        transform-box: fill-box;
+        transform-origin: bottom;
+        transition: transform 450ms var(--ease-editorial), fill 450ms var(--ease-editorial);
+    }
+
+    .spark-accent {
+        opacity: 0;
+        transition: opacity 450ms var(--ease-editorial);
+    }
+
+    .spark-line {
+        transition: stroke 450ms var(--ease-editorial);
+    }
+
+    .spark-shift {
+        transition: transform 450ms var(--ease-editorial);
+    }
+
+    @media (hover: hover) {
+        .case-row:hover .spark-bar {
+            transform: scaleY(1.08);
+        }
+
+        .case-row:hover .spark-bar:nth-child(odd) {
+            transform: scaleY(0.94);
+        }
+
+        .case-row:hover .spark-accent {
+            opacity: 1;
+        }
+
+        .case-row:hover .spark-line {
+            stroke: var(--color-signal);
+        }
+
+        .case-row:hover .spark-line-draw {
+            animation: draw 700ms var(--ease-editorial) both;
+        }
+
+        .case-row:hover .spark-shift {
+            transform: translateY(-3px);
+        }
+    }
+
+    @media (hover: none) {
+        .spark-accent {
+            opacity: 1;
+        }
+
+        .spark-line {
+            stroke: var(--color-signal);
+        }
+    }
+
+    /* Correspondências: todas as cartas ocupam a mesma célula, então trocar não altera a altura. */
+    .stack {
+        display: grid;
+    }
+
+    .stack > * {
+        grid-area: 1 / 1;
+        transition: opacity 500ms var(--ease-editorial), transform 500ms var(--ease-editorial), visibility 500ms;
+    }
+
+    .stack > [aria-hidden='true'] {
+        opacity: 0;
+        transform: translateY(6px);
+        visibility: hidden;
+    }
 }
 
 @keyframes rise {
     from {
         opacity: 0;
         transform: translateY(8px);
+    }
+}
+
+@keyframes draw {
+    from {
+        stroke-dashoffset: 1;
+    }
+
+    to {
+        stroke-dashoffset: 0;
     }
 }
 

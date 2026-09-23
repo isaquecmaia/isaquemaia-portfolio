@@ -4,13 +4,13 @@ import { GapChart, TpvChart } from './charts';
 
 type Stage = { title: string; nodes: string[]; accent?: boolean };
 
-// Diagrama de fluxo em HTML: colunas no desktop, empilhado no celular.
+// Diagrama de fluxo em HTML: colunas a partir de 1280px, empilhado no celular.
 function Flow({ stages }: { stages: Stage[] }) {
     return (
-        <ol className="m-0 flex list-none flex-col gap-2 p-0 md:flex-row md:items-stretch md:gap-0">
+        <ol className="m-0 flex list-none flex-col gap-2 p-0 xl:flex-row xl:items-stretch xl:gap-0">
             {stages.map((st, i) => (
-                <li key={st.title} className="flex flex-col md:flex-1 md:flex-row">
-                    <div className={`flex-1 border bg-paper p-3 ${st.accent ? 'border-signal' : 'border-ink/70'}`}>
+                <li key={st.title} className="flex min-w-0 flex-col xl:flex-1 xl:flex-row">
+                    <div className={`min-w-0 flex-1 border bg-paper p-3 ${st.accent ? 'border-signal' : 'border-ink/70'}`}>
                         <p className={`label mb-2 ${st.accent ? '!text-signal' : ''}`}>
                             {String(i + 1).padStart(2, '0')} · {st.title}
                         </p>
@@ -21,9 +21,9 @@ function Flow({ stages }: { stages: Stage[] }) {
                         </ul>
                     </div>
                     {i < stages.length - 1 && (
-                        <span aria-hidden className="num self-center py-1 text-muted md:px-2 md:py-0">
-                            <span className="md:hidden">↓</span>
-                            <span className="hidden md:inline">→</span>
+                        <span aria-hidden className="num self-center py-1 text-muted xl:px-2 xl:py-0">
+                            <span className="xl:hidden">↓</span>
+                            <span className="hidden xl:inline">→</span>
                         </span>
                     )}
                 </li>

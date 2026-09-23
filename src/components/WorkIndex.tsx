@@ -11,34 +11,39 @@ export default function WorkIndex() {
             id="trabalho"
             number="01"
             title="Trabalho selecionado"
+            lead
             aside={
-                <p className="m-0 max-w-[34ch] text-[15px] text-ink-soft">
-                    Três projetos, cada um com o problema de negócio, as decisões técnicas e o que mudou depois.
+                <p className="t-small m-0 max-w-[30ch] text-ink-soft">
+                    Três matérias sobre projetos reais: o problema de negócio, as decisões técnicas e o que mudou depois.
                 </p>
             }
         >
-            <ol className="m-0 list-none border-t-2 border-ink p-0">
+            {/* Lista editorial: todas as linhas têm a mesma estrutura e o mesmo comportamento (ver .case-row). */}
+            <ol className="m-0 list-none border-t border-ink p-0">
                 {cases.map((c, i) => (
-                    <li key={c.slug} className="border-b border-ink/25">
-                        <Reveal delay={i * 0.05}>
-                            <Link
-                                to={`/cases/${c.slug}`}
-                                className="group -mx-4 grid grid-cols-[1fr] gap-6 px-4 py-9 no-underline transition-colors duration-200 hover:bg-ink hover:text-paper sm:grid-cols-[1fr_160px] md:py-12"
-                            >
-                                <div>
-                                    <p className="num m-0 text-[14px] text-signal">
-                                        {c.number} <span className="text-muted group-hover:text-paper/60">/ {c.company} · {c.period}</span>
-                                    </p>
-                                    <h3 className="mt-3 mb-0 font-serif text-[clamp(30px,4vw,54px)] leading-[1.02] font-normal tracking-[-0.025em] text-balance">
-                                        {c.title}
-                                    </h3>
-                                    <p className="mt-4 mb-0 max-w-[52ch] text-[16px] text-ink-soft group-hover:text-paper/80">{c.dek}</p>
-                                </div>
-                                <div className="flex max-w-[220px] flex-col justify-between gap-4 sm:max-w-none">
-                                    <div className="transition-opacity group-hover:opacity-90">
-                                        <Spark variant={thumbs[c.slug as keyof typeof thumbs]} />
+                    <li key={c.slug} className="border-b border-ink/20">
+                        <Reveal delay={i * 0.06}>
+                            <Link to={`/cases/${c.slug}`} className="case-row py-8 md:py-10 lg:py-12">
+                                <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-[minmax(0,1fr)_152px] sm:gap-x-(--gutter) lg:grid-cols-[minmax(0,1fr)_176px]">
+                                    <div>
+                                        <p className="num m-0 flex items-center gap-3 text-[13px]">
+                                            <span className="text-signal">{c.number}</span>
+                                            <span aria-hidden className="case-mark block h-px w-8" />
+                                            <span className="case-meta">
+                                                {c.company} · {c.period}
+                                            </span>
+                                        </p>
+                                        <h3 className="case-title t-headline mt-4 mb-0">{c.title}</h3>
+                                        <p className="case-dek t-body mt-4 mb-0 max-w-[50ch]">{c.dek}</p>
                                     </div>
-                                    <p className="label m-0 !text-current">Ler case →</p>
+                                    <div className="flex max-w-[168px] flex-col justify-between gap-5 sm:max-w-none sm:pt-7">
+                                        <div className="case-spark">
+                                            <Spark variant={thumbs[c.slug as keyof typeof thumbs]} />
+                                        </div>
+                                        <p className="case-cta label m-0">
+                                            Ler case <span className="case-cta-arrow inline-block">→</span>
+                                        </p>
+                                    </div>
                                 </div>
                             </Link>
                         </Reveal>

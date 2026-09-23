@@ -10,7 +10,7 @@ export const profile = {
     photo: '/assets/images/profile.jpg',
 
     thesis:
-        'Construo a camada de dados de uma fintech de pagamentos — do data warehouse ao painel da diretoria — e uso IA onde ela elimina trabalho manual.',
+        'Construo a camada de dados de uma fintech de pagamentos, do data warehouse ao painel da diretoria, e uso IA onde ela elimina trabalho manual.',
 
     facts: [
         { label: 'Atualmente', value: 'Pagaa, desde 2025' },
