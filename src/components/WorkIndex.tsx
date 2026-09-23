@@ -3,7 +3,7 @@ import { cases } from '../content/cases';
 import { Spark } from '../charts/charts';
 import { Reveal, Section } from './primitives';
 
-const thumbs = { 'bi-pagaa': 'bars', 'reconciliacao-financeira': 'gap', 'dash-pagaa': 'grid' } as const;
+const thumbs = { 'infraestrutura-bi': 'bars', 'reconciliacao-financeira': 'gap', 'plataforma-interna': 'grid' } as const;
 
 export default function WorkIndex() {
     return (

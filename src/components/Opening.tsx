@@ -50,7 +50,7 @@ export default function Opening() {
             {/* Faixa de indicadores: os números reais tratados como dados de uma matéria. */}
             <section aria-label="Em números" className="mt-[calc(var(--section)*0.6)] bg-signal text-paper">
                 <div className="wrap pt-10 pb-12 md:pt-12 md:pb-14 lg:pt-14 lg:pb-16">
-                    <p className="label m-0 text-paper/75">Em números · Pagaa, 2025</p>
+                    <p className="label m-0 text-paper/75">Em números · 2025 e 2026</p>
                     <div className="mt-6 grid grid-cols-2 gap-x-(--gutter) gap-y-10 md:mt-8 lg:grid-cols-12">
                         {profile.kpis.map((k, i) => (
                             <Reveal key={k.label} delay={i * 0.06} className="border-t border-paper/35 pt-4 lg:col-span-3">

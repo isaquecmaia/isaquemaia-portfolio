@@ -32,43 +32,83 @@ function Flow({ stages }: { stages: Stage[] }) {
     );
 }
 
-function DashMock() {
-    const box = 'border border-ink/60 bg-paper';
+type Area = { title: string; items: string[]; accent?: boolean };
+
+// Mapa das áreas da plataforma interna. Sem telas reais: o sistema é privado.
+function PlatformMap({ areas }: { areas: Area[] }) {
     return (
-        <div className="grid grid-cols-[64px_1fr] gap-3 text-[11px] sm:grid-cols-[120px_1fr]">
-            <div className={`${box} space-y-2 p-2`}>
-                <p className="label !text-[10px]">Menu</p>
-                {['Visão geral', 'Clientes', 'Upload', 'Relatórios'].map((m, i) => (
-                    <p key={m} className={`truncate ${i === 0 ? 'text-ink' : 'text-muted'}`}>
-                        {m}
+        <div className="grid gap-px border border-ink/70 bg-ink/70 sm:grid-cols-2 xl:grid-cols-3">
+            {areas.map((a, i) => (
+                <div key={a.title} className="bg-paper p-4">
+                    <p className={`label mb-3 ${a.accent ? '!text-signal' : '!text-ink'}`}>
+                        {String(i + 1).padStart(2, '0')} · {a.title}
                     </p>
-                ))}
-            </div>
-            <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                    {['Volume', 'Receita', 'Ticket médio', 'Clientes'].map((k, i) => (
-                        <div key={k} className={`${box} p-2`}>
-                            <p className="label !text-[10px]">{k}</p>
-                            <div className={`mt-2 h-2 w-3/5 ${i === 0 ? 'bg-signal' : 'bg-ink/70'}`} />
-                        </div>
-                    ))}
-                </div>
-                <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
-                    <div className={`${box} p-2`}>
-                        <p className="label !text-[10px]">Evolução mensal</p>
-                        <svg viewBox="0 0 200 60" className="mt-2 block h-auto w-full" aria-hidden>
-                            <path d="M0,50 L25,44 L50,46 L75,34 L100,36 L125,26 L150,28 L175,16 L200,12" fill="none" stroke="var(--color-signal)" strokeWidth="1.8" />
-                            <line x1="0" x2="200" y1="59.5" y2="59.5" stroke="var(--color-rule)" />
-                        </svg>
-                    </div>
-                    <div className={`${box} space-y-1.5 p-2`}>
-                        <p className="label !text-[10px]">Ranking</p>
-                        {[90, 72, 55, 40, 28].map((w) => (
-                            <div key={w} className="h-1.5 bg-ink/60" style={{ width: `${w}%` }} />
+                    <ul className="m-0 list-none space-y-1 p-0 text-[13.5px] leading-snug text-ink-soft">
+                        {a.items.map((it) => (
+                            <li key={it}>{it}</li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
-            </div>
+            ))}
+        </div>
+    );
+}
+
+// Radar de CS: atingimento da meta de TPV (x) contra o da meta de margem (y). Pontos ilustrativos.
+function CsRadar() {
+    const W = 520;
+    const H = 320;
+    const P = { l: 56, r: 16, t: 16, b: 44 };
+    const x = (v: number) => P.l + (v / 140) * (W - P.l - P.r);
+    const y = (v: number) => H - P.b - (v / 140) * (H - P.t - P.b);
+    const dots: [number, number][] = [
+        [118, 124], [96, 108], [84, 131], [128, 97], [104, 118], [76, 101],
+        [52, 112], [61, 128], [112, 64], [92, 72], [38, 58], [55, 44], [24, 70], [66, 81],
+    ];
+    const bucket = (tpv: number, mg: number) => (tpv >= 70 && mg >= 90 ? 'ok' : tpv < 70 && mg < 90 ? 'alerta' : 'atencao');
+    const fill = { ok: 'var(--color-ink)', atencao: '#9A958A', alerta: 'var(--color-signal)' } as const;
+    const label = (tx: number, ty: number, t: string, anchor: 'start' | 'middle' | 'end' = 'start', color = 'var(--color-muted)') => (
+        <text x={tx} y={ty} textAnchor={anchor} className="num" fontSize="11" letterSpacing="0.06em" fill={color}>
+            {t}
+        </text>
+    );
+    const legend: [string, string][] = [
+        ['OK', 'Metas de TPV e de margem atingidas.'],
+        ['Atenção', 'Uma das duas metas fora do alvo.'],
+        ['Alerta', 'As duas abaixo do alvo: ação imediata.'],
+        ['Silêncio', 'De 5 a 20 dias sem transação.'],
+        ['Pré-churn', '21 dias ou mais sem transação.'],
+    ];
+    return (
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_200px]">
+            <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full" role="img" aria-label="Esquema do radar de Customer Success em quatro quadrantes">
+                <rect x={x(0)} y={y(90)} width={x(70) - x(0)} height={y(0) - y(90)} fill="var(--color-signal)" opacity="0.07" />
+                <line x1={x(0)} x2={x(140)} y1={y(0)} y2={y(0)} stroke="var(--color-ink)" />
+                <line x1={x(0)} x2={x(0)} y1={y(0)} y2={y(140)} stroke="var(--color-ink)" />
+                <line x1={x(70)} x2={x(70)} y1={y(0)} y2={y(140)} stroke="var(--color-rule)" strokeDasharray="4 4" />
+                <line x1={x(0)} x2={x(140)} y1={y(90)} y2={y(90)} stroke="var(--color-rule)" strokeDasharray="4 4" />
+                {label(x(70), y(0) + 16, '70%', 'middle')}
+                {label(x(0) - 6, y(90) + 4, '90%', 'end')}
+                {label(x(140) - 4, y(140) + 26, 'OK', 'end', 'var(--color-ink)')}
+                {label(x(4), y(140) + 26, 'ATENÇÃO')}
+                {label(x(140) - 4, y(0) - 8, 'ATENÇÃO', 'end')}
+                {label(x(4), y(0) - 8, 'ALERTA', 'start', 'var(--color-signal)')}
+                {dots.map(([tpv, mg], i) => (
+                    <circle key={i} cx={x(tpv)} cy={y(mg)} r="4.5" fill={fill[bucket(tpv, mg)]} />
+                ))}
+                {label(x(140), H - 8, 'META DE TPV ATINGIDA →', 'end')}
+                <text transform={`translate(${P.l - 38} ${y(0)}) rotate(-90)`} className="num" fontSize="11" letterSpacing="0.06em" fill="var(--color-muted)">
+                    META DE MARGEM →
+                </text>
+            </svg>
+            <dl className="t-small m-0 space-y-3 self-end">
+                {legend.map(([k, v]) => (
+                    <div key={k} className="border-t border-rule pt-2">
+                        <dt className={`label ${k === 'Alerta' ? '!text-signal' : '!text-ink'}`}>{k}</dt>
+                        <dd className="m-0 mt-1 text-muted">{v}</dd>
+                    </div>
+                ))}
+            </dl>
         </div>
     );
 }
@@ -77,11 +117,11 @@ export const figures: Record<FigureId, ReactNode> = {
     'bi-architecture': (
         <Flow
             stages={[
-                { title: 'Fontes', nodes: ['Adquirente A', 'Adquirente B', 'Adquirente C', 'Base interna'] },
-                { title: 'Ingestão', nodes: ['Extração diária', 'Normalização de schema', 'Chave idempotente'] },
-                { title: 'Data warehouse', nodes: ['Transações unificadas', 'Carga incremental', 'Reprocesso por dia'] },
-                { title: 'Métricas', nodes: ['TPV, receita, MDR', 'Scorecard · 64 métricas', 'DoD · WoW · MoM'] },
-                { title: 'Consumo', nodes: ['Painel executivo · 6 págs.', 'Análises da diretoria'], accent: true },
+                { title: 'Fontes', nodes: ['API do adquirente', 'Base de taxas por cliente', 'Cadastro de clientes'] },
+                { title: 'Pipeline D-1', nodes: ['Extração paginada', 'Deduplicação por transação', 'Receita por método'] },
+                { title: 'Bases', nodes: ['DW transacional', 'Comissões e recebíveis', 'Scorecard de clientes'] },
+                { title: 'Banco', nodes: ['PostgreSQL no Supabase', 'Publicação atômica', 'Permissões por perfil'] },
+                { title: 'Consumo', nodes: ['Plataforma interna', 'Customer Success', 'FP&A e diretoria'], accent: true },
             ]}
         />
     ),
@@ -98,5 +138,17 @@ export const figures: Record<FigureId, ReactNode> = {
         />
     ),
     'recon-gap': <GapChart />,
-    'dash-mock': <DashMock />,
+    'platform-map': (
+        <PlatformMap
+            areas={[
+                { title: 'Performance', items: ['TPV, receita e margem', 'Leituras semanais e mensais', 'Forecast com metas'] },
+                { title: 'Customer Success', items: ['Radar de risco', 'Alertas diários', 'Visão por cliente'], accent: true },
+                { title: 'CRM', items: ['Esteira e ativação', 'Ficha do cliente', 'Parcerias e ações do dia'] },
+                { title: 'Rituais', items: ['Weekly Review', 'Pipe Report', 'Ajustes da semana'] },
+                { title: 'Financeiro', items: ['Comissões', 'Caixa e repasses', 'Motor de margem'] },
+                { title: 'Dados', items: ['Transações', 'Glossário de métricas', 'Uploads atômicos'] },
+            ]}
+        />
+    ),
+    'cs-radar': <CsRadar />,
 };

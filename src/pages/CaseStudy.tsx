@@ -22,7 +22,7 @@ export default function CaseStudy() {
     useEffect(() => {
         if (c) document.title = `${c.title} | Isaque Maia`;
         return () => {
-            document.title = 'Isaque Maia | Dados, BI e IA aplicada';
+            document.title = 'Isaque Maia | Inteligência de Negócios, BI e FP&A';
         };
     }, [c]);
 
@@ -68,6 +68,7 @@ export default function CaseStudy() {
                             ))}
                         </div>
                     )}
+                    {c.access && <p className="t-caption mt-4 mb-0 max-w-[38ch] text-muted">{c.access}</p>}
                 </Reveal>
             </header>
 

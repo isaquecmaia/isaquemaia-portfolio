@@ -4,11 +4,6 @@ export const degrees = [
         school: 'Descomplica Faculdade Digital',
         status: 'Cursando · conclusão prevista para dez/2026',
     },
-    {
-        title: 'Análise de Dados',
-        school: 'Mate Academy',
-        status: 'Em andamento · módulo Basics concluído',
-    },
 ];
 
 export const certificates = [
