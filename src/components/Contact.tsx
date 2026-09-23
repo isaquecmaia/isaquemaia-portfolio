@@ -7,7 +7,7 @@ export default function Contact() {
         <footer id="contato" className="mt-8 bg-ink text-paper">
             <section className={`${container} pt-20 pb-10 md:pt-28`}>
                 <p className="label !text-paper/60">Contato</p>
-                <p className="mt-4 mb-0 max-w-[26ch] font-serif text-[clamp(28px,4vw,48px)] leading-[1.1] tracking-[-0.02em]">
+                <p className="mt-4 mb-0 max-w-[22ch] font-serif text-[clamp(38px,6.4vw,92px)] leading-[0.98] tracking-[-0.035em]">
                     Se o seu time precisa confiar nos próprios números, vale uma conversa.
                 </p>
                 <a

@@ -1,44 +1,57 @@
-import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 export const container = 'mx-auto w-full max-w-[1200px] px-4 sm:px-6 md:px-10';
 
-// Entrada discreta: 8px e opacidade. Desligada com prefers-reduced-motion (MotionConfig).
-export function Reveal({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+// Entrada discreta: 8px e opacidade, em CSS (ver .reveal em index.css).
+// `now` anima ao montar (primeira dobra); o resto anima ao entrar na tela.
+export function Reveal({ children, className = '', delay = 0, now = false }: { children: ReactNode; className?: string; delay?: number; now?: boolean }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const [seen, setSeen] = useState(now);
+    useEffect(() => {
+        if (seen || !ref.current) return;
+        const io = new IntersectionObserver(
+            ([e]) => {
+                if (e.isIntersecting) {
+                    setSeen(true);
+                    io.disconnect();
+                }
+            },
+            { rootMargin: '0px 0px -60px 0px' },
+        );
+        io.observe(ref.current);
+        return () => io.disconnect();
+    }, [seen]);
     return (
-        <motion.div
-            className={className}
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.5, ease: [0.2, 0, 0, 1], delay }}
-        >
+        <div ref={ref} className={`reveal ${className}`} data-seen={seen} style={{ animationDelay: `${delay}s` }}>
             {children}
-        </motion.div>
+        </div>
     );
 }
 
-// Seção de relatório: fio no topo, número e título à esquerda, conteúdo à direita.
+// Seção: título grande de ponta a ponta, número em destaque, conteúdo recuado à direita.
 export function Section({
     id,
     number,
     title,
+    aside,
     children,
 }: {
     id?: string;
     number: string;
     title: string;
+    aside?: ReactNode;
     children: ReactNode;
 }) {
     return (
-        <section id={id} className={`${container} py-16 md:py-24`}>
-            <div className="border-t border-ink pt-5 md:grid md:grid-cols-12 md:gap-10">
-                <header className="mb-10 md:col-span-3 md:mb-0">
-                    <div className="md:sticky md:top-24">
-                        <p className="label">§ {number}</p>
-                        <h2 className="mt-2 font-serif text-[28px] leading-tight font-normal tracking-[-0.01em]">{title}</h2>
-                    </div>
-                </header>
+        <section id={id} className={`${container} py-20 md:py-32`}>
+            <header className="border-t-2 border-ink pt-6 md:pt-8">
+                <Reveal className="flex items-start gap-4 md:gap-8">
+                    <span className="num pt-[0.6em] text-[13px] text-signal md:text-[15px]">{number}</span>
+                    <h2 className="m-0 font-serif text-[clamp(44px,8vw,112px)] leading-[0.95] font-normal tracking-[-0.035em]">{title}</h2>
+                </Reveal>
+            </header>
+            <div className="mt-12 md:mt-16 md:grid md:grid-cols-12 md:gap-10">
+                <div className="mb-8 md:col-span-3 md:mb-0">{aside}</div>
                 <div className="md:col-span-9">{children}</div>
             </div>
         </section>

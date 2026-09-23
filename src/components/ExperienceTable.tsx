@@ -12,7 +12,7 @@ export default function ExperienceTable() {
                         <article className="grid gap-x-8 gap-y-3 border-b border-rule py-8 md:grid-cols-[150px_1fr]">
                             <p className="num m-0 pt-1 text-[14px] text-muted">{e.period}</p>
                             <div>
-                                <h3 className="m-0 font-serif text-[24px] leading-tight font-normal">
+                                <h3 className="m-0 font-serif text-[clamp(28px,3vw,40px)] leading-[1.05] font-normal tracking-[-0.02em]">
                                     {e.company} <span className="text-muted">— {e.sector}</span>
                                 </h3>
                                 <p className="mt-1 mb-0 text-[15px] font-medium">{e.role}</p>

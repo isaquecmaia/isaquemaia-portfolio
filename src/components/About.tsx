@@ -7,11 +7,11 @@ export default function About() {
     const [full, setFull] = useState(false);
 
     return (
-        <Section id="sobre" number="04" title="Sobre">
-            <div className="grid gap-10 lg:grid-cols-[1fr_220px]">
+        <Section id="sobre" number="04" title="Sobre" aside={<p className="label m-0">De Expertise a Pagaa,<br />2021 — hoje</p>}>
+            <div>
                 <Reveal>
                     {profile.about.map((p) => (
-                        <p key={p.slice(0, 20)} className="mt-0 mb-5 max-w-[62ch] text-[18px] leading-[1.65]">
+                        <p key={p.slice(0, 20)} className="mt-0 mb-6 max-w-[58ch] font-serif text-[clamp(20px,1.9vw,25px)] leading-[1.45]">
                             {p}
                         </p>
                     ))}
@@ -25,26 +25,12 @@ export default function About() {
                         ))}
                     </p>
                 </Reveal>
-                <Reveal delay={0.1}>
-                    <figure className="m-0 max-w-[220px]">
-                        <img
-                            src={profile.photo}
-                            alt={`Retrato de ${profile.fullName}`}
-                            width={220}
-                            height={220}
-                            className="block aspect-square w-full object-cover grayscale-[35%]"
-                        />
-                        <figcaption className="mt-2 text-[13px] text-muted">
-                            {profile.fullName}, {profile.city}
-                        </figcaption>
-                    </figure>
-                </Reveal>
             </div>
 
             <Reveal className="mt-16">
                 <figure className="m-0 border-t border-ink pt-8">
                     <p className="label mb-5">Recomendação</p>
-                    <blockquote className="m-0 max-w-[40ch] font-serif text-[clamp(24px,3vw,34px)] leading-[1.25] tracking-[-0.01em]">
+                    <blockquote className="m-0 max-w-[26ch] font-serif text-[clamp(30px,4.2vw,56px)] leading-[1.08] tracking-[-0.025em]">
                         “{rec.excerpt}”
                     </blockquote>
 
