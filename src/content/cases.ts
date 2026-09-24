@@ -59,7 +59,7 @@ export const cases: CaseStudy[] = [
         choice:
             'Em vez de automatizar as planilhas, tirei elas do caminho. Um pipeline em Python lê direto a API do adquirente toda manhã e reconstrói as bases que os painéis consomem. E troquei o Looker Studio por uma plataforma própria em React, que lê essas bases sem intermediário.',
         actions: [
-            'Escrevi o pipeline em Python com paginação e controle de limite de requisições da API, execução diária (D-1) às 6h e reprocessamento de janelas retroativas quando o adquirente corrige algo.',
+            'Construí com IA o pipeline em Python: paginação e controle de limite de requisições da API, execução diária (D-1) às 6h e reprocessamento de janelas retroativas quando o adquirente corrige algo.',
             'Montei o data warehouse transacional como base só de acréscimo, deduplicada pelo identificador de cada transação.',
             'Gerei a base de comissões com os recebíveis futuros dos próximos 365 dias e o scorecard de clientes, recalculado do zero a cada execução.',
             'Apliquei regras de receita por método de pagamento (crédito, débito, PIX e boleto) a partir da base de taxas de cada cliente.',
@@ -112,7 +112,7 @@ export const cases: CaseStudy[] = [
         problem:
             'Margem e receita sustentam decisões de preço e de carteira. Se o número muda depois de fechado, ou não bate com o que o adquirente faturou, ninguém sabe em qual versão confiar.',
         choice:
-            'Tirei a regra de margem da planilha e escrevi um motor de cálculo isolado e testável. E, em vez de conferir o motor contra a planilha herdada, conferi contra a única fonte que não pode estar errada: o relatório oficial do adquirente.',
+            'Tirei a regra de margem da planilha e especifiquei um motor de cálculo isolado e testável, implementado com IA. E, em vez de conferir o motor contra a planilha herdada, conferi contra a única fonte que não pode estar errada: o relatório oficial do adquirente.',
         actions: [
             'Automatizei a consolidação dos adquirentes com validação de integridade de schema e relatórios estruturados para a análise de P&L.',
             'Investiguei as discrepâncias de volume e encontrei chargebacks processados com data retroativa, que alteravam o TPV de dias já reportados.',
@@ -157,7 +157,7 @@ export const cases: CaseStudy[] = [
         dek: 'Começou como a troca do Looker Studio por dashboards próprios. Em cinco meses, virou o sistema onde a empresa opera.',
         company: 'Virtù Pagamentos',
         period: 'Abr a set de 2026',
-        role: 'Produto, design e desenvolvimento',
+        role: 'Produto, especificação e implementação com IA',
         stack: ['React', 'TypeScript', 'Tailwind', 'Recharts', 'Express', 'Supabase', 'Python', 'Vercel'],
         access: 'Sistema interno com acesso restrito e código privado. As telas abaixo rodam com dados fictícios, sem nenhuma informação de clientes.',
         context:
@@ -165,7 +165,7 @@ export const cases: CaseStudy[] = [
         problem:
             'Cada time olhava para uma fonte diferente e ninguém via o cliente inteiro: o que ele transacionava, quanto dava de margem e em que etapa estava. Reunir performance, clientes, comissões, caixa e funil comercial num só lugar virou condição para decidir rápido.',
         choice:
-            'Em vez de mais uma ferramenta pronta, construí o sistema sobre as mesmas bases do pipeline D-1. Front em React e TypeScript, API própria em Express e banco no Supabase com permissões por perfil. As regras de negócio (margem, régua do CRM, radar de CS) ficam em funções isoladas, que dá para testar sem tocar no banco.',
+            'Em vez de mais uma ferramenta pronta, especifiquei o sistema e o construí com IA, sobre as mesmas bases do pipeline D-1. Front em React e TypeScript, API própria em Express e banco no Supabase com permissões por perfil. As regras de negócio (margem, régua do CRM, radar de CS) ficam em funções isoladas, que dá para testar sem tocar no banco.',
         actions: [
             'Painéis de TPV, receita e margem por cliente, vendedor e adquirente, com leituras semanais e mensais e forecast com metas editáveis.',
             'Customer Success com radar de risco em quatro quadrantes e alertas diários automáticos para as contas que pedem atenção.',

@@ -33,12 +33,12 @@ export const capabilities: CapabilityGroup[] = [
         ],
     },
     {
-        title: 'Código',
+        title: 'Especificação e IA',
         items: [
-            { name: 'React · TypeScript', where: 'Plataforma interna, este site' },
-            { name: 'Express · Vercel', where: 'API própria e deploy' },
-            { name: 'Supabase · RLS', where: 'Banco e permissões por perfil' },
-            { name: 'Git', where: '148 commits na plataforma' },
+            { name: 'Especificação técnica', where: 'Requisitos, regras e casos de teste da plataforma' },
+            { name: 'Arquitetura de dados', where: 'Modelo do DW, bases e permissões por perfil' },
+            { name: 'Implementação com IA', where: 'Plataforma interna e este site, em React e TypeScript' },
+            { name: 'Validação técnica', where: 'Revisão do resultado e conferência contra fontes oficiais' },
         ],
     },
 ];

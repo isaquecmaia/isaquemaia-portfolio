@@ -76,7 +76,7 @@ export const fr: ContentOverride = {
             choice:
                 "Au lieu d'automatiser les tableurs, je les ai sortis du circuit. Un pipeline Python lit directement l'API de l'acquéreur chaque matin et reconstruit les bases que consomment les tableaux de bord. Et j'ai remplacé Looker Studio par une plateforme maison en React qui lit ces bases sans intermédiaire.",
             actions: [
-                "J'ai écrit le pipeline Python avec pagination et gestion des limites de requêtes de l'API, une exécution quotidienne (J-1) à 6 h et le retraitement de périodes passées quand l'acquéreur corrige quelque chose.",
+                "J'ai construit le pipeline Python avec l'IA : pagination et gestion des limites de requêtes de l'API, une exécution quotidienne (J-1) à 6 h et le retraitement de périodes passées quand l'acquéreur corrige quelque chose.",
                 "J'ai monté l'entrepôt de données transactionnel comme une base en ajout seul, dédupliquée par l'identifiant de chaque transaction.",
                 "J'ai généré la base de commissions avec les créances à venir sur 365 jours et le scorecard clients, recalculé de zéro à chaque exécution.",
                 "J'ai appliqué des règles de revenu par moyen de paiement (crédit, débit, PIX et boleto) à partir de la grille tarifaire de chaque client.",
@@ -123,7 +123,7 @@ export const fr: ContentOverride = {
             problem:
                 "La marge et le chiffre d'affaires guident les décisions de prix et de portefeuille. Si le chiffre change après la clôture, ou ne correspond pas à ce que l'acquéreur a facturé, personne ne sait à quelle version se fier.",
             choice:
-                "J'ai sorti la règle de marge du tableur et écrit un moteur de calcul isolé et testable. Et au lieu de le vérifier par rapport au tableur hérité, je l'ai vérifié par rapport à la seule source qui ne peut pas se tromper : le rapport officiel de l'acquéreur.",
+                "J'ai sorti la règle de marge du tableur et spécifié un moteur de calcul isolé et testable, implémenté avec l'IA. Et au lieu de le vérifier par rapport au tableur hérité, je l'ai vérifié par rapport à la seule source qui ne peut pas se tromper : le rapport officiel de l'acquéreur.",
             actions: [
                 "J'ai automatisé la consolidation des acquéreurs avec une validation de l'intégrité du schéma et des rapports structurés pour l'analyse du compte de résultat.",
                 "J'ai enquêté sur les écarts de volume et trouvé des rétrofacturations traitées avec une date rétroactive, qui modifiaient le TPV de jours déjà communiqués.",
@@ -162,14 +162,14 @@ export const fr: ContentOverride = {
             title: 'Du tableur au système : la plateforme interne de Virtù',
             dek: "Au départ, il s'agissait de remplacer Looker Studio par des tableaux de bord maison. En cinq mois, c'est devenu le système sur lequel l'entreprise fonctionne.",
             period: 'Avr. à sept. 2026',
-            role: 'Produit, design et développement',
+            role: 'Produit, spécification et implémentation avec l’IA',
             access: 'Système interne à accès restreint et code privé. Les écrans ci-dessous tournent sur des données fictives, sans aucune information client.',
             context:
                 "L'entreprise suivait sa performance dans des tableaux de bord Looker Studio alimentés par des tableurs, et le CRM vivait dans Notion, sans lien avec ce que chaque client transactionnait réellement. Chaque nouvelle question de la direction ou des commerciaux devenait un tableur de plus.",
             problem:
                 "Chaque équipe regardait une source différente et personne ne voyait le client dans son ensemble : ce qu'il transactionnait, la marge qu'il apportait et l'étape où il se trouvait. Réunir performance, clients, commissions, trésorerie et tunnel commercial au même endroit est devenu une condition pour décider vite.",
             choice:
-                "Plutôt qu'un outil de plus sur étagère, j'ai construit le système sur les mêmes bases que le pipeline J-1. Front en React et TypeScript, API maison en Express et base Supabase avec des droits par profil. Les règles métier (marge, cadence du CRM, radar CS) vivent dans des fonctions isolées, testables sans toucher à la base.",
+                "Plutôt qu'un outil de plus sur étagère, j'ai spécifié le système et je l'ai construit avec l'IA, sur les mêmes bases que le pipeline J-1. Front en React et TypeScript, API maison en Express et base Supabase avec des droits par profil. Les règles métier (marge, cadence du CRM, radar CS) vivent dans des fonctions isolées, testables sans toucher à la base.",
             actions: [
                 "Tableaux de bord de TPV, chiffre d'affaires et marge par client, commercial et acquéreur, avec des vues hebdomadaires et mensuelles et un forecast aux objectifs modifiables.",
                 'Customer Success avec un radar de risque en quatre quadrants et des alertes quotidiennes automatiques pour les comptes qui demandent de l’attention.',
@@ -236,12 +236,12 @@ export const fr: ContentOverride = {
             ],
         },
         {
-            title: 'Code',
+            title: 'Spécification et IA',
             items: [
-                { name: 'React · TypeScript', where: 'Plateforme interne, ce site' },
-                { name: 'Express · Vercel', where: 'API maison et déploiement' },
-                { name: 'Supabase · RLS', where: 'Base de données et droits par profil' },
-                { name: 'Git', where: '148 commits sur la plateforme' },
+                { name: 'Spécification technique', where: 'Exigences, règles et cas de test de la plateforme' },
+                { name: 'Architecture de données', where: 'Modèle de l’entrepôt, bases et droits par profil' },
+                { name: 'Implémentation avec l’IA', where: 'Plateforme interne et ce site, en React et TypeScript' },
+                { name: 'Validation technique', where: 'Revue du résultat et vérification par rapport aux sources officielles' },
             ],
         },
     ],

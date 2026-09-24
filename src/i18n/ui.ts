@@ -56,7 +56,7 @@ const pt = {
         copied: 'E-mail copiado ✓',
         localTime: 'Agora em Belo Horizonte:',
         cvPdf: 'Currículo em PDF',
-        colophon: ['Composto em Newsreader, Inter Tight e IBM Plex Mono.', 'Feito à mão em React'],
+        colophon: ['Composto em Newsreader, Inter Tight e IBM Plex Mono.', 'Construído com apoio de IA'],
     },
     overlay: {
         edition: 'Nesta edição',
@@ -156,7 +156,7 @@ const en: UI = {
         copied: 'Email copied ✓',
         localTime: 'Now in Belo Horizonte:',
         cvPdf: 'Résumé (PDF)',
-        colophon: ['Set in Newsreader, Inter Tight and IBM Plex Mono.', 'Handmade in React'],
+        colophon: ['Set in Newsreader, Inter Tight and IBM Plex Mono.', 'Built with AI assistance'],
     },
     overlay: {
         edition: 'In this issue',
@@ -254,7 +254,7 @@ const es: UI = {
         copied: 'Correo copiado ✓',
         localTime: 'Ahora en Belo Horizonte:',
         cvPdf: 'Currículum en PDF',
-        colophon: ['Compuesto en Newsreader, Inter Tight e IBM Plex Mono.', 'Hecho a mano en React'],
+        colophon: ['Compuesto en Newsreader, Inter Tight e IBM Plex Mono.', 'Construido con apoyo de IA'],
     },
     overlay: {
         edition: 'En esta edición',
@@ -352,7 +352,7 @@ const fr: UI = {
         copied: 'E-mail copié ✓',
         localTime: 'En ce moment à Belo Horizonte :',
         cvPdf: 'CV en PDF',
-        colophon: ['Composé en Newsreader, Inter Tight et IBM Plex Mono.', 'Fait main en React'],
+        colophon: ['Composé en Newsreader, Inter Tight et IBM Plex Mono.', 'Construit avec l’aide de l’IA'],
     },
     overlay: {
         edition: 'Dans ce numéro',

@@ -76,7 +76,7 @@ export const es: ContentOverride = {
             choice:
                 'En lugar de automatizar las planillas, las saqué del camino. Un pipeline en Python lee directamente la API del adquirente cada mañana y reconstruye las bases que consumen los tableros. Y reemplacé Looker Studio por una plataforma propia en React que lee esas bases sin intermediarios.',
             actions: [
-                'Escribí el pipeline en Python con paginación y control de límite de solicitudes de la API, ejecución diaria (D-1) a las 6 h y reprocesamiento de ventanas pasadas cuando el adquirente corrige algo.',
+                'Construí con IA el pipeline en Python: paginación y control de límite de solicitudes de la API, ejecución diaria (D-1) a las 6 h y reprocesamiento de ventanas pasadas cuando el adquirente corrige algo.',
                 'Armé el data warehouse transaccional como una base de solo agregado, deduplicada por el identificador de cada transacción.',
                 'Generé la base de comisiones con las cuentas por cobrar de los próximos 365 días y el scorecard de clientes, recalculado desde cero en cada ejecución.',
                 'Apliqué reglas de ingreso por método de pago (crédito, débito, PIX y boleto) a partir de la tabla de tasas de cada cliente.',
@@ -123,7 +123,7 @@ export const es: ContentOverride = {
             problem:
                 'El margen y los ingresos sostienen decisiones de precio y de cartera. Si el número cambia después del cierre, o no coincide con lo que facturó el adquirente, nadie sabe en qué versión confiar.',
             choice:
-                'Saqué la regla de margen de la planilla y escribí un motor de cálculo aislado y testeable. Y, en lugar de contrastarlo con la planilla heredada, lo contrasté con la única fuente que no puede estar equivocada: el informe oficial del adquirente.',
+                'Saqué la regla de margen de la planilla y especifiqué un motor de cálculo aislado y testeable, implementado con IA. Y, en lugar de contrastarlo con la planilla heredada, lo contrasté con la única fuente que no puede estar equivocada: el informe oficial del adquirente.',
             actions: [
                 'Automaticé la consolidación de los adquirentes con validación de integridad del schema e informes estructurados para el análisis del estado de resultados.',
                 'Investigué las discrepancias de volumen y encontré contracargos procesados con fecha retroactiva, que alteraban el TPV de días ya informados.',
@@ -162,14 +162,14 @@ export const es: ContentOverride = {
             title: 'De la planilla al sistema: la plataforma interna de Virtù',
             dek: 'Empezó como el reemplazo de Looker Studio por tableros propios. En cinco meses se convirtió en el sistema donde opera la empresa.',
             period: 'Abr a sep de 2026',
-            role: 'Producto, diseño y desarrollo',
+            role: 'Producto, especificación e implementación con IA',
             access: 'Sistema interno con acceso restringido y código privado. Las pantallas de abajo funcionan con datos ficticios, sin información de clientes.',
             context:
                 'La empresa seguía el rendimiento en tableros de Looker Studio alimentados por planillas, y el CRM vivía en Notion, sin conexión con lo que cada cliente realmente transaccionaba. Cada pregunta nueva de la dirección o del área comercial terminaba en otra planilla.',
             problem:
                 'Cada equipo miraba una fuente distinta y nadie veía al cliente completo: qué transaccionaba, cuánto margen dejaba y en qué etapa estaba. Reunir rendimiento, clientes, comisiones, caja y embudo comercial en un solo lugar se volvió una condición para decidir rápido.',
             choice:
-                'En lugar de otra herramienta lista, construí el sistema sobre las mismas bases del pipeline D-1. Front en React y TypeScript, API propia en Express y base de datos en Supabase con permisos por perfil. Las reglas de negocio (margen, cadencia del CRM, radar de CS) viven en funciones aisladas que se pueden probar sin tocar la base.',
+                'En lugar de otra herramienta lista, especifiqué el sistema y lo construí con IA, sobre las mismas bases del pipeline D-1. Front en React y TypeScript, API propia en Express y base de datos en Supabase con permisos por perfil. Las reglas de negocio (margen, cadencia del CRM, radar de CS) viven en funciones aisladas que se pueden probar sin tocar la base.',
             actions: [
                 'Tableros de TPV, ingresos y margen por cliente, vendedor y adquirente, con lecturas semanales y mensuales y un forecast con metas editables.',
                 'Customer Success con un radar de riesgo en cuatro cuadrantes y alertas diarias automáticas para las cuentas que requieren atención.',
@@ -236,12 +236,12 @@ export const es: ContentOverride = {
             ],
         },
         {
-            title: 'Código',
+            title: 'Especificación e IA',
             items: [
-                { name: 'React · TypeScript', where: 'Plataforma interna, este sitio' },
-                { name: 'Express · Vercel', where: 'API propia y despliegue' },
-                { name: 'Supabase · RLS', where: 'Base de datos y permisos por perfil' },
-                { name: 'Git', where: '148 commits en la plataforma' },
+                { name: 'Especificación técnica', where: 'Requisitos, reglas y casos de prueba de la plataforma' },
+                { name: 'Arquitectura de datos', where: 'Modelo del DW, bases y permisos por perfil' },
+                { name: 'Implementación con IA', where: 'Plataforma interna y este sitio, en React y TypeScript' },
+                { name: 'Validación técnica', where: 'Revisión del resultado y contraste con fuentes oficiales' },
             ],
         },
     ],

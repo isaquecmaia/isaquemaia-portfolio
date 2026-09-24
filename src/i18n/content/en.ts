@@ -76,7 +76,7 @@ export const en: ContentOverride = {
             choice:
                 'Instead of automating the spreadsheets, I took them out of the way. A Python pipeline reads the acquirer API directly every morning and rebuilds the bases the dashboards consume. And I replaced Looker Studio with an in-house React platform that reads those bases with no middle layer.',
             actions: [
-                'Wrote the Python pipeline with API pagination and rate limit control, a daily (D-1) run at 6 a.m. and reprocessing of past windows when the acquirer corrects something.',
+                'Built the Python pipeline with AI handling the implementation: API pagination and rate limit control, a daily (D-1) run at 6 a.m. and reprocessing of past windows when the acquirer corrects something.',
                 'Built the transactional data warehouse as an append-only base, deduplicated by each transaction identifier.',
                 'Generated the commissions base with future receivables for the next 365 days and the client scorecard, rebuilt from scratch on every run.',
                 "Applied revenue rules by payment method (credit, debit, PIX and boleto) based on each client's rate table.",
@@ -123,7 +123,7 @@ export const en: ContentOverride = {
             problem:
                 'Margin and revenue drive pricing and portfolio decisions. If the number changes after closing, or does not match what the acquirer billed, nobody knows which version to trust.',
             choice:
-                "I took the margin rule out of the spreadsheet and wrote an isolated, testable calculation engine. And instead of checking the engine against the inherited spreadsheet, I checked it against the one source that cannot be wrong: the acquirer's official report.",
+                "I took the margin rule out of the spreadsheet and specified an isolated, testable calculation engine, implemented with AI. And instead of checking the engine against the inherited spreadsheet, I checked it against the one source that cannot be wrong: the acquirer's official report.",
             actions: [
                 'Automated the consolidation of acquirers with schema integrity validation and structured reports for P&L analysis.',
                 'Investigated volume discrepancies and found chargebacks processed with retroactive dates, which changed the TPV of days already reported.',
@@ -162,14 +162,14 @@ export const en: ContentOverride = {
             title: 'From spreadsheet to system: the Virtù internal platform',
             dek: 'It started as swapping Looker Studio for in-house dashboards. In five months, it became the system the company runs on.',
             period: 'Apr to Sep 2026',
-            role: 'Product, design and development',
+            role: 'Product, specification and AI-assisted build',
             access: 'Internal system with restricted access and private code. The screens below run on fictional data, with no client information.',
             context:
                 'The company tracked performance in Looker Studio dashboards fed by spreadsheets, and the CRM lived in Notion, disconnected from what each client actually transacted. Every new question from leadership or sales turned into another spreadsheet.',
             problem:
                 'Each team looked at a different source and nobody saw the whole client: what they transacted, how much margin they brought and which stage they were in. Bringing performance, clients, commissions, cash and the sales funnel into one place became a condition for deciding fast.',
             choice:
-                'Instead of another off-the-shelf tool, I built the system on the same bases as the D-1 pipeline. Front end in React and TypeScript, an in-house Express API and a Supabase database with role-based permissions. Business rules (margin, CRM cadence, CS radar) live in isolated functions that can be tested without touching the database.',
+                'Instead of another off-the-shelf tool, I specified the system and built it with AI, on the same bases as the D-1 pipeline. Front end in React and TypeScript, an in-house Express API and a Supabase database with role-based permissions. Business rules (margin, CRM cadence, CS radar) live in isolated functions that can be tested without touching the database.',
             actions: [
                 'TPV, revenue and margin dashboards by client, salesperson and acquirer, with weekly and monthly views and a forecast with editable targets.',
                 'Customer Success with a four-quadrant risk radar and automatic daily alerts for the accounts that need attention.',
@@ -236,12 +236,12 @@ export const en: ContentOverride = {
             ],
         },
         {
-            title: 'Code',
+            title: 'Specification & AI',
             items: [
-                { name: 'React · TypeScript', where: 'Internal platform, this site' },
-                { name: 'Express · Vercel', where: 'In-house API and deploy' },
-                { name: 'Supabase · RLS', where: 'Database and role-based permissions' },
-                { name: 'Git', where: '148 commits on the platform' },
+                { name: 'Technical specification', where: 'Requirements, rules and test cases for the platform' },
+                { name: 'Data architecture', where: 'Warehouse model, bases and role-based permissions' },
+                { name: 'AI-assisted implementation', where: 'Internal platform and this site, in React and TypeScript' },
+                { name: 'Technical validation', where: 'Reviewing the output and checking it against official sources' },
             ],
         },
     ],
