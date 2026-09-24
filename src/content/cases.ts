@@ -164,7 +164,9 @@ export const cases: CaseStudy[] = [
         context:
             'A empresa acompanhava performance em painéis do Looker Studio alimentados por planilhas, e o CRM vivia no Notion, sem ligação com o que cada cliente de fato transacionava. Toda pergunta nova da diretoria ou do comercial virava mais uma planilha.',
         problem:
-            'Reunir num só lugar os números da operação e o trabalho do dia a dia: performance, clientes, comissões, caixa e funil comercial, sobre dados em que o time pudesse confiar.',
+            'Cada time olhava para uma fonte diferente e ninguém via o cliente inteiro: o que ele transacionava, quanto dava de margem e em que etapa estava. Reunir performance, clientes, comissões, caixa e funil comercial num só lugar virou condição para decidir rápido.',
+        choice:
+            'Em vez de mais uma ferramenta pronta, construí o sistema sobre as mesmas bases do pipeline D-1. Front em React e TypeScript, API própria em Express e banco no Supabase com permissões por perfil. As regras de negócio (margem, régua do CRM, radar de CS) ficam em funções isoladas, que dá para testar sem tocar no banco.',
         actions: [
             'Painéis de TPV, receita e margem por cliente, vendedor e adquirente, com leituras semanais e mensais e forecast com metas editáveis.',
             'Customer Success com radar de risco em quatro quadrantes e alertas diários automáticos para as contas que pedem atenção.',
@@ -194,10 +196,12 @@ export const cases: CaseStudy[] = [
             { id: 'shot-acoes', label: 'CRM', caption: 'Ações de hoje: a fila montada pela régua do CRM, ordenada por prazo, escalonamento e receita em risco. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
             { id: 'shot-weekly', label: 'Rituais', caption: 'Leitura semanal de receita e margem contra a semana anterior comparável e a meta. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
         ],
+        outcome:
+            'A plataforma virou o lugar onde a empresa inteira trabalha. O Looker Studio e o CRM no Notion foram desligados, e diretoria, comercial, CS e financeiro passaram a olhar os mesmos números. Rituais como a Weekly Review e o fechamento de comissões ficaram mais rápidos, e o radar de CS passou a apontar as contas em risco antes que elas parassem de transacionar.',
         results: [
+            { value: '2', label: 'ferramentas substituídas: Looker Studio e o CRM no Notion' },
+            { value: '5', label: 'áreas numa só plataforma' },
             { value: '148', label: 'commits em cinco meses' },
-            { value: '20+', label: 'telas em produção' },
-            { value: '5', label: 'áreas: performance, CS, CRM, financeiro e dados' },
         ],
         retro:
             'Eu separaria desde o início as regras que a tela e o servidor compartilham. Hoje o radar de CS e a leitura semanal existem em duas cópias, uma para cada lado, e toda mudança de regra precisa ser espelhada à mão.',
