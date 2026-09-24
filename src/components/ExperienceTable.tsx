@@ -18,7 +18,10 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
                 <p className="label mt-3 mb-0">{e.sector}</p>
             </div>
             <div className="col-main">
-                <h3 className="t-title m-0">{e.company}</h3>
+                <div className="flex items-center gap-4">
+                    <img src={e.logo} alt={`Logo ${e.company}`} width={48} height={48} loading="lazy" className="h-12 w-12 shrink-0 object-cover ring-1 ring-ink/10" />
+                    <h3 className="t-title m-0">{e.company}</h3>
+                </div>
                 <p className="t-small mt-2 mb-0 font-medium">{e.role}</p>
                 <p className="t-body mt-4 mb-0 max-w-[60ch] text-ink-soft">{e.summary}</p>
                 <ul className="t-body mt-5 mb-0 max-w-[64ch] list-none space-y-2.5 p-0">
@@ -48,7 +51,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
                                 <span key={slug}>
                                     {k > 0 && ' · '}
                                     <Link to={`/cases/${slug}`} className="link text-ink">
-                                        {c.number} {c.title.split(':')[0]}
+                                        {c.number} {c.title}
                                     </Link>
                                 </span>
                             );

@@ -10,7 +10,7 @@ export const capabilities: CapabilityGroup[] = [
             { name: 'Python', where: 'Pipeline D-1 e reconstrução das bases' },
             { name: 'APIs de adquirente', where: 'Extração paginada e diária' },
             { name: 'Modelagem de dados', where: 'DW transacional, scorecard, CRM' },
-            { name: 'Qualidade de dados', where: 'Duplicidades, mapeamento cliente e CNPJ' },
+            { name: 'Qualidade de dados', where: 'Validação de schema antes dos painéis' },
         ],
     },
     {
@@ -19,7 +19,7 @@ export const capabilities: CapabilityGroup[] = [
             { name: 'Dashboards próprios', where: 'Plataforma interna em React e Recharts' },
             { name: 'DRE e fluxo de caixa', where: 'FP&A da operação, recebíveis' },
             { name: 'Margem e unit economics', where: 'Motor de margem, análises para a diretoria' },
-            { name: 'Excel · Google Sheets', where: 'Simulações de MDR e CET' },
+            { name: 'Excel · Google Sheets', where: 'Análises e rotinas da operação' },
             { name: 'Looker Studio', where: 'Painéis anteriores, QuintoAndar' },
         ],
     },

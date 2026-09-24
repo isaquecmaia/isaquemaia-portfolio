@@ -425,8 +425,8 @@
     .mask-line {
         display: block;
         overflow: hidden;
-        padding-bottom: 0.14em;
-        margin-bottom: -0.14em;
+        padding: 0.12em 0.04em 0.2em;
+        margin: -0.12em -0.04em -0.2em;
     }
 
     .letter {
@@ -434,7 +434,14 @@
         animation: letter-up 1000ms var(--ease-editorial) both;
     }
 
-    /* Títulos de seção: a linha sobe quando entra na tela. */
+    /* Títulos de seção: a linha sobe quando entra na tela, recortada pela própria caixa do título. */
+    .title-mask {
+        overflow: hidden;
+        padding: 0.1em 0 0.18em;
+        margin-top: -0.1em;
+        margin-bottom: -0.18em;
+    }
+
     .reveal[data-seen='false'] .title-mask > *,
     .reveal[data-seen='true'] .title-mask > * {
         display: inline-block;

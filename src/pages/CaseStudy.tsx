@@ -14,6 +14,22 @@ function Block({ label, where, children }: { label: string; where: string; child
     );
 }
 
+// Abertura de cada uma das três partes do case: número na cor do case e título grande.
+function Part({ n, title, color, where }: { n: string; title: string; color: string; where: string }) {
+    return (
+        <Reveal className="grid-ed mt-(--head) gap-y-3 pt-6" style={{ borderTop: `3px solid ${color}` }} section={`${where} · ${title}`}>
+            <p className="col-aside m-0 md:pt-[0.4em]">
+                <span className="num inline-grid h-9 w-9 place-items-center text-[13px] text-paper" style={{ background: color }}>
+                    {n}
+                </span>
+            </p>
+            <h2 className="title-mask t-headline col-main m-0">
+                <span>{title}</span>
+            </h2>
+        </Reveal>
+    );
+}
+
 const prose = 't-body m-0 max-w-[62ch] text-[18px]';
 
 export default function CaseStudy() {
@@ -45,7 +61,7 @@ export default function CaseStudy() {
 
             <header className="grid-ed gap-y-10" data-section={`Case ${c.number}`}>
                 <Reveal now className="md:col-span-8">
-                    <p className="num m-0 text-[13px] text-signal">Case {c.number}</p>
+                    <p className="num m-0 text-[13px]" style={{ color: c.color }}>Case {c.number}</p>
                     <h1 className="t-display mt-4 mb-0 text-[clamp(40px,5.6vw,80px)] text-balance">
                         {c.title}
                     </h1>
@@ -74,50 +90,61 @@ export default function CaseStudy() {
                 </Reveal>
             </header>
 
-            <Reveal className="mt-(--head)">
+            {/* Parte 1: o problema de negócio. */}
+            <Part n="01" title="O problema de negócio" color={c.color} where={`Case ${c.number}`} />
+            <Block where={`Case ${c.number}`} label="Contexto">
+                <p className={prose}>{c.context}</p>
+            </Block>
+            <Block where={`Case ${c.number}`} label="Por que importava">
+                <p className="t-lead m-0 max-w-[44ch]">{c.problem}</p>
+            </Block>
+
+            {/* Parte 2: a decisão técnica. */}
+            <Part n="02" title="A decisão técnica" color={c.color} where={`Case ${c.number}`} />
+            {c.choice && (
+                <Block where={`Case ${c.number}`} label="A escolha">
+                    <p className="t-lead m-0 max-w-[44ch]">{c.choice}</p>
+                </Block>
+            )}
+            <Block where={`Case ${c.number}`} label="O que fiz">
+                <ol className="t-body m-0 max-w-[62ch] list-none space-y-3 p-0">
+                    {c.actions.map((a, n) => (
+                        <li key={a} className="grid grid-cols-[32px_1fr]">
+                            <span className="num pt-0.5 text-[13px]" style={{ color: c.color }}>
+                                {String(n + 1).padStart(2, '0')}
+                            </span>
+                            <span>{a}</span>
+                        </li>
+                    ))}
+                </ol>
+            </Block>
+            {c.figures.map((f, n) => (
+                <Block key={f.id} where={`Case ${c.number}`} label={f.label ?? (n === 0 ? 'Como funciona' : 'Na prática')}>
+                    <Figure n={`${c.number}.${n + 1}`} caption={f.caption}>
+                        {figures[f.id]}
+                    </Figure>
+                </Block>
+            ))}
+            <Block where={`Case ${c.number}`} label="Decisões">
+                <div className="grid gap-x-(--gutter) gap-y-10 lg:grid-cols-2">
+                    {c.decisions.map((d) => (
+                        <div key={d.title} className="border-t-2 pt-4" style={{ borderColor: c.color }}>
+                            <h3 className="t-title m-0 text-[24px]">{d.title}</h3>
+                            <p className="t-body mt-3 mb-0 text-[16px] text-ink-soft">{d.body}</p>
+                        </div>
+                    ))}
+                </div>
+            </Block>
+
+            {/* Parte 3: o que mudou depois. */}
+            <Part n="03" title="O que mudou depois" color={c.color} where={`Case ${c.number}`} />
+            <Block where={`Case ${c.number}`} label="Resultado">
+                {c.outcome && <p className="t-lead m-0 mb-10 max-w-[44ch]">{c.outcome}</p>}
                 <KpiStrip items={c.results} highlight={0} />
-            </Reveal>
-
-            <div className="mt-(--head)">
-                <Block where={`Case ${c.number}`} label="Contexto">
-                    <p className={prose}>{c.context}</p>
-                </Block>
-                <Block where={`Case ${c.number}`} label="Problema">
-                    <p className="t-lead m-0 max-w-[44ch]">{c.problem}</p>
-                </Block>
-                <Block where={`Case ${c.number}`} label="O que fiz">
-                    <ol className="t-body m-0 max-w-[62ch] list-none space-y-3 p-0">
-                        {c.actions.map((a, n) => (
-                            <li key={a} className="grid grid-cols-[32px_1fr]">
-                                <span className="num pt-0.5 text-[13px] text-muted">{String(n + 1).padStart(2, '0')}</span>
-                                <span>{a}</span>
-                            </li>
-                        ))}
-                    </ol>
-                </Block>
-
-                {c.figures.map((f, n) => (
-                    <Block key={f.id} where={`Case ${c.number}`} label={f.label ?? (n === 0 ? 'Como funciona' : 'Na prática')}>
-                        <Figure n={`${c.number}.${n + 1}`} caption={f.caption}>
-                            {figures[f.id]}
-                        </Figure>
-                    </Block>
-                ))}
-
-                <Block where={`Case ${c.number}`} label="Decisões">
-                    <div className="grid gap-x-(--gutter) gap-y-10 lg:grid-cols-2">
-                        {c.decisions.map((d) => (
-                            <div key={d.title}>
-                                <h3 className="t-title m-0 text-[24px]">{d.title}</h3>
-                                <p className="t-body mt-3 mb-0 text-[16px] text-ink-soft">{d.body}</p>
-                            </div>
-                        ))}
-                    </div>
-                </Block>
-                <Block where={`Case ${c.number}`} label="O que eu faria diferente">
-                    <p className={prose}>{c.retro}</p>
-                </Block>
-            </div>
+            </Block>
+            <Block where={`Case ${c.number}`} label="O que eu faria diferente">
+                <p className={prose}>{c.retro}</p>
+            </Block>
 
             <p className="t-caption m-0 border-t border-rule pt-4 text-muted">
                 Telas, gráficos e diagramas usam dados fictícios ou ilustrativos. Números reais aparecem apenas nos indicadores citados.

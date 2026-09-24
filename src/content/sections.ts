@@ -23,6 +23,8 @@ export function readingMinutes(c: CaseStudy) {
         c.dek,
         c.context,
         c.problem,
+        c.choice ?? '',
+        c.outcome ?? '',
         c.retro,
         ...c.actions,
         ...c.decisions.flatMap((d) => [d.title, d.body]),

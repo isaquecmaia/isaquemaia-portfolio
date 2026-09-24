@@ -11,7 +11,7 @@ const ticker = [
     { text: 'Motor de margem', color: 'var(--color-signal)' },
     { text: 'CRM próprio', color: 'var(--color-mustard)' },
     { text: 'Fluxo de caixa e recebíveis', color: 'var(--color-bottle)' },
-    { text: 'MDR e CET', color: 'var(--color-cobalt)' },
+    { text: 'Weekly Review', color: 'var(--color-cobalt)' },
     { text: 'Automação com IA', color: 'var(--color-signal)' },
     { text: 'Unit economics', color: 'var(--color-mustard)' },
 ];
@@ -28,7 +28,7 @@ export default function Opening() {
                     <p className="label m-0">{profile.city} · Portfólio 2026</p>
                 </Reveal>
 
-                <h1 className="m-0 mt-4 font-serif text-[clamp(52px,15.4vw,236px)] leading-[0.86] font-normal tracking-[-0.05em] whitespace-nowrap md:mt-5">
+                <h1 className="m-0 mt-6 font-serif text-[clamp(52px,16.6vw,236px)] leading-[0.86] font-normal tracking-[-0.05em] whitespace-nowrap md:mt-9">
                     <LetterReveal text={profile.name} delay={0.1} />
                 </h1>
 
@@ -50,17 +50,20 @@ export default function Opening() {
                     </Reveal>
                     <Reveal now delay={0.75} className="md:col-span-3 lg:col-span-3">
                         {/* Foto como capa de revista: blocos de cor atrás do retrato. */}
-                        <figure className="cover m-0 mr-4 mb-4 max-w-[176px] md:max-w-none">
-                            <span aria-hidden className="cover-block -right-4 -bottom-4 h-[70%] w-[70%] bg-cobalt" style={{ animationDelay: '0.9s' }} />
-                            <span aria-hidden className="cover-block -top-3 -left-3 h-10 w-10 rounded-full bg-mustard" style={{ animationDelay: '1.05s' }} />
-                            <img
-                                src={profile.photo}
-                                alt={`Retrato de ${profile.fullName}`}
-                                width={280}
-                                height={280}
-                                className="block aspect-square w-full object-cover"
-                            />
-                            <figcaption className="label mt-3 bg-paper pr-2">{profile.fullName}</figcaption>
+                        <figure className="m-0 max-w-[176px] md:max-w-none">
+                            {/* Os blocos ficam presos à imagem, não à legenda. */}
+                            <div className="cover mr-4">
+                                <span aria-hidden className="cover-block -right-4 -bottom-4 h-[70%] w-[70%] bg-cobalt" style={{ animationDelay: '0.9s' }} />
+                                <span aria-hidden className="cover-block -top-3 -left-3 h-10 w-10 rounded-full bg-mustard" style={{ animationDelay: '1.05s' }} />
+                                <img
+                                    src={profile.photo}
+                                    alt={`Retrato de ${profile.fullName}`}
+                                    width={280}
+                                    height={280}
+                                    className="block aspect-square w-full object-cover"
+                                />
+                            </div>
+                            <figcaption className="label mt-7">{profile.fullName}</figcaption>
                         </figure>
                     </Reveal>
                 </div>

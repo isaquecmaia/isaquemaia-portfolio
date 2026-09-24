@@ -7,9 +7,9 @@ import { readingMinutes } from '../content/sections';
 
 // Cada case tem uma cor de capa, um teaser e um print para a prévia.
 const look = {
-    'infraestrutura-bi': { spark: 'bars', color: 'var(--color-cobalt)', shot: '/assets/work/plataforma-performance.webp' },
-    'reconciliacao-financeira': { spark: 'gap', color: 'var(--color-bottle)', shot: '/assets/work/plataforma-weekly.webp' },
-    'plataforma-interna': { spark: 'grid', color: 'var(--color-signal)', shot: '/assets/work/plataforma-radar-cs.webp' },
+    'infraestrutura-bi': { spark: 'bars', shot: '/assets/work/plataforma-performance.webp' },
+    'reconciliacao-financeira': { spark: 'gap', shot: '/assets/work/plataforma-weekly.webp' },
+    'plataforma-interna': { spark: 'grid', shot: '/assets/work/plataforma-radar-cs.webp' },
 } as const;
 
 // Prévia que segue o cursor com um pequeno atraso (lerp), só com mouse.
@@ -64,7 +64,7 @@ export default function WorkIndex() {
                                 <Link
                                     to={`/cases/${c.slug}`}
                                     className="case-row py-8 md:py-10 lg:py-12"
-                                    style={{ '--case': l.color } as CSSProperties}
+                                    style={{ '--case': c.color } as CSSProperties}
                                     onPointerEnter={(e) => e.pointerType === 'mouse' && setHover(c.slug)}
                                 >
                                     <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-[minmax(0,1fr)_152px] sm:gap-x-(--gutter) lg:grid-cols-[minmax(0,1fr)_176px]">

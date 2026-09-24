@@ -15,6 +15,8 @@ export type CaseStudy = {
     /** Endereços antigos que continuam levando ao case. */
     aliases?: string[];
     number: string;
+    /** Cor de capa do case (lista, página e partes). */
+    color: string;
     title: string;
     dek: string;
     company: string;
@@ -24,12 +26,17 @@ export type CaseStudy = {
     links?: { label: string; href: string }[];
     /** Aviso curto sobre acesso ou confidencialidade, exibido na ficha do case. */
     access?: string;
+    /** Parte 1, o problema de negócio: o cenário e por que importava. */
     context: string;
     problem: string;
+    /** Parte 2, a decisão técnica: o que escolhi fazer e por quê, antes do detalhe. */
+    choice?: string;
     actions: string[];
     decisions: { title: string; body: string }[];
     /** `label` nomeia o bloco na coluna auxiliar; sem ele, o primeiro é 'Como funciona' e os demais 'Na prática'. */
     figures: { id: FigureId; caption: string; label?: string }[];
+    /** Parte 3, o que mudou depois. */
+    outcome?: string;
     results: { value: string; label: string }[];
     retro: string;
 };
@@ -39,6 +46,7 @@ export const cases: CaseStudy[] = [
         slug: 'infraestrutura-bi',
         aliases: ['bi-pagaa'],
         number: '01',
+        color: 'var(--color-cobalt)',
         title: 'A infraestrutura de BI de uma fintech PayFac, do zero',
         dek: 'Um pipeline diário que lê o adquirente, limpa o histórico e entrega três bases prontas antes do expediente.',
         company: 'Virtù Pagamentos',
@@ -46,15 +54,17 @@ export const cases: CaseStudy[] = [
         role: 'Desenho e implementação, de ponta a ponta',
         stack: ['Python', 'SQL', 'PostgreSQL (Supabase)', 'API do adquirente', 'Google Sheets'],
         context:
-            'A operação dependia de uploads manuais de planilhas de cada adquirente e de relatórios de comissão montados à mão. Cada base tinha o seu formato, e a base histórica acumulava duplicidades e clientes ligados ao CNPJ errado.',
+            'Quando cheguei, a operação dependia de planilhas que cada adquirente mandava num formato diferente e de relatórios de comissão montados à mão. Os painéis ficavam no Looker Studio, e cada atualização exigia alguém subir arquivo.',
         problem:
-            'Ter todo dia, sem intervenção manual, uma leitura única e confiável das transações, das comissões e da saúde de cada cliente.',
+            'Diretoria, comercial e CS decidiam sobre números que chegavam atrasados e mudavam conforme quem montava a planilha. Sem uma base diária confiável, não dava para acompanhar TPV, receita ou a saúde de cada cliente.',
+        choice:
+            'Em vez de automatizar as planilhas, tirei elas do caminho. Um pipeline em Python lê direto a API do adquirente toda manhã e reconstrói as bases que os painéis consomem. E troquei o Looker Studio por uma plataforma própria em React, que lê essas bases sem intermediário.',
         actions: [
-            'Escrevi um pipeline em Python que lê a API do adquirente com paginação e controle de limite de requisições, com execução diária (D-1) e reprocessamento de janelas retroativas.',
+            'Escrevi o pipeline em Python com paginação e controle de limite de requisições da API, execução diária (D-1) às 6h e reprocessamento de janelas retroativas quando o adquirente corrige algo.',
             'Montei o data warehouse transacional como base só de acréscimo, deduplicada pelo identificador de cada transação.',
             'Gerei a base de comissões com os recebíveis futuros dos próximos 365 dias e o scorecard de clientes, recalculado do zero a cada execução.',
             'Apliquei regras de receita por método de pagamento (crédito, débito, PIX e boleto) a partir da base de taxas de cada cliente.',
-            'Corrigi as inconsistências estruturais do histórico, como duplicidades e mapeamentos errados de cliente e CNPJ, antes de qualquer painel ler esses dados.',
+            'Migrei os painéis do Looker Studio para a plataforma própria em React, Tailwind e Recharts, lendo as mesmas bases no PostgreSQL (Supabase).',
         ],
         decisions: [
             {
@@ -62,8 +72,8 @@ export const cases: CaseStudy[] = [
                 body: 'O data warehouse cresce por acréscimo e deduplica pelo identificador da transação. Assim dá para reprocessar os últimos sete dias quando o adquirente corrige algo, sem duplicar nada e sem mexer no resto do histórico.',
             },
             {
-                title: 'Integridade antes de visualização',
-                body: 'Um gráfico bonito sobre uma base com CNPJ trocado só espalha o erro mais rápido. A limpeza do histórico veio antes dos painéis, e as regras de mapeamento ficaram no pipeline, não em cada relatório.',
+                title: 'Regra no pipeline, não no painel',
+                body: 'Receita por método, status do cliente e comissões são calculados uma vez, no pipeline. Os painéis só leem. Assim duas telas nunca mostram números diferentes para a mesma pergunta.',
             },
             {
                 title: 'Status do cliente por regra explícita',
@@ -78,6 +88,8 @@ export const cases: CaseStudy[] = [
             { id: 'bi-architecture', caption: 'Fluxo diário: da API do adquirente às bases consumidas pela plataforma interna.' },
             { id: 'shot-performance', label: 'Na tela', caption: 'Performance consolidada, alimentada pelas bases do pipeline. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
         ],
+        outcome:
+            'O upload manual acabou. Todo dia, antes do expediente, data warehouse, comissões e scorecard estão atualizados com o dia anterior, e os painéis leem direto dessas bases. O Looker Studio saiu de cena, e a plataforma própria virou o lugar onde a empresa acompanha a operação.',
         results: [
             { value: 'D-1', label: 'atualização diária, sem upload manual' },
             { value: '3', label: 'bases reconstruídas por execução' },
@@ -89,27 +101,30 @@ export const cases: CaseStudy[] = [
     {
         slug: 'reconciliacao-financeira',
         number: '02',
+        color: 'var(--color-bottle)',
         title: 'Reconciliação financeira e o motor de margem',
-        dek: 'Vários adquirentes, um só número de receita, e uma fórmula de planilha que estava errada desde o início.',
+        dek: 'Vários adquirentes, um só número de receita, e uma fórmula herdada da planilha que ninguém tinha conferido contra a fonte.',
         company: 'Virtù Pagamentos',
         period: '2025 e 2026',
         role: 'Investigação, desenho e implementação',
         stack: ['Python', 'SQL', 'TypeScript', 'Google Sheets'],
         context:
-            'O P&L dependia de juntar os relatórios dos adquirentes com a base interna, num processamento manual diário. A margem por transação vinha de uma planilha com abas encadeadas, e os números de TPV mudavam depois de reportados.',
+            'Quando assumi a área, o P&L dependia de juntar à mão, todo dia, os relatórios dos adquirentes com a base interna. A margem por transação vinha de uma planilha com abas encadeadas, montada antes da minha chegada, e os números de TPV mudavam depois de reportados.',
         problem:
-            'Consolidar as fontes com validação automática, explicar por que o TPV mudava depois de fechado e garantir que a margem calculada fosse a margem que o adquirente de fato faturou.',
+            'Margem e receita sustentam decisões de preço e de carteira. Se o número muda depois de fechado, ou não bate com o que o adquirente faturou, ninguém sabe em qual versão confiar.',
+        choice:
+            'Tirei a regra de margem da planilha e escrevi um motor de cálculo isolado e testável. E, em vez de conferir o motor contra a planilha herdada, conferi contra a única fonte que não pode estar errada: o relatório oficial do adquirente.',
         actions: [
             'Automatizei a consolidação dos adquirentes com validação de integridade de schema e relatórios estruturados para a análise de P&L.',
             'Investiguei as discrepâncias de volume e encontrei chargebacks processados com data retroativa, que alteravam o TPV de dias já reportados.',
             'Recalibrei as métricas e ajustei o processo de reporting para refletir os dados corrigidos.',
             'Portei a regra de margem, que vivia em abas de planilha, para um motor de cálculo isolado e testável.',
-            'Conferi o motor contra o relatório oficial do adquirente e corrigi a fórmula herdada da planilha, que divergia da conta real.',
+            'Conferi o motor contra o relatório oficial do adquirente de agosto de 2026 e corrigi a fórmula que vinha da planilha herdada, que divergia da conta real.',
         ],
         decisions: [
             {
                 title: 'Conferir contra a fonte oficial, não contra a planilha',
-                body: 'O motor batia com a planilha em todas as linhas testadas, e mesmo assim estava errado: a planilha aplicava um fator que o adquirente não aplica. Validar contra o relatório oficial trocou a fórmula por uma subtração simples, com 3.102 de 3.102 linhas sem divergência.',
+                body: 'A primeira versão do motor reproduzia fielmente a planilha herdada e batia com ela em todas as linhas. Mesmo assim estava errada: a fórmula original aplicava um fator que o adquirente não aplica. Validar contra o relatório oficial trocou essa conta por uma subtração simples, com 3.102 de 3.102 linhas sem divergência.',
             },
             {
                 title: 'Falhar alto, não corrigir em silêncio',
@@ -124,18 +139,21 @@ export const cases: CaseStudy[] = [
             { id: 'recon-flow', caption: 'Pipeline de reconciliação com validação e classificação de divergências.' },
             { id: 'recon-gap', caption: 'TPV reportado contra ajustado após chargebacks retroativos. Dados ilustrativos.' },
         ],
+        outcome:
+            'O processamento manual diário acabou, e a margem calculada passou a ser a margem que o adquirente de fato faturou: 3.102 de 3.102 linhas do relatório de agosto de 2026 sem divergência. Com chargebacks contados no mês do evento, o TPV já reportado parou de mudar sozinho.',
         results: [
             { value: '3.102', label: 'de 3.102 linhas sem divergência' },
             { value: '0', label: 'processamento manual diário' },
             { value: '1', label: 'convenção de chargeback em todas as telas' },
         ],
         retro:
-            'Eu teria validado contra o relatório oficial do adquirente desde a primeira versão do motor. Conferir contra a planilha dava a sensação de estar certo justamente porque repetia o mesmo erro.',
+            'Eu validaria contra o relatório oficial do adquirente já na primeira versão do motor. A planilha herdada parecia certa justamente porque todo mundo a usava havia tempo.',
     },
     {
         slug: 'plataforma-interna',
         aliases: ['dash-pagaa'],
         number: '03',
+        color: 'var(--color-signal)',
         title: 'Da planilha ao sistema: a plataforma interna da Virtù',
         dek: 'Começou como a troca do Looker Studio por dashboards próprios. Em cinco meses, virou o sistema onde a empresa opera.',
         company: 'Virtù Pagamentos',
@@ -167,10 +185,6 @@ export const cases: CaseStudy[] = [
             {
                 title: 'Semana parcial contra semana parcial',
                 body: 'A comparação semanal olha a semana anterior só até o mesmo dia da semana de hoje. Uma segunda-feira não é mais comparada com uma semana cheia e ninguém toma susto à toa.',
-            },
-            {
-                title: 'Ler pelo rótulo, nunca pela posição',
-                body: 'O importador de simuladores de taxa procura o cabeçalho certo em vez de uma coluna fixa, porque os layouts antigos guardavam outro valor na mesma posição e um erro ali passaria em silêncio.',
             },
         ],
         figures: [
