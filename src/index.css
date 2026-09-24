@@ -514,6 +514,57 @@
         }
     }
 
+    /* ── Experiência: cor real de cada marca. ── */
+    .role-row {
+        margin-inline: calc(var(--gutter) * -0.5);
+        padding-inline: calc(var(--gutter) * 0.5);
+        box-shadow: inset 3px 0 0 var(--brand);
+        transition: box-shadow 250ms var(--ease-editorial), background-color 250ms var(--ease-editorial);
+    }
+
+    @media (hover: hover) {
+        .role-row:hover {
+            box-shadow: inset 6px 0 0 var(--brand);
+            background-color: color-mix(in srgb, var(--brand) 7%, transparent);
+        }
+    }
+
+    /* ── Correspondências: a carta chega e o carimbo bate. ── */
+    .airmail {
+        background: repeating-linear-gradient(
+            135deg,
+            var(--color-signal) 0 14px,
+            var(--color-paper) 14px 22px,
+            #14215E 22px 36px,
+            var(--color-paper) 36px 44px
+        );
+        box-shadow: 0 1px 0 rgb(0 0 0 / 0.08);
+    }
+
+    /* Borda serrilhada do selo: o fundo tem furos; o miolo claro cobre o centro, então só a moldura fica picotada. */
+    .stamp {
+        background: radial-gradient(circle at 4.5px 4.5px, transparent 2.6px, var(--color-paper-deep) 3px) -4.5px -4.5px / 9px 9px;
+        filter: drop-shadow(0 1px 0 rgb(0 0 0 / 0.12));
+        transform: rotate(4deg);
+    }
+
+    .postmark {
+        color: var(--color-ink);
+        opacity: 0;
+    }
+
+    .reveal[data-seen='true'].letter-arrive {
+        animation: letter-in 1100ms var(--ease-editorial) both;
+    }
+
+    .reveal[data-seen='true'] .stamp {
+        animation: stamp-drop 700ms var(--ease-editorial) 700ms both;
+    }
+
+    .reveal[data-seen='true'] .postmark {
+        animation: postmark-press 500ms cubic-bezier(0.3, 1.6, 0.5, 1) 1250ms both;
+    }
+
     /* Correspondências: todas as cartas ocupam a mesma célula, então trocar não altera a altura. */
     .stack {
         display: grid;
@@ -557,6 +608,32 @@
     }
 }
 
+@keyframes letter-in {
+    from {
+        opacity: 0;
+        transform: translateY(64px) rotate(-2.5deg);
+    }
+}
+
+@keyframes stamp-drop {
+    from {
+        opacity: 0;
+        transform: translateY(-18px) rotate(14deg) scale(1.15);
+    }
+}
+
+@keyframes postmark-press {
+    from {
+        opacity: 0;
+        transform: scale(1.35) rotate(-4deg);
+    }
+
+    to {
+        opacity: 0.62;
+        transform: rotate(-10deg);
+    }
+}
+
 @keyframes fade {
     from {
         opacity: 0;
@@ -576,6 +653,11 @@
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .postmark {
+        opacity: 0.62;
+        transform: rotate(-10deg);
     }
 
     *,

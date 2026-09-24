@@ -33,8 +33,10 @@ export const profile = {
         'O que me move vai além do cargo. Gosto de pensar em sistemas: entender como dados, produto, financeiro e operação se conectam, e transformar essa ligação em processos mais confiáveis e automatizados.',
     ],
 
+    // `learning` marca o idioma em estudo, mostrado de forma mais discreta.
     languages: [
-        { name: 'Português', level: 'nativo' },
-        { name: 'Inglês', level: 'avançado/fluente' },
+        { name: 'Português', level: 'Nativo', flag: 'br' as const },
+        { name: 'Inglês', level: 'Fluente', flag: 'us' as const },
+        { name: 'Espanhol', level: 'Estudando', flag: 'es' as const, learning: true },
     ],
 };

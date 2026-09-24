@@ -1,10 +1,98 @@
 import { useState } from 'react';
-import { recommendations } from '../content/education';
+import { recommendations, type Recommendation } from '../content/education';
 import { Reveal, Section } from './primitives';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-// Recomendações tratadas como cartas publicadas: trecho em serif, assinatura em mono, navegação discreta.
+// Carimbo postal: anel duplo com a cidade e a data, mais as ondas de cancelamento.
+function Postmark({ date }: { date: string }) {
+    const id = `pm-${date.replace(/\W/g, '')}`;
+    return (
+        <svg viewBox="0 0 160 110" className="postmark pointer-events-none absolute -top-3 right-0 w-24 sm:-top-2 sm:right-16 sm:w-40" aria-hidden>
+            <defs>
+                <path id={id} d="M55,55 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+            </defs>
+            <g fill="none" stroke="currentColor" strokeWidth="1.6">
+                <circle cx="55" cy="55" r="46" />
+                <circle cx="55" cy="55" r="30" />
+                {[0, 1, 2, 3].map((i) => (
+                    <path key={i} d={`M88,${30 + i * 14} q9,-6 18,0 t18,0 t18,0 t18,0`} />
+                ))}
+            </g>
+            <text className="num" fontSize="9.5" letterSpacing="2" fill="currentColor">
+                <textPath href={`#${id}`}>BELO HORIZONTE · MG · </textPath>
+            </text>
+            <text x="55" y="53" textAnchor="middle" className="num" fontSize="10" fill="currentColor">
+                {date.toUpperCase()}
+            </text>
+            <text x="55" y="66" textAnchor="middle" className="num" fontSize="7.5" letterSpacing="1" fill="currentColor">
+                LINKEDIN
+            </text>
+        </svg>
+    );
+}
+
+// Selo com a marca de quem escreveu, com borda serrilhada de selo postal.
+function Stamp({ logo, company }: { logo?: string; company: string }) {
+    return (
+        <div className="stamp absolute top-5 right-5 w-[74px] p-2 sm:top-6 sm:right-6 sm:w-[84px]" aria-hidden>
+            <div className="flex aspect-[4/5] flex-col items-center justify-between border border-ink/25 bg-paper p-1.5">
+                {logo ? <img src={logo} alt="" width={40} height={40} className="h-9 w-9 object-cover sm:h-10 sm:w-10" /> : <span className="num text-[18px]">✉</span>}
+                <span className="num text-center text-[7px] leading-tight tracking-[0.08em] uppercase">{company}</span>
+            </div>
+        </div>
+    );
+}
+
+function Letter({ r, open }: { r: Recommendation; open: boolean }) {
+    return (
+        // Borda de correio aéreo: faixas diagonais vermelhas e azuis em volta do papel.
+        <div className="airmail p-2 sm:p-2.5">
+            <div className="relative bg-paper px-5 pt-6 pb-8 text-ink sm:px-10 sm:pt-9 sm:pb-11">
+                <Stamp logo={r.logo} company={r.company} />
+                <Postmark date={r.date} />
+
+                <dl className="t-small m-0 grid max-w-[calc(100%-120px)] grid-cols-[44px_1fr] gap-x-3 gap-y-1.5 sm:max-w-[calc(100%-200px)] sm:grid-cols-[52px_1fr]">
+                    <dt className="label pt-[2px]">De</dt>
+                    <dd className="m-0">
+                        {r.author}, {r.role} · {r.company}
+                    </dd>
+                    <dt className="label pt-[2px]">Para</dt>
+                    <dd className="m-0">Isaque Maia</dd>
+                    <dt className="label pt-[2px]">Em</dt>
+                    <dd className="m-0">
+                        {r.date} · {r.relation}
+                    </dd>
+                </dl>
+
+                <div className="mt-8 border-t border-dashed border-ink/25 pt-8 sm:mt-10 sm:pt-10">
+                    <blockquote className="m-0 max-w-[30ch] font-serif text-[clamp(26px,3.2vw,42px)] leading-[1.14] tracking-[-0.02em] text-balance">
+                        <span aria-hidden className="text-signal">“</span>
+                        {r.excerpt}
+                        <span aria-hidden className="text-signal">”</span>
+                    </blockquote>
+
+                    {open && (
+                        <div className="t-lead mt-8 max-w-[46ch] space-y-5 text-ink-soft">
+                            {r.full.map((p) => (
+                                <p key={p.slice(0, 24)} className="m-0">
+                                    {p}
+                                </p>
+                            ))}
+                        </div>
+                    )}
+
+                    <p className="mt-10 mb-0 font-serif text-[30px] leading-none italic">{r.author}</p>
+                    <a href={r.link} target="_blank" rel="noreferrer" className="label link mt-3 inline-block">
+                        Ver no LinkedIn ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// Recomendações como cartas: cada uma chega deslizando, e o carimbo bate em seguida.
 export default function Correspondence() {
     const [index, setIndex] = useState(0);
     const [open, setOpen] = useState(false);
@@ -15,75 +103,43 @@ export default function Correspondence() {
     };
 
     return (
-        <Section
-            id="correspondencias"
-            tone
-            aside={<p className="label m-0 text-paper/70">O que dizem sobre o trabalho</p>}
-        >
-            <Reveal>
-                <div className="border-t border-paper/40 pt-8 md:pt-10">
-                    {/* Todas as cartas empilhadas na mesma célula: a troca não muda a altura do bloco. */}
-                    <div className="stack">
-                        {recommendations.map((r, i) => (
-                            <article key={r.author} aria-hidden={i !== index} inert={i !== index} className="max-w-[62ch]">
-                                <blockquote className="m-0 font-serif text-[clamp(28px,3.6vw,48px)] leading-[1.12] tracking-[-0.022em] text-balance">
-                                    <span aria-hidden className="text-mustard">“</span>
-                                    {r.excerpt}
-                                    <span aria-hidden className="text-mustard">”</span>
-                                </blockquote>
-
-                                {open && i === index && (
-                                    <div className="t-lead mt-8 max-w-[44ch] space-y-5 text-paper/80">
-                                        {r.full.map((p) => (
-                                            <p key={p.slice(0, 24)} className="m-0">
-                                                {p}
-                                            </p>
-                                        ))}
-                                    </div>
-                                )}
-
-                                <footer className="mt-10">
-                                    <a href={r.link} target="_blank" rel="noreferrer" className="t-small link font-medium">
-                                        {r.author}
-                                    </a>
-                                    <p className="label mt-1.5 mb-0 text-paper/70">
-                                        {r.role} · {r.company}
-                                    </p>
-                                    <p className="label mt-1 mb-0 text-paper/70">
-                                        {r.relation} · LinkedIn, {r.date}
-                                    </p>
-                                </footer>
-                            </article>
-                        ))}
-                    </div>
-
-                    <nav aria-label="Navegar entre recomendações" className="mt-10 flex items-center justify-between border-t border-paper/30 pt-4">
-                        <p className="num m-0 text-[13px]" aria-live="polite">
-                            <span className="text-paper">{pad(index + 1)}</span>
-                            <span className="text-paper/60"> / {pad(total)}</span>
-                        </p>
-                        <div className="flex gap-6">
-                            <button
-                                type="button"
-                                onClick={() => setOpen((v) => !v)}
-                                aria-expanded={open}
-                                className="label cursor-pointer text-paper transition-colors hover:text-mustard"
-                            >
-                                {open ? 'Recolher carta' : 'Ler carta completa'}
-                            </button>
-                            {total > 1 && (
-                                <>
-                                    <button type="button" onClick={() => go(-1)} className="label cursor-pointer text-paper transition-colors hover:text-mustard">
-                                        ← Anterior
-                                    </button>
-                                    <button type="button" onClick={() => go(1)} className="label cursor-pointer text-paper transition-colors hover:text-mustard">
-                                        Próxima →
-                                    </button>
-                                </>
-                            )}
-                        </div>
-                    </nav>
+        <Section id="correspondencias" tone aside={<p className="label m-0 text-paper/70">O que dizem sobre o trabalho</p>}>
+            <Reveal className="letter-arrive">
+                {/* Todas as cartas empilhadas na mesma célula: a troca não muda a altura do bloco. */}
+                <div className="stack">
+                    {recommendations.map((r, i) => (
+                        <article key={r.author} aria-hidden={i !== index} inert={i !== index} className="max-w-[860px]">
+                            <Letter r={r} open={open && i === index} />
+                        </article>
+                    ))}
                 </div>
+
+                <nav aria-label="Navegar entre recomendações" className="mt-8 flex max-w-[860px] items-center justify-between">
+                    <p className="num m-0 text-[13px]" aria-live="polite">
+                        <span className="text-paper">Carta {pad(index + 1)}</span>
+                        <span className="text-paper/60"> de {pad(total)}</span>
+                    </p>
+                    <div className="flex gap-6">
+                        <button
+                            type="button"
+                            onClick={() => setOpen((v) => !v)}
+                            aria-expanded={open}
+                            className="label cursor-pointer text-paper transition-colors hover:text-mustard"
+                        >
+                            {open ? 'Dobrar a carta' : 'Ler carta completa'}
+                        </button>
+                        {total > 1 && (
+                            <>
+                                <button type="button" onClick={() => go(-1)} className="label cursor-pointer text-paper transition-colors hover:text-mustard">
+                                    ← Anterior
+                                </button>
+                                <button type="button" onClick={() => go(1)} className="label cursor-pointer text-paper transition-colors hover:text-mustard">
+                                    Próxima →
+                                </button>
+                            </>
+                        )}
+                    </div>
+                </nav>
             </Reveal>
         </Section>
     );

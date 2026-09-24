@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { experience, type Experience } from '../content/experience';
 import { cases } from '../content/cases';
@@ -12,9 +12,12 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
     const extra = e.outcomes.length - VISIBLE;
     const shown = open ? e.outcomes : e.outcomes.slice(0, VISIBLE);
     return (
-        <Reveal className={`grid-ed gap-y-3 ${last ? '' : 'pb-9 md:pb-11'} ${first ? '' : 'border-t border-rule pt-9 md:pt-11'}`}>
+        <Reveal className={`${first ? '' : 'border-t border-rule'}`}>
+            <div className={`role-row grid-ed gap-y-3 ${last ? 'pb-2' : 'pb-9 md:pb-11'} ${first ? 'pt-2' : 'pt-9 md:pt-11'}`} style={{ '--brand': e.brand.color } as CSSProperties}>
             <div className="col-aside">
-                <p className="num m-0 inline-block bg-cobalt px-2 py-1 text-[12px] text-paper">{e.period}</p>
+                <p className="num m-0 inline-block px-2 py-1 text-[12px]" style={{ background: e.brand.color, color: e.brand.on }}>
+                    {e.period}
+                </p>
                 <p className="label mt-3 mb-0">{e.sector}</p>
             </div>
             <div className="col-main">
@@ -27,7 +30,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
                 <ul className="t-body mt-5 mb-0 max-w-[64ch] list-none space-y-2.5 p-0">
                     {shown.map((o, k) => (
                         <li key={o} className={`grid grid-cols-[20px_1fr] ${k >= VISIBLE ? 'reveal' : ''}`} data-seen={k >= VISIBLE ? 'true' : undefined}>
-                            <span aria-hidden className="mt-[0.72em] block h-[5px] w-[5px] bg-cobalt" />
+                            <span aria-hidden className="mt-[0.72em] block h-[5px] w-[5px] ring-1 ring-ink/15" style={{ background: e.brand.color }} />
                             <span>{o}</span>
                         </li>
                     ))}
@@ -37,7 +40,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
                         type="button"
                         onClick={() => setOpen((v) => !v)}
                         aria-expanded={open}
-                        className="label mt-4 cursor-pointer text-cobalt transition-colors hover:text-ink"
+                        className="label link mt-4 cursor-pointer text-ink"
                     >
                         {open ? 'Mostrar menos' : `Mais ${extra} entregas +`}
                     </button>
@@ -58,6 +61,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
                         })}
                     </p>
                 )}
+            </div>
             </div>
         </Reveal>
     );

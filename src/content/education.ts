@@ -28,6 +28,8 @@ export type Recommendation = {
     relation: string;
     date: string;
     link: string;
+    /** Logo usado no selo da carta. */
+    logo?: string;
     excerpt: string;
     full: string[];
 };
@@ -41,6 +43,7 @@ export const recommendations: Recommendation[] = [
         relation: 'Supervisor direto',
         date: 'nov/2025',
         link: 'https://www.linkedin.com/in/vitor-nogueira-11a800199/',
+        logo: '/assets/logos/quintoandar.webp',
         excerpt:
             'Isaque é um profissional exemplar, extremamente organizado, comprometido com prazos e com entregas sempre consistentes.',
         full: [
