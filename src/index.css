@@ -479,7 +479,9 @@
         animation: ticker 48s linear infinite;
     }
 
-    .ticker:hover .ticker-track {
+    .ticker:hover .ticker-track,
+    .ticker:focus-within .ticker-track,
+    .ticker[data-paused='true'] .ticker-track {
         animation-play-state: paused;
     }
 
@@ -650,6 +652,90 @@
     }
 }
 
+/* ── Acessibilidade: preferências do painel, aplicadas como atributos no <html>. ── */
+
+/* Link para pular direto ao conteúdo: aparece só quando recebe foco pelo teclado. */
+.skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 10px 14px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-decoration: none;
+    transform: translateY(-150%);
+    transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+/* Tamanho do texto: amplia a página inteira, mantendo as proporções do layout. */
+:root[data-text='1'] body {
+    zoom: 1.12;
+}
+
+:root[data-text='2'] body {
+    zoom: 1.25;
+}
+
+/* Alto contraste: tinta mais escura, papel mais claro, textos secundários sem cinza claro. */
+:root[data-contrast='high'] {
+    --color-paper: #FFFFFF;
+    --color-paper-deep: #F2F2F2;
+    --color-ink: #000000;
+    --color-ink-soft: #111111;
+    --color-muted: #333333;
+    --color-rule: #6B6B6B;
+    --color-signal: #B3261E;
+    --color-cobalt: #1D34A8;
+    --color-bottle: #0F4632;
+}
+
+:root[data-contrast='high'] .label {
+    color: #222222;
+}
+
+:root[data-contrast='high'] :focus-visible {
+    outline-width: 3px;
+}
+
+/* Sublinhar links: todos os links ganham sublinhado permanente. */
+:root[data-links='underline'] a {
+    text-decoration: underline !important;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: 3px !important;
+}
+
+/* Reduzir animações pelo painel: o mesmo efeito da preferência do sistema. */
+:root[data-motion='reduce'] {
+    scroll-behavior: auto;
+}
+
+:root[data-motion='reduce'] *,
+:root[data-motion='reduce'] *::before,
+:root[data-motion='reduce'] *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+}
+
+:root[data-motion='reduce'] .reveal[data-seen='false'] {
+    opacity: 1;
+}
+
+:root[data-motion='reduce'] .reveal[data-seen='false'] .title-mask > * {
+    transform: none;
+}
+
+:root[data-motion='reduce'] .postmark {
+    opacity: 0.62;
+    transform: rotate(-10deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
@@ -658,6 +744,14 @@
     .postmark {
         opacity: 0.62;
         transform: rotate(-10deg);
+    }
+
+    .reveal[data-seen='false'] {
+        opacity: 1;
+    }
+
+    .reveal[data-seen='false'] .title-mask > * {
+        transform: none;
     }
 
     *,

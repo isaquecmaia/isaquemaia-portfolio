@@ -1,16 +1,18 @@
-import { capabilities } from '../content/capabilities';
+import { useI18n } from '../i18n';
 import { Reveal, Section } from './primitives';
 
 // Um tom por grupo, tirado da paleta de capítulos.
 const tones = ['var(--color-signal)', 'var(--color-cobalt)', 'var(--color-bottle)', 'var(--color-mustard)'];
 
 export default function Capabilities() {
+    const { t, c } = useI18n();
+    const capabilities = c.capabilities;
     return (
         <Section
             id="ferramentas"
             aside={
                 <p className="t-small m-0 max-w-[30ch] text-ink-soft">
-                    Não dou nota para as minhas ferramentas. Cada uma aponta onde foi usada.
+                    {t.capabilities.aside}
                 </p>
             }
         >

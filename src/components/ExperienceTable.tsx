@@ -1,13 +1,14 @@
 import { useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { experience, type Experience } from '../content/experience';
-import { cases } from '../content/cases';
+import type { Experience } from '../content/experience';
+import { useI18n } from '../i18n';
 import { Reveal, Section } from './primitives';
 
 // Mostra as três entregas principais; o resto abre sob demanda para não virar uma parede de texto.
 const VISIBLE = 3;
 
 function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean }) {
+    const { t, c: content, to } = useI18n();
     const [open, setOpen] = useState(false);
     const extra = e.outcomes.length - VISIBLE;
     const shown = open ? e.outcomes : e.outcomes.slice(0, VISIBLE);
@@ -22,7 +23,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
             </div>
             <div className="col-main">
                 <div className="flex items-center gap-4">
-                    <img src={e.logo} alt={`Logo ${e.company}`} width={48} height={48} loading="lazy" className="h-12 w-12 shrink-0 object-cover ring-1 ring-ink/10" />
+                    <img src={e.logo} alt={`${t.experience.logo} ${e.company}`} width={48} height={48} loading="lazy" className="h-12 w-12 shrink-0 object-cover ring-1 ring-ink/10" />
                     <h3 className="t-title m-0">{e.company}</h3>
                 </div>
                 <p className="t-small mt-2 mb-0 font-medium">{e.role}</p>
@@ -42,18 +43,18 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
                         aria-expanded={open}
                         className="label link mt-4 cursor-pointer text-ink"
                     >
-                        {open ? 'Mostrar menos' : `Mais ${extra} entregas +`}
+                        {open ? t.experience.less : t.experience.more(extra)}
                     </button>
                 )}
                 {e.cases && (
                     <p className="label mt-6 mb-0">
-                        Leia os casos:{' '}
+                        {t.experience.cases}{' '}
                         {e.cases.map((slug, k) => {
-                            const c = cases.find((x) => x.slug === slug)!;
+                            const c = content.cases.find((x) => x.slug === slug)!;
                             return (
                                 <span key={slug}>
                                     {k > 0 && ' · '}
-                                    <Link to={`/cases/${slug}`} className="link text-ink">
+                                    <Link to={to(`/cases/${slug}`)} className="link text-ink">
                                         {c.number} {c.title}
                                     </Link>
                                 </span>
@@ -68,6 +69,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
 }
 
 export default function ExperienceTable() {
+    const experience = useI18n().c.experience;
     return (
         <Section id="experiencia" full>
             {/* Cada cargo usa o grid da página: período na coluna auxiliar, conteúdo na principal. */}

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
-import { cases } from '../content/cases';
 import { Spark } from '../charts/charts';
 import { Reveal, Section } from './primitives';
 import { readingMinutes } from '../content/sections';
+import { useI18n } from '../i18n';
+import { prefersReducedMotion } from './A11yPanel';
 
 // Cada case tem uma cor de capa, um teaser e um print para a prévia.
 const look = {
@@ -41,6 +42,8 @@ function useFollow(active: boolean) {
 }
 
 export default function WorkIndex() {
+    const { t, c: content, to } = useI18n();
+    const cases = content.cases;
     const [hover, setHover] = useState<string | null>(null);
     const follow = useFollow(hover !== null);
 
@@ -50,7 +53,7 @@ export default function WorkIndex() {
             lead
             aside={
                 <p className="t-small m-0 max-w-[30ch] text-ink-soft">
-                    Três matérias sobre projetos reais: o problema de negócio, as decisões técnicas e o que mudou depois.
+                    {t.work.aside}
                 </p>
             }
         >
@@ -62,10 +65,10 @@ export default function WorkIndex() {
                         <li key={c.slug} className="border-b border-ink/20">
                             <Reveal delay={i * 0.06}>
                                 <Link
-                                    to={`/cases/${c.slug}`}
+                                    to={to(`/cases/${c.slug}`)}
                                     className="case-row py-8 md:py-10 lg:py-12"
                                     style={{ '--case': c.color } as CSSProperties}
-                                    onPointerEnter={(e) => e.pointerType === 'mouse' && setHover(c.slug)}
+                                    onPointerEnter={(e) => e.pointerType === 'mouse' && !prefersReducedMotion() && setHover(c.slug)}
                                 >
                                     <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-[minmax(0,1fr)_152px] sm:gap-x-(--gutter) lg:grid-cols-[minmax(0,1fr)_176px]">
                                         <div>
@@ -73,7 +76,7 @@ export default function WorkIndex() {
                                                 <span className="case-number">{c.number}</span>
                                                 <span aria-hidden className="case-mark block h-px w-8" />
                                                 <span className="case-meta">
-                                                    {c.company} · {c.period} · {readingMinutes(c)} min de leitura
+                                                    {c.company} · {c.period} · {readingMinutes(c)} {t.work.reading}
                                                 </span>
                                             </p>
                                             <h3 className="case-title t-headline mt-4 mb-0">{c.title}</h3>
@@ -84,7 +87,7 @@ export default function WorkIndex() {
                                                 <Spark variant={l.spark} />
                                             </div>
                                             <p className="case-cta label m-0">
-                                                Ler case <span className="case-cta-arrow inline-block">→</span>
+                                                {t.work.read} <span className="case-cta-arrow inline-block">→</span>
                                             </p>
                                         </div>
                                     </div>

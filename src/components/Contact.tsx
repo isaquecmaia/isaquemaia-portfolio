@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { profile } from '../content/profile';
+import { useI18n } from '../i18n';
 
 const horaBH = () =>
     new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }).format(new Date());
@@ -15,6 +16,7 @@ function LocalTime() {
 }
 
 function CopyEmail() {
+    const { t } = useI18n();
     const [copiado, setCopiado] = useState(false);
     useEffect(() => {
         if (!copiado) return;
@@ -31,20 +33,21 @@ function CopyEmail() {
     };
     return (
         <button type="button" onClick={copiar} className="label cursor-pointer text-paper/70 transition-colors hover:text-paper">
-            <span aria-live="polite">{copiado ? 'E-mail copiado ✓' : 'Copiar e-mail'}</span>
+            <span aria-live="polite">{copiado ? t.contact.copied : t.contact.copy}</span>
         </button>
     );
 }
 
 export default function Contact() {
+    const { t, c } = useI18n();
     const year = new Date().getFullYear();
     return (
-        <footer id="contato" data-section="§ Contato" className="mt-(--section) bg-ink text-paper">
+        <footer id="contato" data-section={`§ ${t.contact.label}`} className="mt-(--section) bg-ink text-paper">
             <div className="wrap pt-(--section) pb-10">
                 <div className="grid-ed">
-                    <p className="num col-aside m-0 flex items-center gap-3 self-start text-[13px] md:pt-[0.45em]"><span className="inline-grid h-9 w-9 place-items-center bg-signal text-paper">§</span> Contato</p>
+                    <p className="num col-aside m-0 flex items-center gap-3 self-start text-[13px] md:pt-[0.45em]"><span className="inline-grid h-9 w-9 place-items-center bg-signal text-paper">§</span> {t.contact.label}</p>
                     <div className="col-main">
-                        <p className="t-display m-0 mt-3 max-w-[16ch] md:mt-0">Se o seu time precisa <span className="text-mustard">confiar nos próprios números</span>, vale uma conversa.</p>
+                        <p className="t-display m-0 mt-3 max-w-[16ch] md:mt-0">{t.contact.pitch[0]}<span className="text-mustard">{t.contact.pitch[1]}</span>{t.contact.pitch[2]}</p>
                         <a
                             href={`mailto:${profile.email}`}
                             className="t-title mt-10 inline-block break-all underline decoration-paper/30 decoration-1 underline-offset-[8px] transition-colors duration-300 hover:decoration-paper md:mt-14"
@@ -53,8 +56,8 @@ export default function Contact() {
                         </a>
                         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
                             <CopyEmail />
-                            <p className="label m-0 text-paper/50">
-                                Agora em Belo Horizonte: <LocalTime />
+                            <p className="label m-0 text-paper/75">
+                                {t.contact.localTime} <LocalTime />
                             </p>
                         </div>
                     </div>
@@ -74,19 +77,19 @@ export default function Contact() {
                         </li>
                         <li>
                             <a className="text-paper/80 no-underline hover:text-paper" href={profile.cv} download>
-                                Currículo em PDF ↓
+                                {t.contact.cvPdf} ↓
                             </a>
                         </li>
                     </ul>
-                    <p className="m-0 text-paper/60 md:col-span-4">
+                    <p className="m-0 text-paper/75 md:col-span-4">
                         {profile.fullName}
                         <br />
-                        {profile.city}
+                        {c.profile.city}
                     </p>
-                    <p className="m-0 text-paper/60 md:col-span-5 md:text-right">
-                        Composto em Newsreader, Inter Tight e IBM Plex Mono.
+                    <p className="m-0 text-paper/75 md:col-span-5 md:text-right">
+                        {t.contact.colophon[0]}
                         <br />
-                        Feito à mão em React · © {year}
+                        {t.contact.colophon[1]} · © {year}
                     </p>
                 </div>
             </div>

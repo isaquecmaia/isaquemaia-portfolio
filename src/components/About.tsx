@@ -1,16 +1,18 @@
-import { profile } from '../content/profile';
+import { useI18n } from '../i18n';
 import { Flag } from './Flag';
 import { Reveal, Section } from './primitives';
 
 export default function About() {
+    const { t, c } = useI18n();
+    const profile = c.profile;
     return (
         <Section
             id="sobre"
             aside={
                 <p className="label m-0">
-                    De Expertise a Virtù
+                    {t.about.aside[0]}
                     <br />
-                    2021 até hoje
+                    {t.about.aside[1]}
                 </p>
             }
         >
@@ -20,7 +22,7 @@ export default function About() {
                         {p}
                     </p>
                 ))}
-                <p className="label mt-10 mb-0">Idiomas</p>
+                <p className="label mt-10 mb-0">{t.about.languages}</p>
                 <ul className="t-small m-0 mt-3 grid max-w-[46ch] list-none gap-3 border-t border-rule p-0 pt-4 sm:grid-cols-3">
                     {profile.languages.map((l) => (
                         <li key={l.name} className={`flex items-center gap-3 ${'learning' in l ? 'opacity-70' : ''}`}>

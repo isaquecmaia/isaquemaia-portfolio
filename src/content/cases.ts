@@ -1,6 +1,5 @@
 export type FigureId =
     | 'bi-architecture'
-    | 'bi-tpv'
     | 'recon-flow'
     | 'recon-gap'
     | 'platform-map'

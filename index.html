@@ -11,6 +11,11 @@
   <meta name="description"
     content="Isaque Maia, analista de Inteligência de Negócios em Belo Horizonte. Infraestrutura de BI, plataforma interna e FP&amp;A numa fintech de pagamentos." />
   <meta name="author" content="Isaque Maia" />
+  <link rel="alternate" hreflang="pt-BR" href="https://isaquemaia.vercel.app/" />
+  <link rel="alternate" hreflang="en" href="https://isaquemaia.vercel.app/en" />
+  <link rel="alternate" hreflang="es" href="https://isaquemaia.vercel.app/es" />
+  <link rel="alternate" hreflang="fr" href="https://isaquemaia.vercel.app/fr" />
+  <link rel="alternate" hreflang="x-default" href="https://isaquemaia.vercel.app/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Isaque Maia | Inteligência de Negócios, BI e FP&amp;A" />
@@ -30,6 +35,17 @@
 </head>
 
 <body style="background-color:#F3F0E8;margin:0">
+  <script>
+    try {
+      var p = JSON.parse(localStorage.getItem('a11y-prefs') || '{}'), r = document.documentElement;
+      r.dataset.text = String(p.text || 0);
+      if (p.contrast) r.dataset.contrast = 'high';
+      if (p.motion) r.dataset.motion = 'reduce';
+      if (p.links) r.dataset.links = 'underline';
+      var seg = location.pathname.split('/')[1];
+      r.lang = { en: 'en', es: 'es', fr: 'fr' }[seg] || 'pt-BR';
+    } catch (e) {}
+  </script>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

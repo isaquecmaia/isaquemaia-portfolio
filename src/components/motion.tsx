@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { prefersReducedMotion as reduced } from './A11yPanel';
 
-const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Nome em máscara: cada letra sobe com um pequeno atraso em relação à anterior.
 export function LetterReveal({ text, delay = 0, step = 0.035 }: { text: string; delay?: number; step?: number }) {
@@ -15,16 +15,16 @@ export function LetterReveal({ text, delay = 0, step = 0.035 }: { text: string; 
     );
 }
 
-const fmt = new Intl.NumberFormat('pt-BR');
-
 /**
  * Número que conta ao entrar na tela. Aceita texto com números no meio
  * ("3.102", "40 → 3", "D-1"): só os trechos numéricos animam, o resto fica parado.
  */
-export function CountUp({ value, duration = 1400 }: { value: string; duration?: number }) {
+export function CountUp({ value, lang = 'pt-BR', duration = 1400 }: { value: string; lang?: string; duration?: number }) {
     const ref = useRef<HTMLSpanElement>(null);
-    const parts = value.split(/(\d[\d.]*)/).filter(Boolean);
-    const targets = parts.map((p) => (/^\d/.test(p) ? Number(p.replace(/\./g, '')) : null));
+    const fmt = new Intl.NumberFormat(lang);
+    // Separadores de milhar variam por idioma: ponto (pt, es), vírgula (en), espaço (fr).
+    const parts = value.split(/(\d(?:[\d.,\s\u00a0\u202f]*\d)?)/).filter(Boolean);
+    const targets = parts.map((p) => (/^\d/.test(p) ? Number(p.replace(/\D/g, '')) : null));
     const [t, setT] = useState(0);
 
     useEffect(() => {
@@ -64,7 +64,8 @@ export function CountUp({ value, duration = 1400 }: { value: string; duration?: 
                 const shown = Math.round(n * t);
                 return (
                     <span key={i} aria-hidden className="tabular-nums">
-                        {p.includes('.') ? fmt.format(shown) : shown}
+                        {/* No fim, o número volta a ser exatamente o texto escrito. */}
+                        {shown === n ? p : /\D/.test(p) ? fmt.format(shown) : shown}
                     </span>
                 );
             })}
@@ -73,7 +74,9 @@ export function CountUp({ value, duration = 1400 }: { value: string; duration?: 
 }
 
 // Faixa rolante de jornal financeiro. O conteúdo vai duplicado para o laço não ter emenda.
-export function Ticker({ items }: { items: { text: string; color: string }[] }) {
+// Tem botão de pausa (WCAG 2.2.2) e para sozinha com o mouse em cima ou com foco dentro.
+export function Ticker({ items, pauseLabel, playLabel }: { items: { text: string; color: string }[]; pauseLabel: string; playLabel: string }) {
+    const [paused, setPaused] = useState(false);
     const row = (dup: boolean) => (
         <span aria-hidden={dup} className="inline-flex items-center">
             {items.map((it) => (
@@ -85,11 +88,23 @@ export function Ticker({ items }: { items: { text: string; color: string }[] }) 
         </span>
     );
     return (
-        <div className="ticker">
-            <div className="ticker-track">
-                {row(false)}
-                {row(true)}
+        <div className="flex items-center">
+            <div className="ticker min-w-0 flex-1" data-paused={paused}>
+                <div className="ticker-track">
+                    {row(false)}
+                    {row(true)}
+                </div>
             </div>
+            <button
+                type="button"
+                onClick={() => setPaused((v) => !v)}
+                aria-pressed={paused}
+                aria-label={paused ? playLabel : pauseLabel}
+                title={paused ? playLabel : pauseLabel}
+                className="mx-3 inline-grid h-7 w-7 shrink-0 cursor-pointer place-items-center border border-paper/40 text-paper transition-colors hover:bg-paper hover:text-ink"
+            >
+                <span aria-hidden>{paused ? '▶' : 'Ⅱ'}</span>
+            </button>
         </div>
     );
 }

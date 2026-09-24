@@ -1,3 +1,7 @@
 {
-    "rewrites": [{ "source": "/cases/(.*)", "destination": "/index.html" }]
+    "rewrites": [
+        { "source": "/cases/(.*)", "destination": "/index.html" },
+        { "source": "/(en|es|fr)", "destination": "/index.html" },
+        { "source": "/(en|es|fr)/(.*)", "destination": "/index.html" }
+    ]
 }

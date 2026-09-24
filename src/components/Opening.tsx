@@ -1,22 +1,14 @@
-import { profile } from '../content/profile';
+import { useI18n } from '../i18n';
 import { MetaList, Reveal } from './primitives';
 import { CountUp, LetterReveal, Ticker } from './motion';
 
-// Temas do trabalho que passam no ticker, cada um com a cor do seu capítulo.
-const ticker = [
-    { text: 'Pipeline D-1', color: 'var(--color-signal)' },
-    { text: 'Data warehouse', color: 'var(--color-mustard)' },
-    { text: 'DRE da operação', color: 'var(--color-bottle)' },
-    { text: 'Radar de Customer Success', color: 'var(--color-cobalt)' },
-    { text: 'Motor de margem', color: 'var(--color-signal)' },
-    { text: 'CRM próprio', color: 'var(--color-mustard)' },
-    { text: 'Fluxo de caixa e recebíveis', color: 'var(--color-bottle)' },
-    { text: 'Weekly Review', color: 'var(--color-cobalt)' },
-    { text: 'Automação com IA', color: 'var(--color-signal)' },
-    { text: 'Unit economics', color: 'var(--color-mustard)' },
-];
+// Cores dos marcadores do ticker, na ordem dos temas.
+const tickerColors = ['var(--color-signal)', 'var(--color-mustard)', 'var(--color-bottle)', 'var(--color-cobalt)'];
 
 export default function Opening() {
+    const { t, c, lang: lang } = useI18n();
+    const profile = c.profile;
+    const ticker = c.ticker.map((text, i) => ({ text, color: tickerColors[i % tickerColors.length] }));
     return (
         <>
             <section data-section="" className="wrap pt-[calc(var(--header-h)+28px)] md:pt-[calc(var(--header-h)+44px)]">
@@ -25,7 +17,9 @@ export default function Opening() {
                         <span aria-hidden className="inline-block h-2 w-2 bg-signal" />
                         {profile.role}
                     </p>
-                    <p className="label m-0">{profile.city} · Portfólio 2026</p>
+                    <p className="label m-0">
+                        {profile.city} · {t.opening.edition}
+                    </p>
                 </Reveal>
 
                 <h1 className="m-0 mt-6 font-serif text-[clamp(52px,16.6vw,236px)] leading-[0.86] font-normal tracking-[-0.05em] whitespace-nowrap md:mt-9">
@@ -38,10 +32,10 @@ export default function Opening() {
                         <p className="t-lead m-0 max-w-[30ch] text-[clamp(24px,2.3vw,31px)] leading-[1.24]">{profile.thesis}</p>
                         <div className="mt-8 flex flex-wrap gap-3 text-[15px]">
                             <a href="#trabalho" className="bg-ink px-5 py-3 text-paper no-underline transition-colors duration-300 hover:bg-signal">
-                                Ver os cases ↓
+                                {t.opening.seeCases} ↓
                             </a>
                             <a href={`mailto:${profile.email}`} className="border border-ink px-5 py-3 no-underline transition-colors duration-300 hover:border-cobalt hover:bg-cobalt hover:text-paper">
-                                Falar comigo
+                                {t.opening.talk}
                             </a>
                         </div>
                     </Reveal>
@@ -57,7 +51,7 @@ export default function Opening() {
                                 <span aria-hidden className="cover-block -top-3 -left-3 h-10 w-10 rounded-full bg-mustard" style={{ animationDelay: '1.05s' }} />
                                 <img
                                     src={profile.photo}
-                                    alt={`Retrato de ${profile.fullName}`}
+                                    alt={`${t.opening.portrait} ${profile.fullName}`}
                                     width={280}
                                     height={280}
                                     className="block aspect-square w-full object-cover"
@@ -70,17 +64,19 @@ export default function Opening() {
             </section>
 
             {/* Faixa de indicadores: os números reais contam ao entrar na tela. */}
-            <section aria-label="Em números" data-section="Em números" className="mt-[calc(var(--section)*0.6)] bg-signal text-paper">
+            <section aria-label={t.opening.numbers} data-section={t.opening.numbers} className="mt-[calc(var(--section)*0.6)] bg-signal text-paper">
                 <div className="wrap pt-10 pb-12 md:pt-12 md:pb-14 lg:pt-14 lg:pb-16">
-                    <p className="label m-0 text-paper/75">Em números · 2025 e 2026</p>
+                    <p className="label m-0 text-paper/90">
+                        {t.opening.numbers} · {t.opening.numbersPeriod}
+                    </p>
                     <div className="mt-6 grid grid-cols-2 gap-x-(--gutter) gap-y-10 md:mt-8 lg:grid-cols-12">
                         {profile.kpis.map((k, i) => (
                             <Reveal key={k.label} delay={i * 0.08} className="border-t border-paper/35 pt-4 lg:col-span-3">
                                 <p className="m-0 font-serif text-[clamp(38px,4.2vw,60px)] leading-[0.95] tracking-[-0.035em] whitespace-nowrap">
-                                    <CountUp value={k.value} />
+                                    <CountUp value={k.value} lang={lang} />
                                 </p>
                                 <p className="t-small mt-4 mb-0 font-medium">{k.label}</p>
-                                <p className="t-caption mt-1.5 mb-0 max-w-[32ch] text-paper/75">{k.note}</p>
+                                <p className="t-caption mt-1.5 mb-0 max-w-[32ch] text-paper/90">{k.note}</p>
                             </Reveal>
                         ))}
                     </div>
@@ -88,7 +84,7 @@ export default function Opening() {
             </section>
 
             <div className="label bg-ink py-4 text-[13px] text-paper">
-                <Ticker items={ticker} />
+                <Ticker items={ticker} pauseLabel={t.tickerPause} playLabel={t.tickerPlay} />
             </div>
         </>
     );

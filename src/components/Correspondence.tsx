@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { recommendations, type Recommendation } from '../content/education';
+import type { Recommendation } from '../content/education';
+import { useI18n, type UIText } from '../i18n';
 import { Reveal, Section } from './primitives';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
 // Carimbo postal: anel duplo com a cidade e a data, mais as ondas de cancelamento.
-function Postmark({ date }: { date: string }) {
+function Postmark({ date, place }: { date: string; place: string }) {
     const id = `pm-${date.replace(/\W/g, '')}`;
     return (
         <svg viewBox="0 0 160 110" className="postmark pointer-events-none absolute -top-3 right-0 w-24 sm:-top-2 sm:right-16 sm:w-40" aria-hidden>
@@ -20,7 +21,7 @@ function Postmark({ date }: { date: string }) {
                 ))}
             </g>
             <text className="num" fontSize="9.5" letterSpacing="2" fill="currentColor">
-                <textPath href={`#${id}`}>BELO HORIZONTE · MG · </textPath>
+                <textPath href={`#${id}`}>{place}</textPath>
             </text>
             <text x="55" y="53" textAnchor="middle" className="num" fontSize="10" fill="currentColor">
                 {date.toUpperCase()}
@@ -44,22 +45,22 @@ function Stamp({ logo, company }: { logo?: string; company: string }) {
     );
 }
 
-function Letter({ r, open }: { r: Recommendation; open: boolean }) {
+function Letter({ r, open, t }: { r: Recommendation; open: boolean; t: UIText['letters'] }) {
     return (
         // Borda de correio aéreo: faixas diagonais vermelhas e azuis em volta do papel.
         <div className="airmail p-2 sm:p-2.5">
             <div className="relative bg-paper px-5 pt-6 pb-8 text-ink sm:px-10 sm:pt-9 sm:pb-11">
                 <Stamp logo={r.logo} company={r.company} />
-                <Postmark date={r.date} />
+                <Postmark date={r.date} place={t.postmark} />
 
                 <dl className="t-small m-0 grid max-w-[calc(100%-120px)] grid-cols-[44px_1fr] gap-x-3 gap-y-1.5 sm:max-w-[calc(100%-200px)] sm:grid-cols-[52px_1fr]">
-                    <dt className="label pt-[2px]">De</dt>
+                    <dt className="label pt-[2px]">{t.from}</dt>
                     <dd className="m-0">
                         {r.author}, {r.role} · {r.company}
                     </dd>
-                    <dt className="label pt-[2px]">Para</dt>
+                    <dt className="label pt-[2px]">{t.to}</dt>
                     <dd className="m-0">Isaque Maia</dd>
-                    <dt className="label pt-[2px]">Em</dt>
+                    <dt className="label pt-[2px]">{t.on}</dt>
                     <dd className="m-0">
                         {r.date} · {r.relation}
                     </dd>
@@ -83,8 +84,9 @@ function Letter({ r, open }: { r: Recommendation; open: boolean }) {
                     )}
 
                     <p className="mt-10 mb-0 font-serif text-[30px] leading-none italic">{r.author}</p>
+                    {t.translated && <p className="t-caption mt-3 mb-0 text-muted italic">{t.translated}</p>}
                     <a href={r.link} target="_blank" rel="noreferrer" className="label link mt-3 inline-block">
-                        Ver no LinkedIn ↗
+                        {t.linkedin} ↗
                     </a>
                 </div>
             </div>
@@ -94,6 +96,9 @@ function Letter({ r, open }: { r: Recommendation; open: boolean }) {
 
 // Recomendações como cartas: cada uma chega deslizando, e o carimbo bate em seguida.
 export default function Correspondence() {
+    const { t: ui, c } = useI18n();
+    const t = ui.letters;
+    const recommendations = c.recommendations;
     const [index, setIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const total = recommendations.length;
@@ -103,21 +108,21 @@ export default function Correspondence() {
     };
 
     return (
-        <Section id="correspondencias" tone aside={<p className="label m-0 text-paper/70">O que dizem sobre o trabalho</p>}>
+        <Section id="correspondencias" tone aside={<p className="label m-0 text-paper/85">{t.aside}</p>}>
             <Reveal className="letter-arrive">
                 {/* Todas as cartas empilhadas na mesma célula: a troca não muda a altura do bloco. */}
                 <div className="stack">
                     {recommendations.map((r, i) => (
                         <article key={r.author} aria-hidden={i !== index} inert={i !== index} className="max-w-[860px]">
-                            <Letter r={r} open={open && i === index} />
+                            <Letter r={r} open={open && i === index} t={t} />
                         </article>
                     ))}
                 </div>
 
-                <nav aria-label="Navegar entre recomendações" className="mt-8 flex max-w-[860px] items-center justify-between">
+                <nav aria-label={t.nav} className="mt-8 flex max-w-[860px] items-center justify-between">
                     <p className="num m-0 text-[13px]" aria-live="polite">
-                        <span className="text-paper">Carta {pad(index + 1)}</span>
-                        <span className="text-paper/60"> de {pad(total)}</span>
+                        <span className="text-paper">{t.count(pad(index + 1), pad(total))[0]}</span>
+                        <span className="text-paper/80">{t.count(pad(index + 1), pad(total))[1]}</span>
                     </p>
                     <div className="flex gap-6">
                         <button
@@ -126,15 +131,15 @@ export default function Correspondence() {
                             aria-expanded={open}
                             className="label cursor-pointer text-paper transition-colors hover:text-mustard"
                         >
-                            {open ? 'Dobrar a carta' : 'Ler carta completa'}
+                            {open ? t.fold : t.open}
                         </button>
                         {total > 1 && (
                             <>
                                 <button type="button" onClick={() => go(-1)} className="label cursor-pointer text-paper transition-colors hover:text-mustard">
-                                    ← Anterior
+                                    ← {t.prev}
                                 </button>
                                 <button type="button" onClick={() => go(1)} className="label cursor-pointer text-paper transition-colors hover:text-mustard">
-                                    Próxima →
+                                    {t.next} →
                                 </button>
                             </>
                         )}

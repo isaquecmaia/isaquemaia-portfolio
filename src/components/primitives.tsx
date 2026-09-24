@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { sectionMeta, type SectionId } from '../content/sections';
+import { useI18n } from '../i18n';
 
 // Container único do site (ver .wrap em index.css).
 export const container = 'wrap';
@@ -64,7 +65,8 @@ export function Section({
     tone?: boolean;
     children: ReactNode;
 }) {
-    const { number, title, color } = sectionMeta(id);
+    const { number, color } = sectionMeta(id);
+    const title = useI18n().c.sectionTitles[id];
     const body = (
         <>
             <Reveal className="grid-ed pt-5 md:pt-7" style={{ borderTop: `3px solid ${tone ? 'currentColor' : color}` }}>
@@ -138,11 +140,14 @@ export function KpiStrip({ items, highlight = 0 }: { items: { value: string; lab
 }
 
 export function Figure({ n, caption, children }: { n: string; caption: string; children: ReactNode }) {
+    const { t } = useI18n();
     return (
         <figure className="m-0">
             <div className="border border-rule bg-paper-deep/60 p-4 sm:p-6">{children}</div>
             <figcaption className="t-caption mt-3 flex gap-3 text-muted">
-                <span className="num shrink-0 text-ink">Fig. {n}</span>
+                <span className="num shrink-0 text-ink">
+                    {t.caseStudy.fig} {n}
+                </span>
                 <span>{caption}</span>
             </figcaption>
         </figure>

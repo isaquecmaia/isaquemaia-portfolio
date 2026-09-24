@@ -1,4 +1,5 @@
 import { dailyTpv, movingAverage, reportedVsAdjusted } from './data';
+import type { FigureText } from '../i18n';
 
 const W = 720;
 const H = 280;
@@ -55,35 +56,7 @@ function Legend({ items }: { items: { label: string; color: string; kind: 'bar' 
     );
 }
 
-export function TpvChart() {
-    const data = dailyTpv();
-    const ma = movingAverage(data);
-    const s = scale(data);
-    return (
-        <div>
-            <Legend
-                items={[
-                    { label: 'TPV diário (mil R$)', color: '#CFC8B8', kind: 'bar' },
-                    { label: 'Média móvel 7 dias', color: 'var(--color-signal)', kind: 'line' },
-                ]}
-            />
-            <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full" role="img" aria-label="Gráfico ilustrativo de TPV diário com média móvel">
-                <Grid max={s.max} y={s.y} />
-                {data.map((v, i) => (
-                    <rect key={i} x={PAD.l + i * s.bw + 1} y={s.y(v)} width={Math.max(1, s.bw - 2)} height={s.y(0) - s.y(v)} fill="#CFC8B8" />
-                ))}
-                <path d={path(ma.map((v, i) => [PAD.l + i * s.bw + s.bw / 2, s.y(v)]))} fill="none" stroke="var(--color-signal)" strokeWidth="2" />
-                {['dia 1', 'dia 30', 'dia 60'].map((t, i) => (
-                    <text key={t} x={PAD.l + [0, 0.5, 1][i] * (W - PAD.l - PAD.r)} y={H - 8} textAnchor={anchors[i]} className="num" fontSize="11" fill="var(--color-muted)">
-                        {t}
-                    </text>
-                ))}
-            </svg>
-        </div>
-    );
-}
-
-export function GapChart() {
+export function GapChart({ text }: { text: FigureText['gap'] }) {
     const { reported, adjusted } = reportedVsAdjusted();
     const n = reported.length;
     const s = scale(reported);
@@ -94,16 +67,16 @@ export function GapChart() {
         <div>
             <Legend
                 items={[
-                    { label: 'TPV reportado no dia', color: 'var(--color-ink)', kind: 'dash' },
-                    { label: 'TPV ajustado', color: 'var(--color-signal)', kind: 'line' },
+                    { label: text.reported, color: 'var(--color-ink)', kind: 'dash' },
+                    { label: text.adjusted, color: 'var(--color-signal)', kind: 'line' },
                 ]}
             />
-            <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full" role="img" aria-label="Gráfico ilustrativo de TPV reportado contra ajustado">
+            <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full" role="img" aria-label={text.aria}>
                 <Grid max={s.max} y={s.y} />
                 <path d={area} fill="var(--color-signal)" opacity="0.1" />
                 <path d={path(rp)} fill="none" stroke="var(--color-ink)" strokeWidth="1.4" strokeDasharray="4 4" />
                 <path d={path(ap)} fill="none" stroke="var(--color-signal)" strokeWidth="2" />
-                {['dia 1', 'dia 15', 'dia 30'].map((t, i) => (
+                {[1, 15, 30].map((d) => `${text.day} ${d}`).map((t, i) => (
                     <text key={t} x={PAD.l + [0, 0.5, 1][i] * (W - PAD.l - PAD.r)} y={H - 8} textAnchor={anchors[i]} className="num" fontSize="11" fill="var(--color-muted)">
                         {t}
                     </text>
