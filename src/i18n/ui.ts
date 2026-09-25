@@ -48,7 +48,7 @@ const pt = {
         postmark: 'BELO HORIZONTE · MG · ',
         translated: '',
     },
-    education: { academic: 'Acadêmica', certificates: 'Certificados', see: 'Ver certificado' },
+    education: { certificates: 'Certificados', see: 'Ver certificado' },
     contact: {
         label: 'Contato',
         pitch: ['Se o seu time precisa ', 'confiar nos próprios números', ', vale uma conversa.'],
@@ -148,7 +148,7 @@ const en: UI = {
         postmark: 'BELO HORIZONTE · BRAZIL · ',
         translated: 'Translated from the original in Portuguese.',
     },
-    education: { academic: 'Academic', certificates: 'Certificates', see: 'See certificate' },
+    education: { certificates: 'Certificates', see: 'See certificate' },
     contact: {
         label: 'Contact',
         pitch: ['If your team needs to ', 'trust its own numbers', ", let's talk."],
@@ -246,7 +246,7 @@ const es: UI = {
         postmark: 'BELO HORIZONTE · BRASIL · ',
         translated: 'Traducción del original en portugués.',
     },
-    education: { academic: 'Académica', certificates: 'Certificados', see: 'Ver certificado' },
+    education: { certificates: 'Certificados', see: 'Ver certificado' },
     contact: {
         label: 'Contacto',
         pitch: ['Si tu equipo necesita ', 'confiar en sus propios números', ', hablemos.'],
@@ -344,7 +344,7 @@ const fr: UI = {
         postmark: 'BELO HORIZONTE · BRÉSIL · ',
         translated: 'Traduit de l’original en portugais.',
     },
-    education: { academic: 'Formation', certificates: 'Certificats', see: 'Voir le certificat' },
+    education: { certificates: 'Certificats', see: 'Voir le certificat' },
     contact: {
         label: 'Contact',
         pitch: ['Si votre équipe a besoin de ', 'faire confiance à ses propres chiffres', ', parlons-en.'],

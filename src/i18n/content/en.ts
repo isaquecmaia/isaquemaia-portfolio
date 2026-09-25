@@ -19,13 +19,13 @@ export const en: ContentOverride = {
             { value: '40 → 3', label: 'minutes per QA review, with AI', note: 'Customer service QA automation project at QuintoAndar, 2025.' },
         ],
         about: [
-            'I started as an apprentice at Expertise, in administrative routines, and that is where I developed my English. At QuintoAndar, in Quality and Training, I took part in the project that used AI to automate customer service reviews: each analysis went from about 40 to 3 minutes.',
-            'Today, at Virtù (formerly Pagaa), I built the company BI infrastructure from scratch, along with the internal platform that replaced Looker Studio. The scope grew into FP&A: the operating P&L, cash flow and receivables forecasts, margin and unit economics. I study Systems Analysis and Development and keep moving along the FP&A and data path.',
+            'I started as an apprentice at Expertise, analyzing and validating research, and that is where I developed my English. At QuintoAndar, in Quality and Training, I took part in the project that used AI to automate customer service reviews: each analysis went from about 40 to 3 minutes.',
+            'Today, at Virtù (formerly Pagaa), I built the company BI infrastructure from scratch, along with the internal platform that replaced Looker Studio. The scope grew into FP&A: the operating P&L, cash flow and receivables forecasts, margin and unit economics. I keep building my career along the FP&A and data path.',
             'What drives me goes beyond the job title. I like thinking in systems: understanding how data, product, finance and operations connect, and turning that connection into more reliable, automated processes.',
         ],
         languages: [
             { name: 'Portuguese', level: 'Native' },
-            { name: 'English', level: 'Fluent' },
+            { name: 'English', level: 'Advanced' },
             { name: 'Spanish', level: 'Learning' },
         ],
     },
@@ -37,10 +37,10 @@ export const en: ContentOverride = {
             summary: 'BI infrastructure, internal tools and FP&A at a payment processing fintech.',
             outcomes: [
                 'BI infrastructure built from scratch: data warehouse, scorecard base and a daily (D-1) pipeline that consolidates transaction data from multiple acquirers.',
-                'Migration from Looker Studio to an in-house dashboard platform in React, Tailwind and Recharts.',
+                'Migration from Looker Studio to an in-house dashboard platform in React, Tailwind and Recharts, reading straight from the data warehouse bases.',
                 'Customer Success dashboard with a four-quadrant risk radar, used by sales to prioritize accounts.',
                 'FP&A: operating P&L (gross revenue, cost of service, net revenue), cash flow and receivables forecasts, margin and unit economics analyses.',
-                'Lead generation pipeline with the Meta Ad Library and CRM and CS architecture in Notion.',
+                'Lead generation pipeline with the Meta Ad Library and an in-house CRM and Customer Success architecture inside the internal platform.',
             ],
         },
         {
@@ -58,8 +58,12 @@ export const en: ContentOverride = {
             period: 'Oct 2021 to Mar 2023',
             sector: '1 year and 6 months',
             role: 'Apprentice, Administrative Assistant',
-            summary: 'Administrative support and operational routines, with English developed as a second language.',
-            outcomes: ['General administrative support and help with the company operational routines.', 'English developed as a second language.'],
+            summary: 'Research analysis and validation, with results consolidated in spreadsheets.',
+            outcomes: [
+                'Research analysis and validation: reviewing interviews and how each process was conducted against the company criteria.',
+                'Consolidating and tracking results in spreadsheets, organizing the data and the research indicators.',
+                'Weekly meetings to present and discuss results with the team.',
+            ],
         },
     ],
     cases: [
@@ -134,7 +138,7 @@ export const en: ContentOverride = {
             decisions: [
                 {
                     title: 'Check against the official source, not the spreadsheet',
-                    body: 'The first version of the engine faithfully reproduced the inherited spreadsheet and matched it on every row. It was still wrong: the original formula applied a factor the acquirer does not apply. Validating against the official report replaced that calculation with a simple subtraction, with 3,102 of 3,102 rows showing no discrepancy.',
+                    body: 'The first version of the engine faithfully reproduced the inherited spreadsheet and matched it on every row. Even so, both were wrong: the original formula applied a factor the acquirer does not apply. Validating against the official report replaced that calculation with a simple subtraction, with 3,102 of 3,102 rows showing no discrepancy.',
                 },
                 {
                     title: 'Fail loudly, do not fix silently',
@@ -153,7 +157,7 @@ export const en: ContentOverride = {
                 'The daily manual processing is gone, and the calculated margin became the margin the acquirer actually billed: 3,102 of 3,102 rows of the August 2026 report with no discrepancy. With chargebacks counted in the month of the event, reported TPV stopped changing by itself.',
             results: [
                 { value: '3,102', label: 'of 3,102 rows with no discrepancy' },
-                { label: 'daily manual processing' },
+                { value: 'Zero', label: 'daily manual processing' },
                 { label: 'chargeback convention across every screen' },
             ],
             retro: "I would validate against the acquirer's official report from the very first version of the engine. The inherited spreadsheet looked right precisely because everyone had been using it for a long time.",
@@ -194,8 +198,8 @@ export const en: ContentOverride = {
             ],
             figures: [
                 { caption: 'Platform map: the areas of the system and what each one solves.' },
-                { label: 'Customer Success', caption: 'Risk radar: Alert, Attention, Silence, Pre-churn and OK, with the detailed portfolio right below. Real platform screen with fictional data, generated only for this showcase.' },
-                { label: 'The radar rule', caption: 'The quadrants cross TPV target attainment with margin target attainment. Illustrative points.' },
+                { label: 'Customer Success', caption: 'Risk radar: Alert, Attention, Silence, Pre-churn and OK, with the detailed portfolio right below. The first three come from the four quadrants; Silence and Pre-churn flag idle accounts. Real platform screen with fictional data, generated only for this showcase.' },
+                { label: 'The radar rule', caption: 'The four quadrants cross TPV target attainment with margin target attainment and produce three states: OK, Attention (when only one target misses, in two quadrants) and Alert. Silence and Pre-churn sit outside the radar: they flag accounts with no transactions for 5 days or more. Illustrative points.' },
                 { label: 'CRM', caption: "Today's actions: the queue built by the CRM cadence, sorted by deadline, escalation and revenue at risk. Real platform screen with fictional data, generated only for this showcase." },
                 { label: 'Rituals', caption: 'Weekly view of revenue and margin against the comparable previous week and the target. Real platform screen with fictional data, generated only for this showcase.' },
             ],
@@ -245,7 +249,6 @@ export const en: ContentOverride = {
             ],
         },
     ],
-    degrees: [{ title: 'Systems Analysis and Development', status: 'In progress · expected December 2026' }],
     certificates: [{ date: 'Oct 2025' }, { title: 'Data Analysis', date: 'Aug 2025' }],
     recommendations: [
         {

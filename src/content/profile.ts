@@ -28,15 +28,15 @@ export const profile = {
     ],
 
     about: [
-        'Comecei como aprendiz na Expertise, em rotinas administrativas, e foi lá que desenvolvi o inglês. No QuintoAndar, na área de Qualidade e Treinamento, participei do projeto que usou IA para automatizar monitorias de atendimento: cada análise caiu de cerca de 40 para 3 minutos.',
-        'Hoje, na Virtù (antiga Pagaa), construí do zero a infraestrutura de BI da empresa e a plataforma interna que substituiu o Looker Studio. O escopo cresceu para FP&A: DRE da operação, projeções de caixa e recebíveis, margem e unit economics. Curso Análise e Desenvolvimento de Sistemas e sigo no caminho de FP&A com dados.',
+        'Comecei como aprendiz na Expertise, analisando e validando pesquisas, e foi lá que desenvolvi o inglês. No QuintoAndar, na área de Qualidade e Treinamento, participei do projeto que usou IA para automatizar monitorias de atendimento: cada análise caiu de cerca de 40 para 3 minutos.',
+        'Hoje, na Virtù (antiga Pagaa), construí do zero a infraestrutura de BI da empresa e a plataforma interna que substituiu o Looker Studio. O escopo cresceu para FP&A: DRE da operação, projeções de caixa e recebíveis, margem e unit economics. Sigo construindo carreira no caminho de FP&A com dados.',
         'O que me move vai além do cargo. Gosto de pensar em sistemas: entender como dados, produto, financeiro e operação se conectam, e transformar essa ligação em processos mais confiáveis e automatizados.',
     ],
 
     // `learning` marca o idioma em estudo, mostrado de forma mais discreta.
     languages: [
         { name: 'Português', level: 'Nativo', flag: 'br' as const },
-        { name: 'Inglês', level: 'Fluente', flag: 'us' as const },
+        { name: 'Inglês', level: 'Avançado', flag: 'us' as const },
         { name: 'Espanhol', level: 'Estudando', flag: 'es' as const, learning: true },
     ],
 };

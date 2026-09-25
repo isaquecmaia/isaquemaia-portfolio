@@ -19,13 +19,13 @@ export const fr: ContentOverride = {
             { label: 'minutes par contrôle qualité, avec IA', note: 'Projet d’automatisation des contrôles qualité du service client chez QuintoAndar, 2025.' },
         ],
         about: [
-            "J'ai commencé comme apprenti chez Expertise, sur des tâches administratives, et c'est là que j'ai développé mon anglais. Chez QuintoAndar, au sein de l'équipe Qualité et Formation, j'ai participé au projet qui a utilisé l'IA pour automatiser les contrôles du service client : chaque analyse est passée d'environ 40 à 3 minutes.",
-            "Aujourd'hui, chez Virtù (ex-Pagaa), j'ai construit de zéro l'infrastructure BI de l'entreprise ainsi que la plateforme interne qui a remplacé Looker Studio. Le périmètre s'est élargi au FP&A : compte de résultat de l'activité, prévisions de trésorerie et de créances, marge et unit economics. J'étudie l'analyse et le développement de systèmes et je poursuis sur la voie du FP&A avec les données.",
+            "J'ai commencé comme apprenti chez Expertise, à analyser et valider des enquêtes, et c'est là que j'ai développé mon anglais. Chez QuintoAndar, au sein de l'équipe Qualité et Formation, j'ai participé au projet qui a utilisé l'IA pour automatiser les contrôles du service client : chaque analyse est passée d'environ 40 à 3 minutes.",
+            "Aujourd'hui, chez Virtù (ex-Pagaa), j'ai construit de zéro l'infrastructure BI de l'entreprise ainsi que la plateforme interne qui a remplacé Looker Studio. Le périmètre s'est élargi au FP&A : compte de résultat de l'activité, prévisions de trésorerie et de créances, marge et unit economics. Je continue de construire ma carrière sur la voie du FP&A avec les données.",
             "Ce qui me motive va au-delà du poste. J'aime penser en systèmes : comprendre comment données, produit, finance et opérations se connectent, et transformer ce lien en processus plus fiables et automatisés.",
         ],
         languages: [
             { name: 'Portugais', level: 'Langue maternelle' },
-            { name: 'Anglais', level: 'Courant' },
+            { name: 'Anglais', level: 'Avancé' },
             { name: 'Espagnol', level: 'En apprentissage' },
         ],
     },
@@ -37,10 +37,10 @@ export const fr: ContentOverride = {
             summary: "Infrastructure BI, outils internes et FP&A dans une fintech de traitement des paiements.",
             outcomes: [
                 'Infrastructure BI construite de zéro : entrepôt de données, base de scorecard et pipeline quotidien (J-1) qui consolide les données transactionnelles de plusieurs acquéreurs.',
-                'Migration de Looker Studio vers une plateforme de tableaux de bord maison en React, Tailwind et Recharts.',
+                'Migration de Looker Studio vers une plateforme de tableaux de bord maison en React, Tailwind et Recharts, qui lit directement les bases de l’entrepôt de données.',
                 "Tableau de bord Customer Success avec un radar de risque en quatre quadrants, utilisé par l'équipe commerciale pour prioriser les comptes.",
                 "FP&A : compte de résultat de l'activité (chiffre d'affaires brut, coût du service, revenu net), prévisions de trésorerie et de créances, analyses de marge et d'unit economics.",
-                'Pipeline de génération de leads avec la Meta Ad Library et architecture CRM et CS dans Notion.',
+                'Pipeline de génération de leads avec la Meta Ad Library et architecture CRM et Customer Success maison, au sein de la plateforme interne.',
             ],
         },
         {
@@ -58,8 +58,12 @@ export const fr: ContentOverride = {
             period: 'Oct. 2021 à mars 2023',
             sector: '1 an et 6 mois',
             role: 'Apprenti, Assistant administratif',
-            summary: "Support administratif et tâches opérationnelles, avec l'anglais développé comme deuxième langue.",
-            outcomes: ["Support administratif général et aide aux tâches opérationnelles de l'entreprise.", "Développement de l'anglais comme deuxième langue."],
+            summary: 'Analyse et validation d’enquêtes, avec les résultats consolidés dans des tableurs.',
+            outcomes: [
+                'Analyse et validation d’enquêtes : évaluation des entretiens et de la conduite de chaque processus selon les critères de l’entreprise.',
+                'Consolidation et suivi des résultats dans des tableurs, en organisant les données et les indicateurs des enquêtes.',
+                'Réunions hebdomadaires de présentation et de discussion des résultats avec l’équipe.',
+            ],
         },
     ],
     cases: [
@@ -134,7 +138,7 @@ export const fr: ContentOverride = {
             decisions: [
                 {
                     title: 'Vérifier par rapport à la source officielle, pas au tableur',
-                    body: "La première version du moteur reproduisait fidèlement le tableur hérité et concordait avec lui sur toutes les lignes. Elle était pourtant fausse : la formule d'origine appliquait un facteur que l'acquéreur n'applique pas. La validation par le rapport officiel a remplacé ce calcul par une simple soustraction, avec 3 102 lignes sur 3 102 sans écart.",
+                    body: "La première version du moteur reproduisait fidèlement le tableur hérité et concordait avec lui sur toutes les lignes. Pourtant, les deux étaient fausses : la formule d'origine appliquait un facteur que l'acquéreur n'applique pas. La validation par le rapport officiel a remplacé ce calcul par une simple soustraction, avec 3 102 lignes sur 3 102 sans écart.",
                 },
                 {
                     title: 'Échouer bruyamment, ne pas corriger en silence',
@@ -153,7 +157,7 @@ export const fr: ContentOverride = {
                 "Le traitement manuel quotidien a disparu, et la marge calculée est devenue la marge réellement facturée par l'acquéreur : 3 102 lignes sur 3 102 du rapport d'août 2026 sans écart. Avec les rétrofacturations comptées dans le mois de l'événement, le TPV déjà communiqué a cessé de changer tout seul.",
             results: [
                 { value: '3 102', label: 'lignes sur 3 102 sans écart' },
-                { label: 'traitement manuel quotidien' },
+                { value: 'Zéro', label: 'traitement manuel quotidien' },
                 { label: 'convention de rétrofacturation sur tous les écrans' },
             ],
             retro: "Je validerais par rapport au rapport officiel de l'acquéreur dès la première version du moteur. Le tableur hérité semblait juste précisément parce que tout le monde l'utilisait depuis longtemps.",
@@ -194,8 +198,8 @@ export const fr: ContentOverride = {
             ],
             figures: [
                 { caption: 'Carte de la plateforme : les espaces du système et ce que chacun résout.' },
-                { label: 'Customer Success', caption: 'Radar de risque : Alerte, Attention, Silence, Pré-churn et OK, avec le portefeuille détaillé juste en dessous. Écran réel de la plateforme avec des données fictives, générées uniquement pour cette présentation.' },
-                { label: 'La règle du radar', caption: "Les quadrants croisent l'atteinte de l'objectif de TPV avec celle de l'objectif de marge. Points illustratifs." },
+                { label: 'Customer Success', caption: 'Radar de risque : Alerte, Attention, Silence, Pré-churn et OK, avec le portefeuille détaillé juste en dessous. Les trois premiers viennent des quatre quadrants ; Silence et Pré-churn signalent les comptes à l’arrêt. Écran réel de la plateforme avec des données fictives, générées uniquement pour cette présentation.' },
+                { label: 'La règle du radar', caption: "Les quatre quadrants croisent l'atteinte de l'objectif de TPV avec celle de l'objectif de marge et donnent trois états : OK, Attention (quand un seul objectif est manqué, sur deux quadrants) et Alerte. Silence et Pré-churn restent hors du radar : ils signalent les comptes sans transaction depuis 5 jours ou plus. Points illustratifs." },
                 { label: 'CRM', caption: "Actions du jour : la file construite par la cadence du CRM, triée par échéance, niveau d'escalade et revenu à risque. Écran réel de la plateforme avec des données fictives, générées uniquement pour cette présentation." },
                 { label: 'Rituels', caption: "Lecture hebdomadaire du chiffre d'affaires et de la marge face à la semaine précédente comparable et à l'objectif. Écran réel de la plateforme avec des données fictives, générées uniquement pour cette présentation." },
             ],
@@ -245,7 +249,6 @@ export const fr: ContentOverride = {
             ],
         },
     ],
-    degrees: [{ title: 'Analyse et développement de systèmes', status: 'En cours · fin prévue en décembre 2026' }],
     certificates: [{ date: 'oct. 2025' }, { title: 'Analyse de données', date: 'août 2025' }],
     recommendations: [
         {

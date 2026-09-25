@@ -2,7 +2,7 @@ import { profile } from '../content/profile';
 import { experience } from '../content/experience';
 import { cases } from '../content/cases';
 import { capabilities } from '../content/capabilities';
-import { certificates, degrees, recommendations } from '../content/education';
+import { certificates, recommendations } from '../content/education';
 import type { SectionId } from '../content/sections';
 import type { Locale } from './locales';
 import { en } from './content/en';
@@ -63,7 +63,6 @@ const pt = {
     experience,
     cases,
     capabilities,
-    degrees,
     certificates,
     recommendations,
     sectionTitles: {

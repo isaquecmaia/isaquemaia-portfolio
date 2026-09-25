@@ -520,14 +520,43 @@
     .role-row {
         margin-inline: calc(var(--gutter) * -0.5);
         padding-inline: calc(var(--gutter) * 0.5);
-        box-shadow: inset 3px 0 0 var(--brand);
+        box-shadow: inset 3px 0 0 var(--brand-bar, var(--brand));
         transition: box-shadow 250ms var(--ease-editorial), background-color 250ms var(--ease-editorial);
     }
 
     @media (hover: hover) {
         .role-row:hover {
-            box-shadow: inset 6px 0 0 var(--brand);
+            box-shadow: inset 6px 0 0 var(--brand-bar, var(--brand));
             background-color: color-mix(in srgb, var(--brand) 7%, transparent);
+        }
+    }
+
+    /* Sem color-mix, o fundo não pode cair na cor sólida: um véu de 5% com a cor da marca. */
+    @supports not (background: color-mix(in srgb, red 7%, transparent)) {
+        .role-row {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .role-row::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: var(--brand);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 250ms var(--ease-editorial);
+        }
+
+        @media (hover: hover) {
+            .role-row:hover {
+                background-color: transparent;
+            }
+
+            .role-row:hover::before {
+                opacity: 0.05;
+            }
         }
     }
 

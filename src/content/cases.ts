@@ -123,7 +123,7 @@ export const cases: CaseStudy[] = [
         decisions: [
             {
                 title: 'Conferir contra a fonte oficial, não contra a planilha',
-                body: 'A primeira versão do motor reproduzia fielmente a planilha herdada e batia com ela em todas as linhas. Mesmo assim estava errada: a fórmula original aplicava um fator que o adquirente não aplica. Validar contra o relatório oficial trocou essa conta por uma subtração simples, com 3.102 de 3.102 linhas sem divergência.',
+                body: 'A primeira versão do motor reproduzia fielmente a planilha herdada e batia com ela em todas as linhas. Mesmo assim, as duas estavam erradas: a fórmula original aplicava um fator que o adquirente não aplica. Validar contra o relatório oficial trocou essa conta por uma subtração simples, com 3.102 de 3.102 linhas sem divergência.',
             },
             {
                 title: 'Falhar alto, não corrigir em silêncio',
@@ -142,7 +142,7 @@ export const cases: CaseStudy[] = [
             'O processamento manual diário acabou, e a margem calculada passou a ser a margem que o adquirente de fato faturou: 3.102 de 3.102 linhas do relatório de agosto de 2026 sem divergência. Com chargebacks contados no mês do evento, o TPV já reportado parou de mudar sozinho.',
         results: [
             { value: '3.102', label: 'de 3.102 linhas sem divergência' },
-            { value: '0', label: 'processamento manual diário' },
+            { value: 'Zero', label: 'processamento manual diário' },
             { value: '1', label: 'convenção de chargeback em todas as telas' },
         ],
         retro:
@@ -190,8 +190,8 @@ export const cases: CaseStudy[] = [
         ],
         figures: [
             { id: 'platform-map', caption: 'Mapa da plataforma: as áreas do sistema e o que cada uma resolve.' },
-            { id: 'shot-cs', label: 'Customer Success', caption: 'Radar de risco: Alerta, Atenção, Silêncio, Pré-churn e OK, com a carteira detalhada logo abaixo. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
-            { id: 'cs-radar', label: 'A regra do radar', caption: 'Os quadrantes cruzam o atingimento da meta de TPV com o da meta de margem. Pontos ilustrativos.' },
+            { id: 'shot-cs', label: 'Customer Success', caption: 'Radar de risco: Alerta, Atenção, Silêncio, Pré-churn e OK, com a carteira detalhada logo abaixo. Os três primeiros vêm dos quatro quadrantes; Silêncio e Pré-churn marcam contas paradas. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
+            { id: 'cs-radar', label: 'A regra do radar', caption: 'Os quatro quadrantes cruzam o atingimento da meta de TPV com o da meta de margem e geram três estados: OK, Atenção (quando só uma das metas falha, em dois quadrantes) e Alerta. Silêncio e Pré-churn ficam fora do radar: marcam contas sem transação há 5 dias ou mais. Pontos ilustrativos.' },
             { id: 'shot-acoes', label: 'CRM', caption: 'Ações de hoje: a fila montada pela régua do CRM, ordenada por prazo, escalonamento e receita em risco. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
             { id: 'shot-weekly', label: 'Rituais', caption: 'Leitura semanal de receita e margem contra a semana anterior comparável e a meta. Tela real da plataforma com dados fictícios, gerados só para esta demonstração.' },
         ],
@@ -199,7 +199,7 @@ export const cases: CaseStudy[] = [
             'A plataforma virou o lugar onde a empresa inteira trabalha. O Looker Studio e o CRM no Notion foram desligados, e diretoria, comercial, CS e financeiro passaram a olhar os mesmos números. Rituais como a Weekly Review e o fechamento de comissões ficaram mais rápidos, e o radar de CS passou a apontar as contas em risco antes que elas parassem de transacionar.',
         results: [
             { value: '2', label: 'ferramentas substituídas: Looker Studio e o CRM no Notion' },
-            { value: '5', label: 'áreas numa só plataforma' },
+            { value: '6', label: 'áreas numa só plataforma' },
             { value: '148', label: 'commits em cinco meses' },
         ],
         retro:

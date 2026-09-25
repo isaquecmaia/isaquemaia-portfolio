@@ -18,6 +18,8 @@ export function LetterReveal({ text, delay = 0, step = 0.035 }: { text: string; 
 /**
  * Número que conta ao entrar na tela. Aceita texto com números no meio
  * ("3.102", "40 → 3", "D-1"): só os trechos numéricos animam, o resto fica parado.
+ * O valor final é o que o primeiro render já mostra, para leitores de tela,
+ * buscadores e prévias de link. A contagem a partir de 0 é só visual.
  */
 export function CountUp({ value, lang = 'pt-BR', duration = 1400 }: { value: string; lang?: string; duration?: number }) {
     const ref = useRef<HTMLSpanElement>(null);
@@ -25,13 +27,10 @@ export function CountUp({ value, lang = 'pt-BR', duration = 1400 }: { value: str
     // Separadores de milhar variam por idioma: ponto (pt, es), vírgula (en), espaço (fr).
     const parts = value.split(/(\d(?:[\d.,\s\u00a0\u202f]*\d)?)/).filter(Boolean);
     const targets = parts.map((p) => (/^\d/.test(p) ? Number(p.replace(/\D/g, '')) : null));
-    const [t, setT] = useState(0);
+    const [t, setT] = useState(1);
 
     useEffect(() => {
-        if (reduced()) {
-            setT(1);
-            return;
-        }
+        if (reduced()) return;
         const el = ref.current;
         if (!el) return;
         let frame = 0;
@@ -39,6 +38,7 @@ export function CountUp({ value, lang = 'pt-BR', duration = 1400 }: { value: str
             ([e]) => {
                 if (!e.isIntersecting) return;
                 io.disconnect();
+                setT(0);
                 const start = performance.now();
                 const tick = (now: number) => {
                     const k = Math.min(1, (now - start) / duration);
@@ -57,7 +57,8 @@ export function CountUp({ value, lang = 'pt-BR', duration = 1400 }: { value: str
     }, [duration]);
 
     return (
-        <span ref={ref} aria-label={value}>
+        <span ref={ref}>
+            <span className="sr-only">{value}</span>
             {parts.map((p, i) => {
                 const n = targets[i];
                 if (n === null) return <span key={i} aria-hidden>{p}</span>;

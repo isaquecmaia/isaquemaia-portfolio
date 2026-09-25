@@ -1,11 +1,3 @@
-export const degrees = [
-    {
-        title: 'Análise e Desenvolvimento de Sistemas',
-        school: 'Descomplica Faculdade Digital',
-        status: 'Cursando · conclusão prevista para dez/2026',
-    },
-];
-
 export const certificates = [
     {
         title: 'Data Analytics Basics',

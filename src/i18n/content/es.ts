@@ -19,13 +19,13 @@ export const es: ContentOverride = {
             { label: 'minutos por revisión de calidad, con IA', note: 'Proyecto de automatización de revisiones de atención en QuintoAndar, 2025.' },
         ],
         about: [
-            'Empecé como aprendiz en Expertise, en tareas administrativas, y allí desarrollé mi inglés. En QuintoAndar, en el área de Calidad y Capacitación, participé en el proyecto que usó IA para automatizar las revisiones de atención: cada análisis pasó de unos 40 a 3 minutos.',
-            'Hoy, en Virtù (antes Pagaa), construí desde cero la infraestructura de BI de la empresa y la plataforma interna que reemplazó a Looker Studio. El alcance creció hacia FP&A: estado de resultados de la operación, proyecciones de caja y cuentas por cobrar, margen y unit economics. Estudio Análisis y Desarrollo de Sistemas y sigo en el camino de FP&A con datos.',
+            'Empecé como aprendiz en Expertise, analizando y validando encuestas, y allí desarrollé mi inglés. En QuintoAndar, en el área de Calidad y Capacitación, participé en el proyecto que usó IA para automatizar las revisiones de atención: cada análisis pasó de unos 40 a 3 minutos.',
+            'Hoy, en Virtù (antes Pagaa), construí desde cero la infraestructura de BI de la empresa y la plataforma interna que reemplazó a Looker Studio. El alcance creció hacia FP&A: estado de resultados de la operación, proyecciones de caja y cuentas por cobrar, margen y unit economics. Sigo construyendo mi carrera en el camino de FP&A con datos.',
             'Lo que me mueve va más allá del cargo. Me gusta pensar en sistemas: entender cómo se conectan datos, producto, finanzas y operación, y convertir esa conexión en procesos más confiables y automatizados.',
         ],
         languages: [
             { name: 'Portugués', level: 'Nativo' },
-            { name: 'Inglés', level: 'Fluido' },
+            { name: 'Inglés', level: 'Avanzado' },
             { name: 'Español', level: 'Estudiando' },
         ],
     },
@@ -37,10 +37,10 @@ export const es: ContentOverride = {
             summary: 'Infraestructura de BI, herramientas internas y FP&A en una fintech de procesamiento de pagos.',
             outcomes: [
                 'Infraestructura de BI construida desde cero: data warehouse, base de scorecard y un pipeline diario (D-1) que consolida los datos transaccionales de varios adquirentes.',
-                'Migración de Looker Studio a una plataforma propia de tableros en React, Tailwind y Recharts.',
+                'Migración de Looker Studio a una plataforma propia de tableros en React, Tailwind y Recharts, que lee directamente las bases del data warehouse.',
                 'Tablero de Customer Success con un radar de riesgo en cuatro cuadrantes, que el equipo comercial usa para priorizar cuentas.',
                 'FP&A: estado de resultados de la operación (ingreso bruto, costo del servicio, ingreso neto), proyecciones de flujo de caja y cuentas por cobrar, análisis de margen y unit economics.',
-                'Pipeline de generación de leads con la Meta Ad Library y arquitectura de CRM y CS en Notion.',
+                'Pipeline de generación de leads con la Meta Ad Library y arquitectura propia de CRM y Customer Success dentro de la plataforma interna.',
             ],
         },
         {
@@ -58,8 +58,12 @@ export const es: ContentOverride = {
             period: 'Oct 2021 a mar 2023',
             sector: '1 año y 6 meses',
             role: 'Aprendiz, Asistente Administrativo',
-            summary: 'Soporte administrativo y tareas operativas, con el inglés desarrollado como segundo idioma.',
-            outcomes: ['Soporte administrativo general y apoyo a las tareas operativas de la empresa.', 'Desarrollo del inglés como segundo idioma.'],
+            summary: 'Análisis y validación de encuestas, con los resultados consolidados en planillas.',
+            outcomes: [
+                'Análisis y validación de encuestas: evaluación de las entrevistas y de la conducción de cada proceso según los criterios de la empresa.',
+                'Consolidación y seguimiento de los resultados en planillas, organizando los datos y los indicadores de las encuestas.',
+                'Reuniones semanales de presentación y discusión de los resultados con el equipo.',
+            ],
         },
     ],
     cases: [
@@ -134,7 +138,7 @@ export const es: ContentOverride = {
             decisions: [
                 {
                     title: 'Contrastar con la fuente oficial, no con la planilla',
-                    body: 'La primera versión del motor reproducía fielmente la planilla heredada y coincidía con ella en todas las filas. Aun así estaba mal: la fórmula original aplicaba un factor que el adquirente no aplica. Validar con el informe oficial reemplazó esa cuenta por una resta simple, con 3.102 de 3.102 filas sin divergencias.',
+                    body: 'La primera versión del motor reproducía fielmente la planilla heredada y coincidía con ella en todas las filas. Aun así, las dos estaban mal: la fórmula original aplicaba un factor que el adquirente no aplica. Validar con el informe oficial reemplazó esa cuenta por una resta simple, con 3.102 de 3.102 filas sin divergencias.',
                 },
                 {
                     title: 'Fallar en voz alta, no corregir en silencio',
@@ -153,7 +157,7 @@ export const es: ContentOverride = {
                 'Se acabó el procesamiento manual diario, y el margen calculado pasó a ser el margen que el adquirente realmente facturó: 3.102 de 3.102 filas del informe de agosto de 2026 sin divergencias. Con los contracargos contados en el mes del evento, el TPV ya informado dejó de cambiar solo.',
             results: [
                 { label: 'de 3.102 filas sin divergencias' },
-                { label: 'procesamiento manual diario' },
+                { value: 'Cero', label: 'procesamiento manual diario' },
                 { label: 'convención de contracargos en todas las pantallas' },
             ],
             retro: 'Validaría con el informe oficial del adquirente ya en la primera versión del motor. La planilla heredada parecía correcta justamente porque todo el mundo la usaba desde hacía tiempo.',
@@ -194,8 +198,8 @@ export const es: ContentOverride = {
             ],
             figures: [
                 { caption: 'Mapa de la plataforma: las áreas del sistema y lo que resuelve cada una.' },
-                { label: 'Customer Success', caption: 'Radar de riesgo: Alerta, Atención, Silencio, Pre-churn y OK, con la cartera detallada justo debajo. Pantalla real de la plataforma con datos ficticios, generados solo para esta muestra.' },
-                { label: 'La regla del radar', caption: 'Los cuadrantes cruzan el cumplimiento de la meta de TPV con el de la meta de margen. Puntos ilustrativos.' },
+                { label: 'Customer Success', caption: 'Radar de riesgo: Alerta, Atención, Silencio, Pre-churn y OK, con la cartera detallada justo debajo. Los tres primeros salen de los cuatro cuadrantes; Silencio y Pre-churn marcan cuentas inactivas. Pantalla real de la plataforma con datos ficticios, generados solo para esta muestra.' },
+                { label: 'La regla del radar', caption: 'Los cuatro cuadrantes cruzan el cumplimiento de la meta de TPV con el de la meta de margen y generan tres estados: OK, Atención (cuando solo falla una de las metas, en dos cuadrantes) y Alerta. Silencio y Pre-churn quedan fuera del radar: marcan cuentas sin transacciones hace 5 días o más. Puntos ilustrativos.' },
                 { label: 'CRM', caption: 'Acciones de hoy: la cola armada por la cadencia del CRM, ordenada por plazo, escalamiento e ingresos en riesgo. Pantalla real de la plataforma con datos ficticios, generados solo para esta muestra.' },
                 { label: 'Rituales', caption: 'Lectura semanal de ingresos y margen frente a la semana anterior comparable y la meta. Pantalla real de la plataforma con datos ficticios, generados solo para esta muestra.' },
             ],
@@ -245,7 +249,6 @@ export const es: ContentOverride = {
             ],
         },
     ],
-    degrees: [{ title: 'Análisis y Desarrollo de Sistemas', status: 'En curso · finalización prevista en diciembre de 2026' }],
     certificates: [{ date: 'oct 2025' }, { title: 'Análisis de Datos', date: 'ago 2025' }],
     recommendations: [
         {

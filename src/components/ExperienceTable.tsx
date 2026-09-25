@@ -14,7 +14,7 @@ function Role({ e, first, last }: { e: Experience; first: boolean; last: boolean
     const shown = open ? e.outcomes : e.outcomes.slice(0, VISIBLE);
     return (
         <Reveal className={`${first ? '' : 'border-t border-rule'}`}>
-            <div className={`role-row grid-ed gap-y-3 ${last ? 'pb-2' : 'pb-9 md:pb-11'} ${first ? 'pt-2' : 'pt-9 md:pt-11'}`} style={{ '--brand': e.brand.color } as CSSProperties}>
+            <div className={`role-row grid-ed gap-y-3 ${last ? 'pb-2' : 'pb-9 md:pb-11'} ${first ? 'pt-2' : 'pt-9 md:pt-11'}`} style={{ '--brand': e.brand.color, '--brand-bar': e.brand.bar ?? e.brand.color } as CSSProperties}>
             <div className="col-aside">
                 <p className="num m-0 inline-block px-2 py-1 text-[12px]" style={{ background: e.brand.color, color: e.brand.on }}>
                     {e.period}

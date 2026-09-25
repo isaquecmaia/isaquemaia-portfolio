@@ -69,7 +69,7 @@ export default function Opening() {
                     <p className="label m-0 text-paper/90">
                         {t.opening.numbers} · {t.opening.numbersPeriod}
                     </p>
-                    <div className="mt-6 grid grid-cols-2 gap-x-(--gutter) gap-y-10 md:mt-8 lg:grid-cols-12">
+                    <div className="mt-6 grid grid-cols-1 gap-x-(--gutter) gap-y-8 min-[401px]:grid-cols-2 min-[401px]:gap-y-10 md:mt-8 lg:grid-cols-12">
                         {profile.kpis.map((k, i) => (
                             <Reveal key={k.label} delay={i * 0.08} className="border-t border-paper/35 pt-4 lg:col-span-3">
                                 <p className="m-0 font-serif text-[clamp(38px,4.2vw,60px)] leading-[0.95] tracking-[-0.035em] whitespace-nowrap">
